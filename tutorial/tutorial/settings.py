@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -84,8 +84,8 @@ DATABASES = {
         'NAME': 'tutorial',
         'USER': 'tutorial',
         'PASSWORD': '885oiekk',
-        'HOST': 'localhost',
-        'PORT': '',
+        'HOST': '188.166.21.247',
+        'PORT': '5432',
     }
 }
 
