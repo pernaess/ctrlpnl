@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f84bdb87-ca65-4176-8067-338b3444892e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/accounts/forms.py" afterPath="$PROJECT_DIR$/accounts/forms.py" />
-      <change beforePath="$PROJECT_DIR$/accounts/urls.py" afterPath="$PROJECT_DIR$/accounts/urls.py" />
-      <change beforePath="$PROJECT_DIR$/accounts/views.py" afterPath="$PROJECT_DIR$/accounts/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -355,7 +352,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516277029048</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Reset password logic">
+      <created>1516703931341</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1516703931341</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -394,7 +398,8 @@
     <MESSAGE value="Changes to settings for connecting to remote db" />
     <MESSAGE value="Created registration form" />
     <MESSAGE value="Profile &amp; edit profile page" />
-    <option name="LAST_COMMIT_MESSAGE" value="Profile &amp; edit profile page" />
+    <MESSAGE value="Reset password logic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reset password logic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
