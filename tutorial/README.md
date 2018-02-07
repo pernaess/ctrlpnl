@@ -1,6 +1,6 @@
-# Project Title
+# ctrlpnl
 
-One Paragraph of project description goes here
+Open source control panel built with Django and Ansible
 
 ## Getting Started
 
@@ -11,7 +11,8 @@ These instructions will get you a copy of the project up and running on your loc
 What things you need to install the software and how to install them
 
 ```
-Give examples
+Django 1.8+
+Ansible
 ```
 
 ### Installing
@@ -58,9 +59,8 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Django](https://github.com/django/django) - The web framework used
+* [Ansible](https://github.com/ansible/ansible) - Automation
 
 ## Contributing
 
@@ -72,7 +72,10 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Kristian Hov Bjerke** - *Initial work* - [Weeto0](https://github.com/Weeto0)
+* **Vegard Pihl Bratteng** - *Initial work* - [sprtn](hhttps://github.com/sprtn)
+* **Per Sigve Næss** - *Initial work* - [](https://github.com/)
+
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
