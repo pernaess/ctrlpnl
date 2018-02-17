@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600");
-@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("https://fonts.googleapis.com/css?family=Lekton:400,700");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 *, *:before, *:after {
   margin: 0;
   padding: 0;
@@ -46,7 +46,7 @@ body {
 }
 
 .button:before {
-  content: '\f0c9';
+  content: '\f121';
   font: 42px fontawesome;
 }
 
@@ -78,37 +78,36 @@ body {
   left: 20px;
 }
 
-.nav li:nth-child(1) a:before {
+.nav li a:before {
   content: '\f00a';
 }
 
-.nav li:nth-child(2) a:before {
+.nav li a:before {
   content: '\f012';
 }
 
-.nav li:nth-child(3) a:before {
+.nav li a:before {
   content: '\f0e8';
 }
 
-.nav li:nth-child(4) a:before {
+.nav li a:before {
   content: '\f0c3';
 }
 
-.nav li:nth-child(5) a:before {
+.nav li a:before {
   content: '\f022';
 }
 
-.nav li:nth-child(6) a:before {
+.nav li a:before {
   content: '\f115';
 }
 
-.nav li:nth-child(7) a:before {
+.nav li a:before {
   content: '\f085';
 }
 
-.nav li:nth-child(8) a:before {
-  content: '\f023';
-  left: 23px;
+.icon-login .nav li a:before {
+  content: '\f2f6';
 }
 
 .nav li a:hover {

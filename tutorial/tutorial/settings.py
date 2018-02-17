@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '188.166.21.24',
     '0.0.0.0',
+    '127.0.0.1',
     'panel.ko-d.no'
 ]
 
@@ -48,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,6 +57,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'tutorial.middleware.LoginRequiredMiddleware'
 ]
 
 ROOT_URLCONF = 'tutorial.urls'
@@ -131,4 +133,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/account/'
+LOGIN_REDIRECT_URL = '/accounts/'
+
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_EXEMPT_URLS = (
+    r'^accounts/home/$',
+    r'^accounts/logout/$',
+    r'^accounts/register/$'
+)

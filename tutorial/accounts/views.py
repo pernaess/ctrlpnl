@@ -9,14 +9,11 @@ from accounts.forms import (
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
-    numbers = [1,2,3,4,5]
-    name = 'Kristian Hov Bjerke'
-
-    args = {'myName': name, 'numbers': numbers}
-    return render(request, 'accounts/home.html', args)
+    return render(request, 'accounts/home.html')
 
 
 def register(request):
@@ -24,7 +21,7 @@ def register(request):
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/account/')
+            return redirect('/accounts/')
     else:
         form = RegistrationForm()
         args = {'form': form}

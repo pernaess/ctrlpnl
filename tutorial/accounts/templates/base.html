@@ -4,9 +4,11 @@
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css">
+		<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 		<link rel="stylesheet" href="{% static 'style.css' %}">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 		<script src="{% static 'script.js' %}"></script>
 		{% block head %}
 		<meta charset="UTF-8" />
@@ -17,51 +19,36 @@
 	<div class='wrapper'>
   <div class='sidebar'>
     <div class='title'>
-      Sidebar
+      CTRLPNL
     </div>
     <ul class='nav'>
-      <li>
-        <a href="/account/">Home</a>
-      </li>
+      <li><a href="/accounts/home">Home</a></li>
+
       {% if user.is_authenticated %}
-      <li>
-        <a class='active'>Stuff</a>
-      </li>
-      <li>
-        <a href="/account/">Services</a>
-      </li>
-      <li>
-        <a href="/account/">Statistics</a>
-      </li>
-      <li>
-        <a href="/account/">Messages</a>
-      </li>
-      <li>
-        <a href="/account/profile">Profile</a>
-       </li>
-       <li>
-        <a href="/account/logout">Logout</a>
-      </li>
+
+      <li><a class='active'>Stuff</a></li>
+      <li><a href="/accounts/">Services</a></li>
+      <li><a href="/accounts/">Statistics</a></li>
+      <li><a href="/accounts/">Messages</a></li>
+      <li><a href="/accounts/profile">Profile</a></li>
+      <li><a href="/accounts/logout">Logout</a></li>
+
       {% else %}
-       <li>
-        <a href="/account/register">Register</a>
-      </li>
-      <li>
-        <a href="/account/login">Login</a>
-       </li>
+
+      <li><a href="/accounts/register">Register</a></li>
+      <li><a href="/accounts/login">Login</a></li>
+
       {% endif %}
 
     </ul>
   </div>
   <div class='content isOpen'>
     <a class='button'></a>
-    <h1>Flexbox Off Canvas Menu</h1>
-    <h2>Lightweight, simple, easy to use</h2>
     	<body>
 		{% block body %}
 		<h1>Base</h1>
 		{% endblock %}
-	</body>
+	    </body>
   </div>
 </div>
 </html>
