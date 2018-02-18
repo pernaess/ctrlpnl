@@ -32,9 +32,10 @@ ALLOWED_HOSTS = [
     'panel.ko-d.no'
 ]
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
 # Debugging email: python -m smtpd -n -c DebuggingServer localhost:1025
 
 # Application definition
@@ -140,5 +141,9 @@ LOGIN_URL = '/accounts/login/'
 LOGIN_EXEMPT_URLS = (
     r'^accounts/home/$',
     r'^accounts/logout/$',
-    r'^accounts/register/$'
+    r'^accounts/register/$',
+    r'^accounts/reset-password/$',
+    r'^accounts/reset-password/done/$',
+    r'^accounts/reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)$',
+    r'^accounts/reset-password/complete/$',
 )

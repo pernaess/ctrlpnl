@@ -22,21 +22,22 @@
       CTRLPNL
     </div>
     <ul class='nav'>
-      <li><a href="/accounts/home">Home</a></li>
+      <li><a href="{% url 'accounts:home' %}">Home</a></li>
 
       {% if user.is_authenticated %}
 
       <li><a class='active'>Stuff</a></li>
-      <li><a href="/accounts/">Services</a></li>
-      <li><a href="/accounts/">Statistics</a></li>
-      <li><a href="/accounts/">Messages</a></li>
-      <li><a href="/accounts/profile">Profile</a></li>
-      <li><a href="/accounts/logout">Logout</a></li>
+      <li><a href="{% url 'accounts:home' %}">Services</a></li>
+      <li><a href="{% url 'accounts:home' %}">Statistics</a></li>
+      <li><a href="{% url 'accounts:home' %}">Messages</a></li>
+      <li><a href="{% url 'accounts:view_profile' %}">Profile</a></li>
+      <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
 
       {% else %}
 
-      <li><a href="/accounts/register">Register</a></li>
-      <li><a href="/accounts/login">Login</a></li>
+      <li><a href="{% url 'accounts:register' %}">Register</a></li>
+      <li><a href="{% url 'accounts:reset_password' %}">Reset password</a></li>
+      <li><a href="{% url 'accounts:login' %}">Login</a></li>
 
       {% endif %}
 
