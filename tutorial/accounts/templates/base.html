@@ -25,18 +25,18 @@
 
       {% if user.is_authenticated %}
 
-      <li><a class='active'>Stuff</a></li>
-      <li><a href="{% url 'accounts:home' %}">Services</a></li>
-      <li><a href="{% url 'accounts:home' %}">Statistics</a></li>
-      <li><a href="{% url 'accounts:home' %}">Messages</a></li>
-      <li><a href="{% url 'accounts:view_profile' %}">Profile</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Stuff</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Statistics</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Messages</a></li>
+      <li><a href="{% url 'accounts:view_profile' %}" class="{% if request.resolver_match.view_name == 'accounts:view_profile' %}active{% endif %}">Profile</a></li>
       <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
 
       {% else %}
 
-      <li><a href="{% url 'accounts:register' %}">Register</a></li>
-      <li><a href="{% url 'accounts:reset_password' %}">Reset password</a></li>
-      <li><a href="{% url 'accounts:login' %}">Login</a></li>
+      <li><a href="{% url 'accounts:register' %}" class="{% if request.resolver_match.view_name == 'accounts:register' %}active{% endif %}">Register</a></li>
+      <li><a href="{% url 'accounts:reset_password' %}" class="{% if request.resolver_match.view_name == 'accounts:reset_password' %}active{% endif %}">Reset password</a></li>
+      <li><a href="{% url 'accounts:login' %}" class="{% if request.resolver_match.view_name == 'accounts:login' %}active{% endif %}">Login</a></li>
 
       {% endif %}
 

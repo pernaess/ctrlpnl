@@ -5,6 +5,7 @@ from django.contrib.auth.views import (
 )
 
 urlpatterns = [
+
     url(r'^$',
         login, {
             'template_name': 'accounts/home.html'
