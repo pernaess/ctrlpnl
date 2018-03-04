@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+    <title>Profile</title>
+{% endblock  %}
+
+{% block body %}
+    <h1>Profile</h1>
+    <p>{{ user }}</p>
+    <p>{{ user.first_name }}</p>
+    <p>{{ user.last_name }}</p>
+    <p>{{ user.email }}</p>
+    <p>{{ user.userprofile.Description }}</p>
+    <p>{{ user.userprofile.city }}</p>
+    <a href="{{ user.userprofile.website }}">{{ user.userprofile.website }}</a>
+    <p>{{ user.userprofile.phone }}</p>
+    <img src="{{ user.userprofile.image.url }}" width="240"><br><br>
+    <a href="{% url 'accounts:edit_profile' %}">
+        <button>Edit</button>
+    </a>
+    <a href="{% url 'accounts:change_password' %}">
+        <button>Change password</button>
+    </a>
+{% endblock %}
