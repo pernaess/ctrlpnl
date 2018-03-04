@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600");
 @import url("https://fonts.googleapis.com/css?family=Lekton:400,700");
-@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("https://use.fontawesome.com/releases/v5.0.8/css/all.css");
 *, *:before, *:after {
   margin: 0;
   padding: 0;
@@ -78,35 +78,41 @@ body {
   left: 20px;
 }
 
-.nav li a:before {
-  content: '\f00a';
+.nav li a.icon-dash:before{
+  content: '\f3fd';
 }
 
-.nav li a:before {
-  content: '\f012';
+.nav li a.icon-services:before{
+  content: '\f233';
 }
 
-.nav li a:before {
-  content: '\f0e8';
+.nav li a.icon-stats:before{
+  content: '\f201';
 }
 
-.nav li a:before {
-  content: '\f0c3';
+.nav li a.icon-msg:before{
+  content: '\f086';
 }
 
-.nav li a:before {
-  content: '\f022';
+.nav li a.icon-profile:before{
+  content: '\f007';
 }
 
-.nav li a:before {
-  content: '\f115';
+
+.nav li a.icon-logout:before{
+  content: '\f2f5';
 }
 
-.nav li a:before {
-  content: '\f085';
+
+.nav li a.icon-register:before{
+  content: '\f360';
 }
 
-.icon-login .nav li a:before {
+.nav li a.icon-reset:before{
+  content: '\f084';
+}
+
+.nav li a.icon-login:before{
   content: '\f2f6';
 }
 

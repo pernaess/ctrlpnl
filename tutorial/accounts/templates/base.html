@@ -4,11 +4,10 @@
 	<head>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css">
-		<link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 		<link rel="stylesheet" href="{% static 'style.css' %}">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		<script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 		<script src="{% static 'script.js' %}"></script>
 		{% block head %}
 		<meta charset="UTF-8" />
@@ -25,18 +24,18 @@
 
       {% if user.is_authenticated %}
 
-      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Stuff</a></li>
-      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
-      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Statistics</a></li>
-      <li><a href="{% url 'accounts:home' %}" class="{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Messages</a></li>
-      <li><a href="{% url 'accounts:view_profile' %}" class="{% if request.resolver_match.view_name == 'accounts:view_profile' %}active{% endif %}">Profile</a></li>
-      <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="icon-dash {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Dashboard</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="icon-services {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="icon-stats {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Statistics</a></li>
+      <li><a href="{% url 'accounts:home' %}" class="icon-msg{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Messages</a></li>
+      <li><a href="{% url 'accounts:view_profile' %}" class="icon-profile {% if request.resolver_match.view_name == 'accounts:view_profile' %}active{% endif %}">Profile</a></li>
+      <li><a href="{% url 'accounts:logout' %}" class="icon-logout">Logout</a></li>
 
       {% else %}
 
-      <li><a href="{% url 'accounts:register' %}" class="{% if request.resolver_match.view_name == 'accounts:register' %}active{% endif %}">Register</a></li>
-      <li><a href="{% url 'accounts:reset_password' %}" class="{% if request.resolver_match.view_name == 'accounts:reset_password' %}active{% endif %}">Reset password</a></li>
-      <li><a href="{% url 'accounts:login' %}" class="{% if request.resolver_match.view_name == 'accounts:login' %}active{% endif %}">Login</a></li>
+      <li><a href="{% url 'accounts:register' %}" class="icon-register {% if request.resolver_match.view_name == 'accounts:register' %}active{% endif %}">Register</a></li>
+      <li><a href="{% url 'accounts:reset_password' %}" class="icon-reset {% if request.resolver_match.view_name == 'accounts:reset_password' %}active{% endif %}">Reset password</a></li>
+      <li><a href="{% url 'accounts:login' %}" class="icon-login {% if request.resolver_match.view_name == 'accounts:login' %}active{% endif %}">Login</a></li>
 
       {% endif %}
 
