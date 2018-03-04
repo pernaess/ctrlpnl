@@ -15,7 +15,9 @@
     <p>{{ user.userprofile.city }}</p>
     <a href="{{ user.userprofile.website }}">{{ user.userprofile.website }}</a>
     <p>{{ user.userprofile.phone }}</p>
+    {% if user.userprofile.image %}
     <img src="{{ user.userprofile.image.url }}" width="240"><br><br>
+    {% endif %}
     <a href="{% url 'accounts:edit_profile' %}">
         <button>Edit</button>
     </a>
