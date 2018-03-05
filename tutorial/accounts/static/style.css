@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600");
 @import url("https://fonts.googleapis.com/css?family=Lekton:400,700");
-@import url("https://use.fontawesome.com/releases/v5.0.8/css/all.css");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
 *, *:before, *:after {
   margin: 0;
   padding: 0;
@@ -79,7 +79,7 @@ body {
 }
 
 .nav li a.icon-dash:before{
-  content: '\f3fd';
+  content: '\f121';
 }
 
 .nav li a.icon-services:before{
@@ -100,12 +100,12 @@ body {
 
 
 .nav li a.icon-logout:before{
-  content: '\f2f5';
+  content: '\f0d9';
 }
 
 
 .nav li a.icon-register:before{
-  content: '\f360';
+  content: '\f234';
 }
 
 .nav li a.icon-reset:before{
@@ -113,7 +113,7 @@ body {
 }
 
 .nav li a.icon-login:before{
-  content: '\f2f6';
+  content: '\f0da';
 }
 
 .nav li a:hover {
