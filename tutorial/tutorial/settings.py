@@ -33,10 +33,9 @@ ALLOWED_HOSTS = [
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-# EMAIL_HOST = 'localhost'
-# EMAIL_PORT = 1025
-# Debugging email: python -m smtpd -n -c DebuggingServer localhost:1025
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+# (Old)Debugging email: python -m smtpd -n -c DebuggingServer localhost:1025
 
 # Application definition
 
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_forms_bootstrap'
 ]
 
 MIDDLEWARE = [

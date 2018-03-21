@@ -1,6 +1,6 @@
 from django.conf.urls import url
-from ctrlpnl import views
+from ctrlpnl.views import CtrlpnlView
 
 urlpatterns= [
-    url(r'^$', views.ctrlpnl, name='ctrlpnl')
+    url(r'^$', CtrlpnlView.as_view(), name='ctrlpnl')
 ]
