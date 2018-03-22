@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
+{% load bootstrap_tags %}
 
 {% block body %}
-	<h1>Welcome</h1>
-	<p>
-		You can login here!
-	</p>
-	<h2>Login</h2>
-	<form method="post" accept-charset="utf-8">
-		{% csrf_token %}
-		{{ form.as_p }}
-		<button type="submit">Login</button>
-	</form>
+    <hr>
+    <div class="col-xs-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <form method="POST">
+                {% csrf_token %}
+                <h1><strong>Welcome</strong></h1>
+	            <p>
+		            You can login here!
+	            </p>
+	            <h2><strong>Login</strong></h2>
+	             {{ form|as_bootstrap }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
