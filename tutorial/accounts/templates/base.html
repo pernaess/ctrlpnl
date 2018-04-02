@@ -26,7 +26,7 @@
       {% if user.is_authenticated %}
 
       <li><a href="{% url 'accounts:home' %}" class="icon-dash {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Dashboard</a></li>
-      <li><a href="{% url 'accounts:home' %}" class="icon-services {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
+      <li><a href="{% url 'accounts:services' %}" class="icon-services {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
       <li><a href="{% url 'accounts:home' %}" class="icon-stats {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Statistics</a></li>
       <li><a href="{% url 'accounts:home' %}" class="icon-msg{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Messages</a></li>
       <li><a href="{% url 'accounts:view_profile' %}" class="icon-profile {% if request.resolver_match.view_name == 'accounts:view_profile' %}active{% endif %}">Profile</a></li>

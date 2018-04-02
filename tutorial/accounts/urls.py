@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from . import views
 from django.contrib.auth.views import (
-    login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete
+    login, logout, password_reset, password_reset_done, password_reset_confirm, password_reset_complete,
 )
 
 urlpatterns = [
@@ -66,4 +66,8 @@ urlpatterns = [
             'template_name': 'accounts/reset_password_complete.html',
         },
         name='password_reset_complete'),
+
+    url(r'^services/$',
+        views.services,
+        name='services'),
 ]

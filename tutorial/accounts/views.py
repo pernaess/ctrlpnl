@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from .forms import CreateRemoteDatabase
+
+
 from django.shortcuts import render, redirect
 from accounts.forms import (
      RegistrationForm,
-     EditProfileForm
+     EditProfileForm,
+     CreateRemoteDatabase
 )
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
@@ -14,6 +18,21 @@ from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'accounts/home.html')
+
+
+# Handles forms in services.html based on form submitted
+def services(request):
+    if request.method == 'POST':
+        if 'create_db' in request.POST:
+            createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
+            if createdbform.is_valid():
+                createdbform.save()
+                return redirect('accounts:home')
+    else:
+        createdbform = CreateRemoteDatabase(prefix='createDB')
+        args = {'form': createdbform}
+
+    return render(request, 'accounts/services.html', args)
 
 
 def register(request):
@@ -65,3 +84,7 @@ def change_password(request):
 
         args = {'form': form}
         return render(request, 'accounts/change_password.html', args)
+
+
+
+
