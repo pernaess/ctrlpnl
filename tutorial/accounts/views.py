@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
-from .forms import CreateRemoteDatabase
-
-
+from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
-from accounts.forms import (
+from .forms import (
      RegistrationForm,
      EditProfileForm,
-     CreateRemoteDatabase
+     CreateRemoteDatabase,
+     ConnectToServer
 )
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
@@ -18,21 +16,6 @@ from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'accounts/home.html')
-
-
-# Handles forms in services.html based on form submitted
-def services(request):
-    if request.method == 'POST':
-        if 'create_db' in request.POST:
-            createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
-            if createdbform.is_valid():
-                createdbform.save()
-                return redirect('accounts:home')
-    else:
-        createdbform = CreateRemoteDatabase(prefix='createDB')
-        args = {'form': createdbform}
-
-    return render(request, 'accounts/services.html', args)
 
 
 def register(request):
@@ -86,5 +69,24 @@ def change_password(request):
         return render(request, 'accounts/change_password.html', args)
 
 
+# Handles forms in services.html based on form submitted
+def ServicesView(request):
+    if request.method == 'POST':
+        if 'create_db' in request.POST:
+            createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
+            if createdbform.is_valid():
+                print createdbform.cleaned_data['username']
+                print createdbform.cleaned_data['password']
+                return redirect('accounts:ServicesView')
+        elif 'create_server' in request.POST:
+            createserverform = ConnectToServer(request.POST, prefix='createServer')
+            if createserverform.is_valid():
+                print createserverform.cleaned_data['server_ip']
+                print createserverform.cleaned_data['ssh_key']
+                return redirect('accounts:ServicesView')
+    else:
+            createdbform = CreateRemoteDatabase(prefix='createDB')
+            createserverform = ConnectToServer(prefix='createServer')
+            args = {'form1': createdbform, 'form2': createserverform}
 
-
+    return render(request, 'accounts/services.html', args)

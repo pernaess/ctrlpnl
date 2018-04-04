@@ -18,6 +18,7 @@ body {
   overflow-x: hidden;
 }
 
+
 .wrapper {
   display: flex;
   min-height: 100%;
@@ -148,16 +149,50 @@ h2 {
 }
 
 
-/* CSS for tabs in services.html */
 
-    /* Style the tab */
+
+.larg {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 30px;
+}
+.larg div {
+    background-color: #ccc;
+    border: 1px;
+    padding: 5px 20px;
+    margin: 5px 0;
+}
+.larg div .hover {
+        background-color:#fafafa;
+}
+
+.larg div h3 span {
+    /*font-family: 'entypo';*/
+    font-size: 19px;
+    position: absolute;
+    right: 0;
+    transition: all .6s;
+}
+.larg div h3 span .close {
+        -webkit-transform:rotate(180deg);
+        transition:all .5s;
+      }
+
+.larg div form {
+      display:none;
+
+}
+
+/* CSS for tabs in services.html
+
+    Style the tab
     .tab {
         overflow: hidden;
         border: 1px solid #ccc;
         background-color: #f1f1f1;
     }
 
-    /* Style the buttons that are used to open the tab content */
+    Style the buttons that are used to open the tab content
     .tab button {
         background-color: inherit;
         float: left;
@@ -168,20 +203,21 @@ h2 {
         transition: 0.3s;
     }
 
-    /* Change background color of buttons on hover */
+    Change background color of buttons on hover
     .tab button:hover {
         background-color: #ddd;
     }
 
-    /* Create an active/current tablink class */
+    Create an active/current tablink class
     .tab button.active {
         background-color: #ccc;
     }
 
-    /* Style the tab content */
+     Style the tab content
     .tabcontent {
         display: none;
         padding: 6px 12px;
         border: 1px solid #ccc;
         border-top: none;
-    }
+    }*/
+

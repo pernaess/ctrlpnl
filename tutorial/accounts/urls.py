@@ -68,6 +68,6 @@ urlpatterns = [
         name='password_reset_complete'),
 
     url(r'^services/$',
-        views.services,
-        name='services'),
+        views.ServicesView,
+        name='ServicesView'),
 ]

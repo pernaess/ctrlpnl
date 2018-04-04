@@ -3,19 +3,30 @@
 
 {% block body %}
 <hr>
-<div class="col-xs-3">
+
 <!-- Tab links for services -->
+    <!--
+    <div class="col-xs-3">
 <div class="tab">
     <button class="tablinks" onclick="open_services(event, 'connect_server')">Connect to server</button>
     <button class="tablinks" onclick="open_services(event, 'create_db')">Create database</button>
     <button class="tablinks" onclick="open_services(event, 'connect_domain')">Connect domain</button>
 </div>
 
-<!-- Tab content for services -->
-
-
+ Tab content for services
 <div id="connect_server" class="tabcontent">
-    <h1>Connect to server</h1>
+           <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1>Connect to server</h1>
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            {{ form2|as_bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" name="create_server" class="btn btn-primary">Create</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
 </div>
 
 <div id="create_db" class="tabcontent">
@@ -25,7 +36,7 @@
                         <h1>Create a database on your server</h1>
                         <form method="post" action="">
                             {% csrf_token %}
-                            {{ form|as_bootstrap }}
+                            {{ form1|as_bootstrap }}
                         <div class="form-group">
                             <button type="submit" name="create_db" class="btn btn-primary">Create</button>
                         </div>
@@ -39,5 +50,37 @@
     <h1>Connect your domain</h1>
 </div>
 </div>
+-->
+<div class="larg">
+    <div>
+        <h3>Connect to server<span class="entypo-down-open"></span></h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form2|as_bootstrap }}
+            <div class="form-group">
+                <button type="submit" name="create_server" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+  </div>
+    <div>
+      <h3>Connect domain<span class="entypo-down-open"></span></h3>
+        <form method="post" action="">
+            {% csrf_token %}
+               <div class="form-group">
+                <button type="submit" name="connect_domain" class="btn btn-primary">Create</button>
+                </div>
+        </form>
+  </div>
+    <div>
+      <h3>Create a database on your server<span class="entypo-down-open"></span></h3>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form1|as_bootstrap }}
+            <div class="form-group">
+                <button type="submit" name="create_db" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+
 
 {% endblock %}

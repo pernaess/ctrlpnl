@@ -1,6 +1,6 @@
 from django import forms
 
-from.models import ServiceDropdown
+from.models import DatabaseConnection, ServerConnection
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -34,7 +34,7 @@ class RegistrationForm(UserCreationForm):
 class CreateRemoteDatabase(forms.ModelForm):
 
     class Meta:
-        model = ServiceDropdown
+        model = DatabaseConnection
         fields = (
             'database',
             'database_name',
@@ -53,4 +53,15 @@ class EditProfileForm(UserChangeForm):
             'last_name',
             'password'
         )
+
+
+class ConnectToServer(forms.ModelForm):
+
+    class Meta:
+        model = ServerConnection
+        fields = (
+            'server_ip',
+            'ssh_key'
+        )
+
 #        exclude =

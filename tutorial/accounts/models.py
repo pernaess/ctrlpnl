@@ -39,11 +39,19 @@ def create_profile(sender, **kwargs):
 post_save.connect(create_profile, sender=User)
 
 
-class ServiceDropdown(models.Model):
+class DatabaseConnection(models.Model):
     database = models.CharField(max_length=10, choices=DATABASE_CHOICES, default='MySql')
     database_name = models.CharField(max_length=20, help_text="YOYOYOYO")
     username = models.CharField(max_length=10, help_text="hhhh")
     password = models.CharField(max_length=30, help_text="ooooo")
+
+
+class ServerConnection(models.Model):
+    server_ip = models.CharField(max_length=20, help_text='IP: x.x.x.x')
+    ssh_key = models.CharField(max_length=100, help_text='Post key')
+
+
+
 
 
 
