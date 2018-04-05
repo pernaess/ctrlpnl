@@ -16,9 +16,15 @@ body {
   color: #333;
   background: #333;
   overflow-x: hidden;
+    width: auto;
 }
 
-
+.card {
+    background-color: #cccccc;
+    border: 1px solid #2a2a2a;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 .wrapper {
   display: flex;
   min-height: 100%;
@@ -51,19 +57,19 @@ body {
   font: 42px fontawesome;
 }
 
-/* Demo Navigation */
-.title {
-  font-size: 16px;
-  line-height: 50px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 7px;
-  color: #eee;
-  border-bottom: 1px solid #222;
+
+.proIc a.icon-profile:before{
+  content: '\f007';
+}
+
+.proIc a.active {
+  box-shadow: inset 5px 0 0 #222, inset 6px 0 0 #222;
   background: #2a2a2a;
 }
 
-.nav li a {
+
+
+.nav1 li a {
   position: relative;
   display: block;
   padding: 20px 0 20px 50px;
@@ -72,56 +78,52 @@ body {
   border-bottom: 1px solid #222;
 }
 
-.nav li a:before {
+.nav1 li a:before {
   font: 14px fontawesome;
   position: absolute;
   top: 19px;
   left: 20px;
 }
 
-.nav li a.icon-dash:before{
+.nav1 li a.icon-dash:before{
   content: '\f121';
 }
 
-.nav li a.icon-services:before{
+.nav1 li a.icon-services:before{
   content: '\f233';
 }
 
-.nav li a.icon-stats:before{
+.nav1 li a.icon-stats:before{
   content: '\f201';
 }
 
-.nav li a.icon-msg:before{
+.nav1 li a.icon-msg:before{
   content: '\f086';
 }
 
-.nav li a.icon-profile:before{
-  content: '\f007';
-}
 
-
-.nav li a.icon-logout:before{
+.nav1 li a.icon-logout:before{
   content: '\f0d9';
 }
 
 
-.nav li a.icon-register:before{
+.nav1 li a.icon-register:before{
   content: '\f234';
 }
 
-.nav li a.icon-reset:before{
+.nav1 li a.icon-reset:before{
   content: '\f084';
 }
 
-.nav li a.icon-login:before{
+.nav1 li a.icon-login:before{
   content: '\f0da';
 }
 
-.nav li a:hover {
+.nav1 li a:hover {
   background: #444;
 }
 
-.nav li a.active {
+.nav1 li a.active {
   box-shadow: inset 5px 0 0 #5b5, inset 6px 0 0 #222;
   background: #444;
 }
@@ -152,7 +154,7 @@ h2 {
 
 
 .larg {
-    max-width: 960px;
+    max-width: 700px;
     margin: 30px auto;
     padding: 0 30px;
 }
@@ -162,8 +164,10 @@ h2 {
     padding: 5px 20px;
     margin: 5px 0;
 }
-.larg div .hover {
-        background-color:#fafafa;
+
+
+.larg div h3:hover{
+    cursor: pointer;
 }
 
 .larg div h3 span {
@@ -173,6 +177,8 @@ h2 {
     right: 0;
     transition: all .6s;
 }
+
+
 .larg div h3 span .close {
         -webkit-transform:rotate(180deg);
         transition:all .5s;

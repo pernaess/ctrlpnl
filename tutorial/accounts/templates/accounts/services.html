@@ -6,36 +6,79 @@
 
 <!-- Tab links for services -->
 
-<div class="larg">
-    <div>
-        <h3>Connect to server<span class="entypo-down-open"></span></h3>
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ form2|as_bootstrap }}
-            <div class="form-group">
-                <button type="submit" name="create_server" class="btn btn-primary">Create</button>
+<div class="col-xs-3">
+    <div id="accordion">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-block" style="background-color:transparent; outline: none;"
+                            data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                            aria-controls="collapseOne">
+                        Connect to server
+                    </button>
+                </h5>
             </div>
-        </form>
-  </div>
-    <div>
-      <h3>Connect domain<span class="entypo-down-open"></span></h3>
-        <form method="post" action="">
-            {% csrf_token %}
-               <div class="form-group">
-                <button type="submit" name="connect_domain" class="btn btn-primary">Create</button>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        {{ form2|as_bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" name="create_server" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
                 </div>
-        </form>
-  </div>
-    <div>
-      <h3>Create a database on your server<span class="entypo-down-open"></span></h3>
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ form1|as_bootstrap }}
-            <div class="form-group">
-                <button type="submit" name="create_db" class="btn btn-primary">Create</button>
             </div>
-        </form>
+        </div>
     </div>
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+            <h5 class="mb-0">
+                <button class="btn btn-block" style="background-color:transparent; outline: none;"
+                        data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                        aria-controls="collapseTwo">
+                    Connect domain
+                </button>
+            </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+            <div class="card-body">
+
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <button type="submit" name="connect_domain" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header" id="headingThree">
+            <h5 class="mb-0">
+                <button class="btn btn-block" style="background-color:transparent; outline: none;"
+                        data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+                        aria-controls="collapseThree">
+                    Create database
+                </button>
+            </h5>
+        </div>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+            <div class="card-body">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{ form1|as_bootstrap }}
+                    <div class="form-group">
+                        <button type="submit" name="create_db" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 
 {% endblock %}

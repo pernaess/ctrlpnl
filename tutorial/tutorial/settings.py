@@ -29,7 +29,8 @@ ALLOWED_HOSTS = [
     '188.166.21.24',
     '0.0.0.0',
     '127.0.0.1',
-    'panel.ko-d.no'
+    'panel.ko-d.no',
+    '192.168.0.106'
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

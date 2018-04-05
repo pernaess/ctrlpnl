@@ -11,17 +11,30 @@
 		<script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
 		<script src="{% static 'script.js' %}"></script>
 		{% block head %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<title>Base</title>
 		{% endblock %}
 	</head>
-	<div class='wrapper'>
-  <div class='sidebar'>
-    <div class='title'>
-      CTRLPNL
-    </div>
-    <ul class='nav'>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <p class="navbar-brand">CTRLPNL</p>
+        </div>
+        {% if user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+                <li class="proIc"><a href="{% url 'accounts:view_profile' %}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+            </ul>
+        {% endif %}
+        </div>
+</nav>
+
+
+        <div class="wrapper">
+<div class='sidebar'>
+    <ul class='nav1'>
 
       {% if user.is_authenticated %}
 
@@ -29,7 +42,6 @@
       <li><a href="{% url 'accounts:ServicesView' %}" class="icon-services {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
       <li><a href="{% url 'accounts:home' %}" class="icon-stats {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Statistics</a></li>
       <li><a href="{% url 'accounts:home' %}" class="icon-msg{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Messages</a></li>
-      <li><a href="{% url 'accounts:view_profile' %}" class="icon-profile {% if request.resolver_match.view_name == 'accounts:view_profile' %}active{% endif %}">Profile</a></li>
       <li><a href="{% url 'accounts:logout' %}" class="icon-logout">Logout</a></li>
 
       {% else %}
