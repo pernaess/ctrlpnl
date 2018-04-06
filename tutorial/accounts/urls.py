@@ -70,4 +70,8 @@ urlpatterns = [
     url(r'^services/$',
         views.ServicesView,
         name='ServicesView'),
+
+    url(r'^about/$',
+        views.aboutView,
+        name='aboutView'),
 ]

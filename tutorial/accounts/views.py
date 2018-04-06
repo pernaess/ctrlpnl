@@ -90,3 +90,7 @@ def ServicesView(request):
             args = {'form1': createdbform, 'form2': createserverform}
 
     return render(request, 'accounts/services.html', args)
+
+
+def aboutView(request):
+    return render(request, 'accounts/about.html')

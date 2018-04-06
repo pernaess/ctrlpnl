@@ -9,15 +9,20 @@
 
 html, body {
   height: 100vh;
+  width: auto;
+    padding: 0;
+    margin: 0;
 }
+
+
 
 body {
   font: 600 12px/1 'lekton', sans-serif;
   color: #333;
   background: #333;
   overflow-x: hidden;
-    width: auto;
 }
+
 
 .card {
     background-color: #cccccc;
@@ -31,13 +36,15 @@ body {
 }
 
 .sidebar {
-  position: absolute;
+    margin-top: 60px;
   width: 220px;
+  position: fixed;
 }
 
 .content {
   flex: 1;
   padding: 30px;
+    margin-top: 40px;
   background: #eee;
   box-shadow: 0 0 5px black;
   transform: translate3d(0, 0, 0);
@@ -119,6 +126,10 @@ body {
   content: '\f0da';
 }
 
+.nav1 li a.icon-info:before{
+  content: '\f129';
+}
+
 .nav1 li a:hover {
   background: #444;
 }
@@ -149,8 +160,6 @@ h2 {
     color: #ccc;
     border-radius: 25px;
 }
-
-
 
 
 .larg {
@@ -189,41 +198,14 @@ h2 {
 
 }
 
-/* CSS for tabs in services.html
+#license_card {
+     background: #444;
+}
 
-    Style the tab
-    .tab {
-        overflow: hidden;
-        border: 1px solid #ccc;
-        background-color: #f1f1f1;
-    }
+#about_container{
+    margin-left: -3em;
+}
 
-    Style the buttons that are used to open the tab content
-    .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
-
-    Change background color of buttons on hover
-    .tab button:hover {
-        background-color: #ddd;
-    }
-
-    Create an active/current tablink class
-    .tab button.active {
-        background-color: #ccc;
-    }
-
-     Style the tab content
-    .tabcontent {
-        display: none;
-        padding: 6px 12px;
-        border: 1px solid #ccc;
-        border-top: none;
-    }*/
-
+#service_drop{
+    float:right;
+}

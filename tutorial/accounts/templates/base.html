@@ -18,7 +18,7 @@
 		{% endblock %}
 	</head>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top" id="top-navbar">
     <div class="container-fluid">
         <div class="navbar-header">
             <p class="navbar-brand">CTRLPNL</p>
@@ -32,7 +32,8 @@
 </nav>
 
 
-        <div class="wrapper">
+
+<div class="wrapper">
 <div class='sidebar'>
     <ul class='nav1'>
 
@@ -49,18 +50,21 @@
       <li><a href="{% url 'accounts:register' %}" class="icon-register {% if request.resolver_match.view_name == 'accounts:register' %}active{% endif %}">Register</a></li>
       <li><a href="{% url 'accounts:reset_password' %}" class="icon-reset {% if request.resolver_match.view_name == 'accounts:reset_password' %}active{% endif %}">Reset password</a></li>
       <li><a href="{% url 'accounts:login' %}" class="icon-login {% if request.resolver_match.view_name == 'accounts:login' %}active{% endif %}">Login</a></li>
+        <li><a href="{% url 'accounts:aboutView' %}" class="icon-info {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">About</a></li>
 
       {% endif %}
 
     </ul>
   </div>
+
   <div class='content isOpen'>
     <a class='button'></a>
-    	<body>
+
 		{% block body %}
 		<h1>Base</h1>
 		{% endblock %}
-	    </body>
+
   </div>
 </div>
+
 </html>

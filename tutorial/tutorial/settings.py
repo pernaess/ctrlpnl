@@ -30,7 +30,8 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     '127.0.0.1',
     'panel.ko-d.no',
-    '192.168.0.106'
+    '192.168.0.106',
+    '192.168.0.102'
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -151,4 +152,5 @@ LOGIN_EXEMPT_URLS = (
     r'^accounts/reset-password/done/$',
     r'^accounts/reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)$',
     r'^accounts/reset-password/complete/$',
+    r'^accounts/about/$',
 )
