@@ -1,0 +1,9 @@
+- name: "Installing mysql"
+  apt: pkg=mysql-server state=installed
+
+- name: Start mysql service
+  service:
+    name: mysql
+    state: started
+    enabled: true
+

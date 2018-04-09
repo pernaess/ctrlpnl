@@ -8,6 +8,9 @@ from .forms import (
      CreateRemoteDatabase,
      ConnectToServer
 )
+
+from .ansibleScripts.run_playbooks import run_mysql
+
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -76,13 +79,14 @@ def ServicesView(request):
             createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
             if createdbform.is_valid():
                 print createdbform.cleaned_data['username']
-                print createdbform.cleaned_data['password']
+                run_mysql(createdbform.cleaned_data['password'])
                 return redirect('accounts:ServicesView')
         elif 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
                 print createserverform.cleaned_data['server_ip']
                 print createserverform.cleaned_data['ssh_key']
+
                 return redirect('accounts:ServicesView')
     else:
             createdbform = CreateRemoteDatabase(prefix='createDB')

@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  become: yes
+  become_method: sudo
+  roles:
+  - basic
+  tasks:
+    - shell: ls
+      register: shell_result
+
+    - debug:
+        var: shell_result.stdout_lines
+

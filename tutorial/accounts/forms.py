@@ -32,6 +32,7 @@ class RegistrationForm(UserCreationForm):
 
 
 class CreateRemoteDatabase(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = DatabaseConnection
