@@ -61,7 +61,12 @@ class ConnectToServer(forms.ModelForm):
 
     class Meta:
         model = ServerConnection
-        exclude = ['user']
+        fields = (
+            'server_ip',
+            'sudo_user',
+            'sudo_password'
+        )
+
 
 
 #        exclude =

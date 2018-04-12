@@ -85,7 +85,9 @@ def ServicesView(request):
         elif 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
-                createserverform.save()
+                instance = createserverform.save(commit=False)
+                instance.user = request.user
+                instance.save()
 
                 return redirect('accounts:ServicesView')
     else:

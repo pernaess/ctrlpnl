@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.conf import settings
 
 
 # class UserProfileManager(models.Manager):
@@ -48,10 +49,13 @@ class DatabaseConnection(models.Model):
 
 
 class ServerConnection(models.Model):
-    user = models.OneToOneField(User, on_delete=models.DO_NOTHING, )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     server_ip = models.CharField(max_length=20, default='', help_text='IP: x.x.x.x')
     sudo_user = models.CharField(max_length=100, default='', help_text='Username of you servers user with root priviliges')
     sudo_password = models.CharField(max_length=100, default='', help_text='Password for server user')
+
+    def __str__(self):
+      return self.user
 
 
 
