@@ -1,6 +1,6 @@
 from django import forms
 
-from.models import DatabaseConnection, ServerConnection
+from .models import DatabaseConnection, ServerConnection
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -57,12 +57,11 @@ class EditProfileForm(UserChangeForm):
 
 
 class ConnectToServer(forms.ModelForm):
+    sudo_password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = ServerConnection
-        fields = (
-            'server_ip',
-            'ssh_key'
-        )
+        exclude = ['user']
+
 
 #        exclude =

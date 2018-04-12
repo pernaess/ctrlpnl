@@ -13,7 +13,7 @@ def run_mysql(sudo_pass):
 
     inventory = InventoryManager(
         loader=loader,
-        sources='accounts/ansibleScripts/hosts'
+        sources='accounts/ansibleScripts/hosts.ini'
     )
     variable_manager = VariableManager(
         loader=loader,
@@ -56,7 +56,7 @@ def run_mysql(sudo_pass):
         module_path=None,
         forks=100,
         remote_user='per',
-        private_key_file=None,
+        private_key_file='/home/per/.ssh/id_rsa',
         ssh_common_args=None,
         ssh_extra_args=None,
         sftp_extra_args=None,
@@ -70,7 +70,7 @@ def run_mysql(sudo_pass):
     )
 
     variable_manager.extra_vars = {
-        'hosts': 'localhost',
+        'hosts': 'webserver',
         'ansible_become_pass': sudo_pass
     } # This can accomodate various other command line arguments.`
 

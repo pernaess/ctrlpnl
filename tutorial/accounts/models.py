@@ -24,6 +24,7 @@ class UserProfile(models.Model):
     phone = models.IntegerField(default=0)
     image = models.ImageField(upload_to='profile_image', blank=True)
 
+
     #   Horten = UserProfileManager()
     #   objects = models.Manager()
 
@@ -47,8 +48,10 @@ class DatabaseConnection(models.Model):
 
 
 class ServerConnection(models.Model):
-    server_ip = models.CharField(max_length=20, help_text='IP: x.x.x.x')
-    ssh_key = models.CharField(max_length=100, help_text='Post key')
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING, )
+    server_ip = models.CharField(max_length=20, default='', help_text='IP: x.x.x.x')
+    sudo_user = models.CharField(max_length=100, default='', help_text='Username of you servers user with root priviliges')
+    sudo_password = models.CharField(max_length=100, default='', help_text='Password for server user')
 
 
 

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.views.generic import TemplateView
+from .models import ServerConnection
 from django.shortcuts import render, redirect
 from .forms import (
      RegistrationForm,
@@ -84,8 +85,7 @@ def ServicesView(request):
         elif 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
-                print createserverform.cleaned_data['server_ip']
-                print createserverform.cleaned_data['ssh_key']
+                createserverform.save()
 
                 return redirect('accounts:ServicesView')
     else:
