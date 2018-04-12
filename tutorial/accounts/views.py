@@ -15,10 +15,20 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+import subprocess
+
+
+def uptime():
+    raw = subprocess.check_output('uptime').replace(',', '')
+    return raw.split()[2]
 
 
 def home(request):
     return render(request, 'accounts/home.html')
+
+
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html', {'content': [uptime()]})
 
 
 def register(request):

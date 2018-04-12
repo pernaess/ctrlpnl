@@ -55,7 +55,7 @@ def run_mysql(sudo_pass):
         connection='ssh',
         module_path=None,
         forks=100,
-        remote_user='per',
+        remote_user='per', # Should not be a static value.
         private_key_file=None,
         ssh_common_args=None,
         ssh_extra_args=None,

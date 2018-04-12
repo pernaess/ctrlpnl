@@ -2,7 +2,6 @@ from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from ctrlpnl.forms import CtrlpnlForm
 
-
 class CtrlpnlView(TemplateView):
     template_name = 'ctrlpnl/ctrlpnl.html'
 
@@ -18,5 +17,3 @@ class CtrlpnlView(TemplateView):
 
         args = {'form': form, 'text': text}
         return render(request, self.template_name, args)
-
-
