@@ -80,13 +80,14 @@ def ServicesView(request):
             createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
             print createdbform.errors
             if createdbform.is_valid():
-                print createdbform.errors
                 user = request.user
                 print createdbform.cleaned_data['username']
                 server =  createdbform.cleaned_data['server_name']
-                print server
                 s_p = createdbform.cleaned_data['sudo_password']
-                run_mysql(user, s_p, server)
+                db_user = createdbform.cleaned_data['username']
+                db_pass = createdbform.cleaned_data['password']
+                db_name = createdbform.cleaned_data['database_name']
+                run_mysql(user, s_p, server, db_user, db_pass, db_name)
                 return redirect('accounts:ServicesView')
             else:
               print 'fucnkdkfdokfjhsdihf'

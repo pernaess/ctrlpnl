@@ -10,7 +10,7 @@ from ..models import ServerConnection
 
 
 #
-def run_mysql(user, s_p, server):
+def run_mysql(user, s_p, server, db_user, db_pass, db_name):
 
     sudoUser = ServerConnection.objects.values_list(
       'sudo_user', flat=True).distinct().filter(
@@ -91,7 +91,10 @@ def run_mysql(user, s_p, server):
     user = '{0}@{1}'.format(sudoUser, IP)
     variable_manager.extra_vars = {
         'user': user,
-        'ansible_become_pass': s_p
+        'ansible_become_pass': s_p,
+        'db_user': db_user,
+        'db_pass': db_pass,
+        'db_name': db_name
     } # This can accomodate various other command line arguments.`
 
     passwords = {}
