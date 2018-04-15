@@ -6,9 +6,28 @@ from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
 from ansible.inventory.manager import InventoryManager
 from ansible.executor.playbook_executor import PlaybookExecutor
+from ..models import ServerConnection
 
 
-def run_mysql(sudo_pass):
+#
+def run_mysql(user, s_p, server):
+
+    sudoUser = ServerConnection.objects.values_list(
+      'sudo_user', flat=True).distinct().filter(
+      user=user, server_nickname=server
+      )
+    IP = ServerConnection.objects.values_list(
+      'server_ip', flat=True).distinct().filter(
+      user=user, server_nickname=server
+    )
+
+    IP = "{0}".format(IP).split("'")
+    IP = IP[1]
+    sudoUser = "{0}".format(sudoUser).split("'")
+    sudoUser = sudoUser[1]
+
+    print '{0}@{1}'.format(sudoUser, IP)
+
     loader = DataLoader()
 
     inventory = InventoryManager(
@@ -69,9 +88,10 @@ def run_mysql(sudo_pass):
         diff=False
     )
 
+    user = '{0}@{1}'.format(sudoUser, IP)
     variable_manager.extra_vars = {
-        'hosts': 'webserver',
-        'ansible_become_pass': sudo_pass
+        'user': user,
+        'ansible_become_pass': s_p
     } # This can accomodate various other command line arguments.`
 
     passwords = {}

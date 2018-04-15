@@ -78,10 +78,19 @@ def ServicesView(request):
     if request.method == 'POST':
         if 'create_db' in request.POST:
             createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
+            print createdbform.errors
             if createdbform.is_valid():
+                print createdbform.errors
+                user = request.user
                 print createdbform.cleaned_data['username']
-                run_mysql(createdbform.cleaned_data['password'])
+                server =  createdbform.cleaned_data['server_name']
+                print server
+                s_p = createdbform.cleaned_data['sudo_password']
+                run_mysql(user, s_p, server)
                 return redirect('accounts:ServicesView')
+            else:
+              print 'fucnkdkfdokfjhsdihf'
+              return redirect('accounts:ServicesView')
         elif 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
@@ -95,7 +104,7 @@ def ServicesView(request):
             createserverform = ConnectToServer(prefix='createServer')
             args = {'form1': createdbform, 'form2': createserverform}
 
-    return render(request, 'accounts/services.html', args)
+            return render(request, 'accounts/services.html', args)
 
 
 def aboutView(request):

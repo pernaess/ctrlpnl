@@ -1,8 +1,15 @@
 ---
+- hosts: localhost
+  connection: local
+  become: yes
+  become_method: sudo
+  tasks:
+    - add_host:
+        hostname : "{{ user }}"
+        groups: webserver
+
 - hosts: webserver
   become: yes
   become_method: sudo
   roles:
   - basic
-
-

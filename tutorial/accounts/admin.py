@@ -19,7 +19,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 
 class UserServerConnection(admin.ModelAdmin):
-    list_display = ('user', 'server_ip', 'sudo_user', 'sudo_password')
+    list_display = ('user', 'server_nickname', 'server_ip', 'sudo_user')
 
     def server_connection(self, obj):
         return obj.description

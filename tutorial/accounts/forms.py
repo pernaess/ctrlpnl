@@ -33,14 +33,20 @@ class RegistrationForm(UserCreationForm):
 
 class CreateRemoteDatabase(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
+    sudo_password = forms.CharField(widget=forms.PasswordInput)
+    squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
+    squery.choices = [('', 'None')] + [(id, id) for id in squery]
+    server_name = forms.ChoiceField(squery.choices, widget=forms.Select())
 
     class Meta:
         model = DatabaseConnection
         fields = (
+            'server_name',
             'database',
             'database_name',
             'username',
-            'password'
+            'password',
+            'sudo_password'
             )
 
 
@@ -62,9 +68,9 @@ class ConnectToServer(forms.ModelForm):
     class Meta:
         model = ServerConnection
         fields = (
+            'server_nickname',
             'server_ip',
             'sudo_user',
-            'sudo_password'
         )
 
 
