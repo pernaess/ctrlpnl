@@ -82,17 +82,17 @@ def ServicesView(request):
             print createdbform.errors
             if createdbform.is_valid():
                 user = request.user
-                print createdbform.cleaned_data['username']
-                server =  createdbform.cleaned_data['server_name']
+                server = createdbform.cleaned_data['server_name']
                 s_p = createdbform.cleaned_data['sudo_password']
                 db_user = createdbform.cleaned_data['username']
                 db_pass = createdbform.cleaned_data['password']
                 db_name = createdbform.cleaned_data['database_name']
                 p_o = run_playbook()
-                p_o.run_mysql(user, s_p, server, db_user, db_pass, db_name)
-                message = p_o.pb_output().items()
-                messages.success(request, message)
-                return redirect('accounts:ServicesView')
+                p_o.run_pb(user, s_p, server, db_user, db_pass, db_name)
+                createdbform = CreateRemoteDatabase(prefix='createDB')
+                createserverform = ConnectToServer(prefix='createServer')
+                context = {'form1': createdbform, 'form2': createserverform, 'p_output': p_o.pb_output()}
+                return render(request, 'accounts/services.html', context)
 
 
             else:

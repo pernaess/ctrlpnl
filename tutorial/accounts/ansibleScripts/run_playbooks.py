@@ -40,7 +40,7 @@ class run_playbook(object):
   def __init__(self, *args, **kwargs):
       self.results_raw = {}
 
-  def run_mysql(self, user, s_p, server, db_user, db_pass, db_name):
+  def run_pb(self, user, s_p, server, db_user, db_pass, db_name):
 
       sudoUser = ServerConnection.objects.values_list(
         'sudo_user', flat=True).distinct().filter(
@@ -138,7 +138,7 @@ class run_playbook(object):
       )
       callback = ResultsCollector()
       pbex._tqm._stdout_callback = callback
-      results = pbex.run()
+      pbex.run()
 
 
       # print ("success ***********")

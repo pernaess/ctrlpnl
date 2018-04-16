@@ -10,8 +10,8 @@
         <legend>Services</legend>
     </div>
 </div>
-<div class="col-xs-2">
-    <div class="panel">
+<div class="col-xs-3">
+    <div class="panel" style="background: #eee;">
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -19,6 +19,11 @@
                 {% endfor %}
             </ul>
         {% endif %}
+<table>
+    {% for key,value in p_output.items %}
+        <tr style="border: 1px solid black;"><td style="padding-right: 5px;">{{ key }}</td><td style="color: #55bb55;">{{ value }}</td></tr>
+    {% endfor %}
+</table>
     </div>
 </div>
 
