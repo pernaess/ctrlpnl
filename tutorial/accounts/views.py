@@ -10,7 +10,8 @@ from .forms import (
      ConnectToServer
 )
 
-from .ansibleScripts.run_playbooks import run_mysql
+from .ansibleScripts.run_playbooks import run_playbook
+from django.contrib import messages
 
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
@@ -87,8 +88,13 @@ def ServicesView(request):
                 db_user = createdbform.cleaned_data['username']
                 db_pass = createdbform.cleaned_data['password']
                 db_name = createdbform.cleaned_data['database_name']
-                run_mysql(user, s_p, server, db_user, db_pass, db_name)
+                p_o = run_playbook()
+                p_o.run_mysql(user, s_p, server, db_user, db_pass, db_name)
+                message = p_o.pb_output().items()
+                messages.success(request, message)
                 return redirect('accounts:ServicesView')
+
+
             else:
               print 'fucnkdkfdokfjhsdihf'
               return redirect('accounts:ServicesView')

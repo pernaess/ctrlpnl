@@ -10,6 +10,18 @@
         <legend>Services</legend>
     </div>
 </div>
+<div class="col-xs-2">
+    <div class="panel">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                  <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
 <div class="container" id="service_drop">
 <div class="col-xs-4">
     <div id="accordion">
@@ -72,7 +84,7 @@
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
             <div class="card-body">
-                <form method="post" action="">
+                <form method="post" action="" id="db_form">
                     {% csrf_token %}
                     {{ form1|as_bootstrap }}
                     <div class="form-group">
