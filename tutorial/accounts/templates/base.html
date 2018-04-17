@@ -39,7 +39,7 @@
 
       {% if user.is_authenticated %}
 
-      <li><a href="{% url 'accounts:home' %}" class="icon-dash {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Dashboard</a></li>
+      <li><a href="{% url 'accounts:dashboardView' %}" class="icon-dash {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Dashboard</a></li>
       <li><a href="{% url 'accounts:ServicesView' %}" class="icon-services {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Services</a></li>
       <li><a href="{% url 'accounts:home' %}" class="icon-stats {% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Statistics</a></li>
       <li><a href="{% url 'accounts:home' %}" class="icon-msg{% if request.resolver_match.view_name == 'placeholder' %}active{% endif %}">Messages</a></li>

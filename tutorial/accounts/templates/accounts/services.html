@@ -5,30 +5,15 @@
 <hr>
 
 <!-- Tab links for services -->
-<div class="container">
-    <div class="jumbotron">
+<div class="container-fluid">
+    <div class="jumbotron" id="serviceTitle">
         <legend>Services</legend>
     </div>
 </div>
-<div class="col-xs-3">
-    <div class="panel" style="background: #eee;">
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                  <li class="{{ message.tags }}">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-<table>
-    {% for key,value in p_output.items %}
-        <tr style="border: 1px solid black;"><td style="padding-right: 5px;">{{ key }}</td><td style="color: #55bb55;">{{ value }}</td></tr>
-    {% endfor %}
-</table>
-    </div>
-</div>
+    <div class="container-fluid">
+<div class="row">
 
-<div class="container" id="service_drop">
-<div class="col-xs-4">
+<div class="col-md-6 col-xs-7">
     <div id="accordion">
         <div class="card">
             <div class="card-header" id="headingOne">
@@ -83,25 +68,74 @@
                 <button class="btn btn-block" style="background-color:transparent; outline: none;"
                         data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
                         aria-controls="collapseThree">
-                    Create database
+                    Install database
                 </button>
             </h5>
         </div>
         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-            <div class="card-body">
-                <form method="post" action="" id="db_form">
-                    {% csrf_token %}
-                    {{ form1|as_bootstrap }}
-                    <div class="form-group">
-                        <button type="submit" name="create_db" class="btn btn-primary">Create</button>
-                    </div>
-                </form>
-            </div>
+             <div class="row">
+             <div class="col-md-5">
+                <div class="card-body">
+                    <form method="post" action="" id="db_form">
+                        {% csrf_token %}
+                        {{ form1|as_bootstrap }}
+                        <div class="form-group">
+                            <button type="submit" name="create_db" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>
+                </div>
+             </div>
+             <div class="col-md-6">
+                 <div class="panel panel-modest" style="background-color: #cccccc;">
+                    <legend>Services</legend>
+                     <p>This service installs a chosen database-server on one of your connected servers.</p>
+                     <p>Instructions:</p>
+                     <ul>
+                         <li>Select a database server and the server it will be installed on.</li>
+                         <li>Provide a database name for a new empty database that will be created after
+                             database-server installation is complete.</li>
+                         <li>Provide a username and password for a new database user.</li>
+                         <li>Provide password for sudo user on selected server.</li>
+                     </ul>
+                     <p>This installation will:</p>
+                     <ul>
+                         <li>Install necessary packages for the database-server to run on selected server.</li>
+                         <li>Start the database-server.</li>
+                         <li>Create a new, empty database.</li>
+                         <li>Create a user with all privileges to the chosen database type.</li>
+                         <li>Remove any test databases that comes with the database software installation.</li>
+                         <li>Remove any anonymous users that may be present.</li>
+                     </ul>
+                 </div>
+             </div>
+             </div>
+        </div>
+        </div>
+    </div>
+<div class="col-md-3 col-xs-7">
+    <div class="panel panel-modest" id="serviceFeedback">
+        <div class="panel-heading"><legend>Service feedback</legend></div>
+        <div class="panel-body">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                  <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+<table id="serviceOutputTable">
+    {% for key,value in p_output.items %}
+        <tr><td>{{ key }}</td><td style="color: #55bb55;">{{ value }}</td></tr>
+    {% endfor %}
+</table>
         </div>
     </div>
 </div>
+
 </div>
 </div>
+
+
 
 
 {% endblock %}

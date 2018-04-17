@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.views.generic import TemplateView
+from .customScripts import server_status
 from .models import ServerConnection
 from django.shortcuts import render, redirect
 from .forms import (
@@ -11,12 +11,9 @@ from .forms import (
 )
 
 from .ansibleScripts.run_playbooks import run_playbook
-from django.contrib import messages
-
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
+
 
 
 def home(request):
@@ -116,3 +113,28 @@ def ServicesView(request):
 
 def aboutView(request):
     return render(request, 'accounts/about.html')
+
+
+def dashboardView(request):
+    squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
+    ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
+    status = server_status(ipquery)
+    qresultList = []
+    for index, item in enumerate(squery):
+      qresult = {}
+      qresult['servername'] = item
+      qresult['ip'] = ipquery[index]
+      qresult['status'] = status[index]
+      qresultList.append(qresult)
+
+    args= {'qresultList': qresultList}
+    return render(request, 'accounts/dashboard.html', args)
+
+
+
+
+
+
+
+
+

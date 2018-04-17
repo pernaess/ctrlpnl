@@ -65,7 +65,7 @@ class ServerConnection(models.Model):
     def __str__(self):
       #return self.user.username
         #return self.user.username, self.server_ip
-        return self.server_ip, self.sudo_user, self.server_nickname, self.user
+        return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)
 
 
 
