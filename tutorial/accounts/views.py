@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .customScripts import server_status
+from .customScripts import Server_ping
 from .models import ServerConnection
 from django.shortcuts import render, redirect
 from .forms import (
@@ -88,13 +88,15 @@ def ServicesView(request):
                 p_o.run_pb(user, s_p, server, db_user, db_pass, db_name)
                 createdbform = CreateRemoteDatabase(prefix='createDB')
                 createserverform = ConnectToServer(prefix='createServer')
-                context = {'form1': createdbform, 'form2': createserverform, 'p_output': p_o.pb_output()}
+                context = {
+                    'form1': createdbform,
+                    'form2': createserverform,
+                    'p_output': p_o.pb_output(),
+                    't_output': p_o.r_time()
+                }
                 return render(request, 'accounts/services.html', context)
 
 
-            else:
-              print 'fucnkdkfdokfjhsdihf'
-              return redirect('accounts:ServicesView')
         elif 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
@@ -118,7 +120,8 @@ def aboutView(request):
 def dashboardView(request):
     squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
-    status = server_status(ipquery)
+    ping = Server_ping()
+    status = ping.server_status(ipquery)
     qresultList = []
     for index, item in enumerate(squery):
       qresult = {}

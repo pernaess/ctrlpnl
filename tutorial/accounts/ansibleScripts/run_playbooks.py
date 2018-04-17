@@ -5,7 +5,7 @@ from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
 from ansible.inventory.manager import InventoryManager
 from ansible.executor.playbook_executor import PlaybookExecutor
-
+from datetime import datetime
 from ansible.plugins.callback import CallbackBase
 from ..models import ServerConnection
 
@@ -17,6 +17,8 @@ class ResultsCollector(CallbackBase):
         self.host_unreachable = {}
         self.host_failed = {}
         self.host_changed = {}
+        self.start_time = datetime.now()
+        self.run_time = ""
 
     def v2_runner_on_unreachable(self, result):
         #self.host_unreachable[result._host.get_name()] = result
@@ -34,11 +36,23 @@ class ResultsCollector(CallbackBase):
         #self.host_failed[result._host.get_name()] = result
         self.host_changed[result.task_name] = result
 
+    def _days_hours_minutes_seconds(self, runtime):
+        ''' internal helper method for this callback '''
+        minutes = (runtime.seconds // 60) % 60
+        r_seconds = runtime.seconds - (minutes * 60)
+        return runtime.days, runtime.seconds // 3600, minutes, r_seconds
+
+    def v2_playbook_on_stats(self, stats):
+        end_time = datetime.now()
+        runtime = end_time - self.start_time
+        self.run_time = self._days_hours_minutes_seconds(runtime)
+
 
 class run_playbook(object):
 
   def __init__(self, *args, **kwargs):
       self.results_raw = {}
+      self.runtime = ""
 
   def run_pb(self, user, s_p, server, db_user, db_pass, db_name):
 
@@ -104,7 +118,7 @@ class run_playbook(object):
           connection='ssh',
           module_path=None,
           forks=100,
-          remote_user='per',
+          remote_user='vebr',
           private_key_file='/home/per/.ssh/id_rsa',
           ssh_common_args=None,
           ssh_extra_args=None,
@@ -140,7 +154,6 @@ class run_playbook(object):
       pbex._tqm._stdout_callback = callback
       pbex.run()
 
-
       # print ("success ***********")
       for host, result in callback.host_ok.items():
         host = ('{}'.format(host))
@@ -164,10 +177,20 @@ class run_playbook(object):
         #results_raw['unreachable']= 'unreachable'
 
       print self.results_raw
+      self.runtime = callback.run_time
+      print self.runtime
 
   def pb_output(self):
     output = self.results_raw
     return output
+
+  def r_time(self):
+    output = self.runtime
+    seconds = output[3]
+    minutes = output[2]
+    process = "Process took {}m : {}s".format(minutes, seconds)
+    return process
+
 
 
 

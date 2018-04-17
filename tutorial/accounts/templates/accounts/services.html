@@ -116,6 +116,7 @@
     <div class="panel panel-modest" id="serviceFeedback">
         <div class="panel-heading"><legend>Service feedback</legend></div>
         <div class="panel-body">
+        <p>{{ t_output }}</p>
         {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -123,18 +124,45 @@
                 {% endfor %}
             </ul>
         {% endif %}
-<table id="serviceOutputTable">
-    {% for key,value in p_output.items %}
-        <tr><td>{{ key }}</td><td style="color: #55bb55;">{{ value }}</td></tr>
-    {% endfor %}
-</table>
+        <table class="table" >
+         <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Server name</th>
+              <th scope="col">Satus</th>
+            </tr>
+         </thead>
+          <tbody>
+            {% for key,value in p_output.items %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ key }}</td>
+                    <td id="statusAnsible">{{ value }}</td>
+                </tr>
+            {% endfor %}
+          </tbody>
+         </table>
+
         </div>
     </div>
 </div>
 
 </div>
 </div>
+<script type="text/javascript">
+          var status=document.getElementById("statusAnsible").innerText;
+  var running = "Running";
 
+  if (status === 'Success'){
+    document.getElementById("statusAnsible").style.color = "green";
+  }
+  else if(status === 'Changed'){
+      document.getElementById("statusAnsible").style.color = "orange";
+          }
+  else{
+    document.getElementById("statusAnsible").style.color = "red";
+  }
+</script>
 
 
 
