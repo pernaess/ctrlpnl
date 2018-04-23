@@ -34,6 +34,7 @@ class RegistrationForm(UserCreationForm):
 class CreateRemoteDatabase(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     sudo_password = forms.CharField(widget=forms.PasswordInput)
+    # On migration, comment out the three fields below + in models.py.
     squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
     squery.choices = [('', 'None')] + [(id, id) for id in squery]
     server_name = forms.ChoiceField(squery.choices, widget=forms.Select())

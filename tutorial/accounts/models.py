@@ -55,6 +55,7 @@ class DatabaseConnection(models.Model):
 
 class ServerConnection(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # On migration, comment out this field v
     server_nickname = models.CharField(max_length=20, unique=True, default='', help_text='Make a name for your server')
     server_ip = models.CharField(max_length=20, default='', help_text='IP: x.x.x.x')
     sudo_user = models.CharField(max_length=100, default='', help_text='Username of you servers user with root priviliges')
@@ -63,12 +64,6 @@ class ServerConnection(models.Model):
       super(ServerConnection, self).save(*args, **kwargs)
 
     def __str__(self):
-      #return self.user.username
-        #return self.user.username, self.server_ip
-        return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)
-
-
-
-
-
-
+      # On migration, swap these two lines' comment 'bool':
+      # return self.user.username, self.server_ip
+      return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)

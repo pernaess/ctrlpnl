@@ -76,13 +76,13 @@ class run_playbook(object):
 
       inventory = InventoryManager(
           loader=loader,
-          sources='accounts/ansibleScripts/hosts.ini'
+          sources='tutorial/accounts/ansibleScripts/hosts.ini'
       )
       variable_manager = VariableManager(
           loader=loader,
           inventory=inventory
       )
-      playbook_path = 'accounts/ansibleScripts/mysql.yml'
+      playbook_path = 'tutorial/accounts/ansibleScripts/mysql.yml'
 
       if not os.path.exists(playbook_path):
           print '[INFO] The playbook does not exist'
@@ -118,13 +118,13 @@ class run_playbook(object):
           connection='ssh',
           module_path=None,
           forks=100,
-          remote_user='vebr',
-          private_key_file='/home/per/.ssh/id_rsa',
+          remote_user=None,
+          private_key_file='/home/vebr/.ssh/id_rsa', # 'per' = /salt(sudoUser)/
           ssh_common_args=None,
           ssh_extra_args=None,
           sftp_extra_args=None,
           scp_extra_args=None,
-          become=True,
+          become=False,
           become_method=None,
           become_user='root',
           verbosity=None,
@@ -138,7 +138,7 @@ class run_playbook(object):
           'ansible_become_pass': s_p,
           'db_user': db_user,
           'db_pass': db_pass,
-          'db_name': db_name
+          'db_name': db_name,
       } # This can accomodate various other command line arguments.`
 
       passwords = {}
@@ -147,38 +147,29 @@ class run_playbook(object):
           playbooks=[playbook_path],
           inventory=inventory,
           variable_manager=variable_manager,
-          loader=loader, options=options,
+          loader=loader,
+          options=options,
           passwords=passwords
       )
-      callback = ResultsCollector()
-      pbex._tqm._stdout_callback = callback
+      # callback = ResultsCollector()
+      # pbex._tqm._stdout_callback = callback
       pbex.run()
 
-      # print ("success ***********")
-      for host, result in callback.host_ok.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Success'))
-
-        # print ("failed *******")
-      for host, result in callback.host_failed.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Failed'))
-        #results_raw['failed'] = 'failed'
-
-      # print ("unreachable *********")
-      for host, result in callback.host_unreachable.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Unreachable'))
-        #results_raw['unreachable']= 'unreachable'
-
-      for host, result in callback.host_changed.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Updated'))
-        #results_raw['unreachable']= 'unreachable'
-
+      # Pulling results from their respective dictionaries.
+      # self.result_puller(callback.host_ok.items(), 'Success')
+      # self.result_puller(callback.host_failed.items(), 'Failed')
+      # self.result_puller(callback.host_unreachable.items(), 'Unreachable')
+      # self.result_puller(callback.host_changed.items(), 'Updated')
+      
       print self.results_raw
-      self.runtime = callback.run_time
+      # self.runtime = callback.run_time
       print self.runtime
+
+  def result_puller(self, item_dict, format_string):
+      for host, result in item_dict:
+          host = '{}'.format(host)
+          if host != 'add_host':
+              self.results_raw[host] = ('{}'.format(format_string))
 
   def pb_output(self):
     output = self.results_raw

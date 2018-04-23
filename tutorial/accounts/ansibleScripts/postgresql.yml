@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   connection: local
+  become: yes
+  become_method: sudo
   tasks:
     - add_host:
         hostname : "{{ user }}"
@@ -10,6 +12,7 @@
   become: yes
   become_method: sudo
   tasks:
+  # Dunn dun duuuuun
     - name: Set mysql root password before installing
       debconf: name='mysql-server' question='mysql-server/root_password' value='{{ db_pass | quote}}' vtype='password'
       become: true
@@ -30,8 +33,8 @@
     - name: Start mysql
       action: service name=mysql state=started
 
-#    - name: Remove test database
-#      mysql_db: name=test state=absent
+    - name: remove test database
+      mysql_db: name=test state=absent
 
     - name: Create mysql user for database
       mysql_user: user= "{{ db_user }}" host="%" password="{{ db_pass }}" priv=*.*:ALL,GRANT
