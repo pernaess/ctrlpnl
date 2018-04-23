@@ -76,6 +76,6 @@ urlpatterns = [
         name='aboutView'),
 
     url(r'^dashboard/$',
-        views.dashboard,
-        name='dashboard'),
+        views.dashboardView,
+        name='dashboardView'),
 ]

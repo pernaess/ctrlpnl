@@ -3,11 +3,15 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 
 # class UserProfileManager(models.Manager):
 #    def get_queryset(self):
 #        return super(UserProfileManager, self).get_queryset().filter(city='Horten')
+
+
 
 DATABASE_CHOICES = {
     ('MySql', 'MYSQL'),
@@ -23,6 +27,7 @@ class UserProfile(models.Model):
     website = models.URLField(default='')
     phone = models.IntegerField(default=0)
     image = models.ImageField(upload_to='profile_image', blank=True)
+
 
     #   Horten = UserProfileManager()
     #   objects = models.Manager()
@@ -40,15 +45,27 @@ post_save.connect(create_profile, sender=User)
 
 
 class DatabaseConnection(models.Model):
-    database = models.CharField(max_length=10, choices=DATABASE_CHOICES, default='MySql')
-    database_name = models.CharField(max_length=20, help_text="YOYOYOYO")
-    username = models.CharField(max_length=10, help_text="hhhh")
-    password = models.CharField(max_length=30, help_text="ooooo")
+    server_name = models.CharField(max_length=50, help_text='Choose server')
+    database = models.CharField(max_length=10, choices=DATABASE_CHOICES, default='MySql', help_text='Choose database')
+    database_name = models.CharField(max_length=20, help_text="Enter the name you want for you database")
+    username = models.CharField(max_length=10, help_text='Enter a username for the database')
+    password = models.CharField(max_length=30, help_text="Enter a password for the database user")
+    sudo_password = models.CharField(max_length=30, help_text="Enter a password for the database user")
 
 
 class ServerConnection(models.Model):
-    server_ip = models.CharField(max_length=20, help_text='IP: x.x.x.x')
-    ssh_key = models.CharField(max_length=100, help_text='Post key')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    server_nickname = models.CharField(max_length=20, unique=True, default='', help_text='Make a name for your server')
+    server_ip = models.CharField(max_length=20, default='', help_text='IP: x.x.x.x')
+    sudo_user = models.CharField(max_length=100, default='', help_text='Username of you servers user with root priviliges')
+
+    def save(self, *args, **kwargs):
+      super(ServerConnection, self).save(*args, **kwargs)
+
+    def __str__(self):
+      #return self.user.username
+        #return self.user.username, self.server_ip
+        return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)
 
 
 

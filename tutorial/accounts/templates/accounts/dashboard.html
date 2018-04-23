@@ -1,17 +1,54 @@
 {% extends 'base.html' %}
-
-<h1>Homepage</h1>
 {% block head %}
 <title>Dashboard</title>
 {% endblock  %}
 
 {% block body %}
-    <h1>Dashboard</h1>
-    {% block content %}
-        {% for c in content %}
-            <p>CTRLPNL uptime: {{ c }}</p>
-        {% endfor %}
-    {% endblock %}
-{% endblock %}
+<div class="container-fluid">
+    <div class="jumbotron" id="dashboardTitle">
+    <legend>Dashboard</legend>
+    </div>
+<div>
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 col-xs-7">
+        <div class="panel panel-modest" id="conPanel">
+            <legend>Server connections</legend>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Server name</th>
+                  <th scope="col">IP</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
 
+               {% for qresult in qresultList %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{ qresult.servername }}</td>
+                  <td>{{ qresult.ip }}</td>
+                  <td id="serverstatus">{{ qresult.status }}</td>
+                </tr>
+               {% endfor %}
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+</div>
+<script type="text/javascript">
+          var status=document.getElementById("serverstatus").innerText;
+  var running = "Running";
+
+  if (status === running){
+    document.getElementById("serverstatus").style.color = "green";
+  }
+  else{
+    document.getElementById("serverstatus").style.color = "red";
+  }
+</script>
+{% endblock %}
 

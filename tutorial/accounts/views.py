@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.views.generic import TemplateView
+from .customScripts import Server_ping
+from .models import ServerConnection
 from django.shortcuts import render, redirect
 from .forms import (
      RegistrationForm,
@@ -9,26 +10,14 @@ from .forms import (
      ConnectToServer
 )
 
-from .ansibleScripts.run_playbooks import run_mysql
-
-from django.contrib.auth.models import User
+from .ansibleScripts.run_playbooks import run_playbook
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
-import subprocess
 
-
-def uptime():
-    raw = subprocess.check_output('uptime').replace(',', '')
-    return raw.split()[2]
 
 
 def home(request):
     return render(request, 'accounts/home.html')
-
-
-def dashboard(request):
-    return render(request, 'accounts/dashboard.html', {'content': [uptime()]})
 
 
 def register(request):
@@ -87,15 +76,33 @@ def ServicesView(request):
     if request.method == 'POST':
         if 'create_db' in request.POST:
             createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
+            print createdbform.errors
             if createdbform.is_valid():
-                print createdbform.cleaned_data['username']
-                run_mysql(createdbform.cleaned_data['password'])
-                return redirect('accounts:ServicesView')
+                user = request.user
+                server = createdbform.cleaned_data['server_name']
+                s_p = createdbform.cleaned_data['sudo_password']
+                db_user = createdbform.cleaned_data['username']
+                db_pass = createdbform.cleaned_data['password']
+                db_name = createdbform.cleaned_data['database_name']
+                p_o = run_playbook()
+                p_o.run_pb(user, s_p, server, db_user, db_pass, db_name)
+                createdbform = CreateRemoteDatabase(prefix='createDB')
+                createserverform = ConnectToServer(prefix='createServer')
+                context = {
+                    'form1': createdbform,
+                    'form2': createserverform,
+                    'p_output': p_o.pb_output(),
+                    't_output': p_o.r_time()
+                }
+                return render(request, 'accounts/services.html', context)
+
+
         elif 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
-                print createserverform.cleaned_data['server_ip']
-                print createserverform.cleaned_data['ssh_key']
+                instance = createserverform.save(commit=False)
+                instance.user = request.user
+                instance.save()
 
                 return redirect('accounts:ServicesView')
     else:
@@ -103,8 +110,34 @@ def ServicesView(request):
             createserverform = ConnectToServer(prefix='createServer')
             args = {'form1': createdbform, 'form2': createserverform}
 
-    return render(request, 'accounts/services.html', args)
+            return render(request, 'accounts/services.html', args)
 
 
 def aboutView(request):
     return render(request, 'accounts/about.html')
+
+
+def dashboardView(request):
+    squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
+    ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
+    ping = Server_ping()
+    status = ping.server_status(ipquery)
+    qresultList = []
+    for index, item in enumerate(squery):
+      qresult = {}
+      qresult['servername'] = item
+      qresult['ip'] = ipquery[index]
+      qresult['status'] = status[index]
+      qresultList.append(qresult)
+
+    args= {'qresultList': qresultList}
+    return render(request, 'accounts/dashboard.html', args)
+
+
+
+
+
+
+
+
+

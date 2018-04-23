@@ -24,12 +24,6 @@ body {
 }
 
 
-.card {
-    background-color: #cccccc;
-    border: 1px solid #2a2a2a;
-    padding-left: 5px;
-    padding-right: 5px;
-}
 .wrapper {
   display: flex;
   min-height: 100%;
@@ -198,6 +192,7 @@ h2 {
 
 }
 
+
 #license_card {
      background: #444;
 }
@@ -206,6 +201,40 @@ h2 {
     margin-left: -3em;
 }
 
-#service_drop{
-    float:right;
+
+/* CSS for services.html */
+#serviceTitle{
+    margin-top: -115px;
+}
+
+#serviceFeedback{
+
+    background-color: #eee;
+    border-color: #333333;
+}
+#serviceOutputTable tr{
+    border-bottom: 1px solid black;
+}
+
+#serviceOutputTable td{
+    padding-right: 5px;
+}
+
+.card {
+    background-color: #cccccc;
+    border: 1px solid #2a2a2a;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+/* CSS for dashboard.html */
+#dashboardTitle{
+    margin-top: -75px;
+}
+
+#conPanel{
+    background-color: lightgrey;
+    padding: 1em;
+    border: 1px solid black;
 }

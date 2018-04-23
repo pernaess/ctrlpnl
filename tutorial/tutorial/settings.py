@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_forms_bootstrap'
+    'django_forms_bootstrap',
 ]
 
 MIDDLEWARE = [
@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'ctrlpnl',
         'USER': 'ctrlpnl',
         'PASSWORD': 'ctrlpnl',
-        'HOST': 'LOCALHOST',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
