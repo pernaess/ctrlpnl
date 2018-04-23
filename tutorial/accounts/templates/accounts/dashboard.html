@@ -1,4 +1,24 @@
 {% extends 'base.html' %}
+
+{% block javascript %}
+  <script>
+    $("#id_username").change(function () {
+      var form = $(this).closest("form");
+      $.ajax({
+        url: form.attr("data-validate-username-url"),
+        data: form.serialize(),
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            alert(data.error_message);
+          }
+        }
+      });
+
+    });
+  </script>
+{% endblock %}
+
 {% block head %}
 <title>Dashboard</title>
 {% endblock  %}
@@ -39,6 +59,10 @@
       </div>
     </div>
 </div>
+
+
+{% endblock %}
+
 <script type="text/javascript">
           var status=document.getElementById("serverstatus").innerText;
   var running = "Running";
@@ -50,5 +74,3 @@
     document.getElementById("serverstatus").style.color = "red";
   }
 </script>
-{% endblock %}
-

@@ -10,13 +10,15 @@ from ansible.plugins.callback import CallbackBase
 from ..models import ServerConnection
 
 
+# Custom made callback class for gathering information on
+# Ansible plays. Overrides the default Ansible callback plugin
 class ResultsCollector(CallbackBase):
     def __init__(self, *args, **kwargs):
         super(ResultsCollector, self).__init__(*args, **kwargs)
         self.host_ok = {}
         self.host_unreachable = {}
         self.host_failed = {}
-        self.host_changed = {}
+        self.host_skipped = {}
         self.start_time = datetime.now()
         self.run_time = ""
 
@@ -32,9 +34,9 @@ class ResultsCollector(CallbackBase):
         #self.host_failed[result._host.get_name()] = result
         self.host_failed[result.task_name] = result
 
-    def v2_runner_on_changed(self, result, *args, **kwargs):
+    def v2_runner_on_skipped(self, result, *args, **kwargs):
         #self.host_failed[result._host.get_name()] = result
-        self.host_changed[result.task_name] = result
+        self.host_skipped[result.task_name] = result
 
     def _days_hours_minutes_seconds(self, runtime):
         ''' internal helper method for this callback '''
@@ -48,12 +50,15 @@ class ResultsCollector(CallbackBase):
         self.run_time = self._days_hours_minutes_seconds(runtime)
 
 
+# Runs ansible playbooks
 class run_playbook(object):
 
   def __init__(self, *args, **kwargs):
       self.results_raw = {}
       self.runtime = ""
 
+    # Runs a playbook with provided variables
+    # and filters gathered play information for a smoother display.
   def run_pb(self, user, s_p, server, db_user, db_pass, db_name):
 
       sudoUser = ServerConnection.objects.values_list(
@@ -124,7 +129,7 @@ class run_playbook(object):
           ssh_extra_args=None,
           sftp_extra_args=None,
           scp_extra_args=None,
-          become=True,
+          become=False,
           become_method=None,
           become_user='root',
           verbosity=None,
@@ -154,40 +159,31 @@ class run_playbook(object):
       pbex._tqm._stdout_callback = callback
       pbex.run()
 
-      # print ("success ***********")
-      for host, result in callback.host_ok.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Success'))
-
-        # print ("failed *******")
-      for host, result in callback.host_failed.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Failed'))
-        #results_raw['failed'] = 'failed'
-
-      # print ("unreachable *********")
-      for host, result in callback.host_unreachable.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Unreachable'))
-        #results_raw['unreachable']= 'unreachable'
-
-      for host, result in callback.host_changed.items():
-        host = ('{}'.format(host))
-        self.results_raw[host] = ('{}'.format('Updated'))
-        #results_raw['unreachable']= 'unreachable'
+      # # Pulling results from their respective dictionaries.
+      self.result_puller(callback.host_ok.items(), 'Success')
+      self.result_puller(callback.host_failed.items(), 'Failed')
+      self.result_puller(callback.host_unreachable.items(), 'Unreachable')
+      self.result_puller(callback.host_skipped.items(), 'Skipped')
 
       print self.results_raw
       self.runtime = callback.run_time
       print self.runtime
 
-  def pb_output(self):
-    output = self.results_raw
-    return output
+  def result_puller(self, item_dict, format_string):
+      for host, result in item_dict:
+          host = '{}'.format(host)
+          if host != 'add_host':
+              self.results_raw[host] = ('{}'.format(format_string))
 
+
+  # Returns the class dictionary 'results_raw'.
+  def pb_output(self):
+    return self.results_raw
+
+  #Returns the overall process time of an ansible playbook
   def r_time(self):
-    output = self.runtime
-    seconds = output[3]
-    minutes = output[2]
+    seconds = self.runtime[3]
+    minutes = self.runtime[2]
     process = "Process took {}m : {}s".format(minutes, seconds)
     return process
 

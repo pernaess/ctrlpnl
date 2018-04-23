@@ -9,7 +9,7 @@ from .forms import (
      CreateRemoteDatabase,
      ConnectToServer
 )
-
+from django.http import JsonResponse
 from .ansibleScripts.run_playbooks import run_playbook
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -132,6 +132,7 @@ def dashboardView(request):
 
     args= {'qresultList': qresultList}
     return render(request, 'accounts/dashboard.html', args)
+
 
 
 
