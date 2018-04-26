@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load bootstrap_tags %}
 
 
 {% block body %}
@@ -47,7 +46,7 @@
     <div id="database" class="tab-pane">
     <div class="row">
      <div class="col-md-5">
-      <h3>Install NGinX</h3>
+      <h3>Install database servers</h3>
       <form method="post" action="">
         {% csrf_token %}
         {{ form1|as_bootstrap }}
