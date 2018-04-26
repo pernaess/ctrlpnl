@@ -78,4 +78,12 @@ urlpatterns = [
     url(r'^dashboard/$',
         views.dashboardView,
         name='dashboardView'),
+
+    url(r'^dashboard/testAjax/$',
+        views.testAjax,
+        name='testAjax'),
+
+    url(r'^dashboard/CheckConn/$',
+        views.CheckConn,
+        name='CheckConn'),
 ]

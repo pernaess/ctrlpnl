@@ -1,21 +1,37 @@
 {% extends 'base.html' %}
+{% load bootstrap_tags %}
 
 {% block javascript %}
   <script>
-    $("#id_username").change(function () {
-      var form = $(this).closest("form");
-      $.ajax({
-        url: form.attr("data-validate-username-url"),
-        data: form.serialize(),
-        dataType: 'json',
-        success: function (data) {
-          if (data.is_taken) {
-            alert(data.error_message);
-          }
-        }
-      });
-
+$(document).ready(function(){
+    var $myForm = $('.checkConn');
+    $myForm.submit(function(event){
+        event.preventDefault();
+        var $formData = $(this).serialize();
+        var $thisURL = 'CheckConn/';
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError
+        })
     });
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        document.getElementById('smutt').innerHTML = data.toString();
+        document.getElementById("serverstatus").style.color = "red";
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+})
   </script>
 {% endblock %}
 
@@ -31,32 +47,48 @@
 <div>
 <div class="container-fluid">
     <div class="row">
-      <div class="col-md-3 col-xs-7">
+      <div class="col-md-4 col-xs-7">
         <div class="panel panel-modest" id="conPanel">
             <legend>Server connections</legend>
             <table class="table">
+
               <thead>
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Server name</th>
                   <th scope="col">IP</th>
                   <th scope="col">Status</th>
+                  <th scope="col">
+                      <form method="POSS" class="checkConn">
+                           {% csrf_token %}
+                          <button type="submit" name="conn_check" class="btn btn-light">Test Ajax</button>
+                      </form>
+                  </th>
                 </tr>
               </thead>
-              <tbody>
 
+              <tbody>
                {% for qresult in qresultList %}
                 <tr>
                   <th scope="row">{{ forloop.counter }}</th>
                   <td>{{ qresult.servername }}</td>
                   <td>{{ qresult.ip }}</td>
-                  <td id="serverstatus">{{ qresult.status }}</td>
+                  <td id="serverstatus">N/A</td>
                 </tr>
                {% endfor %}
               </tbody>
+
             </table>
         </div>
       </div>
+        <div class="col-md-3 col-xs-7">
+            <form class="ajax-test" method="POST">
+                {% csrf_token %}
+                {{ ajaxForm|as_bootstrap }}
+                 <button type="submit" name="create_db" class="btn btn-primary">Test Ajax</button>
+            </form>
+            <div id="smutt">Bobobobob</div>
+        </div>
     </div>
 </div>
 

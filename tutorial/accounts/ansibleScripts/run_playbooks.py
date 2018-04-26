@@ -123,7 +123,7 @@ class run_playbook(object):
           connection='ssh',
           module_path=None,
           forks=100,
-          remote_user='vebr',
+          remote_user=None,
           private_key_file='/home/per/.ssh/id_rsa',
           ssh_common_args=None,
           ssh_extra_args=None,

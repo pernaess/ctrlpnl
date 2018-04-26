@@ -220,13 +220,22 @@ h2 {
     padding-right: 5px;
 }
 
-.card {
-    background-color: #cccccc;
-    border: 1px solid #2a2a2a;
-    padding-left: 5px;
-    padding-right: 5px;
+/* Css for services tabs */
+.nav-filter{
+    background-color: lightgrey;
+    border-bottom: 1px solid black;
+    text-decoration: none;
+    color: black;
 }
 
+.nav-pills>li>a{
+    color: #000;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus{
+background-color:darkgray;
+color:black;
+}
 
 /* CSS for dashboard.html */
 #dashboardTitle{

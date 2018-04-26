@@ -7,8 +7,11 @@ from .forms import (
      RegistrationForm,
      EditProfileForm,
      CreateRemoteDatabase,
-     ConnectToServer
+     ConnectToServer,
+     ajaxForm
 )
+import json
+from django.http import HttpResponse
 from django.http import JsonResponse
 from .ansibleScripts.run_playbooks import run_playbook
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
@@ -120,25 +123,45 @@ def aboutView(request):
 def dashboardView(request):
     squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
-    ping = Server_ping()
-    status = ping.server_status(ipquery)
+    #ping = Server_ping()
+    #status = ping.server_status(ipquery)
     qresultList = []
     for index, item in enumerate(squery):
       qresult = {}
       qresult['servername'] = item
       qresult['ip'] = ipquery[index]
-      qresult['status'] = status[index]
+      #qresult['status'] = status[index]
       qresultList.append(qresult)
 
-    args= {'qresultList': qresultList}
+    args= {'qresultList': qresultList, 'ajaxForm': ajaxForm}
     return render(request, 'accounts/dashboard.html', args)
 
 
+def CheckConn(request):
+    if request.method == 'POST':
+        if 'conn_check' in request.POST:
+            ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
+            ping = Server_ping()
+            status = ping.server_status(ipquery)
+            return JsonResponse(status)
+        else:
+          print('fæææn')
+          return HttpResponse("Form is not valid")
 
 
-
-
-
-
-
-
+def testAjax(request):
+    if request.method == 'POST':
+        formAjax = ajaxForm(request.POST, prefix='ajaxTest')
+        print formAjax.errors
+        if formAjax.is_valid():
+            label = 'Dette blir sendt fra server! AJAAAAAAAAAX!!!!'
+            print(label)
+            print('to')
+            data = {
+                'change': label
+            }
+            print(data)
+            return JsonResponse(data)
+        else:
+          print('fæææn')
+          return HttpResponse("Form is not valid")
