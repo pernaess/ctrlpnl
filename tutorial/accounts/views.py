@@ -8,7 +8,8 @@ from .forms import (
      EditProfileForm,
      CreateRemoteDatabase,
      ConnectToServer,
-     ajaxForm
+     ajaxForm,
+     ConnCheck
 )
 import json
 from django.http import HttpResponse
@@ -125,6 +126,7 @@ def dashboardView(request):
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
     #ping = Server_ping()
     #status = ping.server_status(ipquery)
+    conc = ConnCheck(request.POST, prefix='connCheck')
     qresultList = []
     for index, item in enumerate(squery):
       qresult = {}
@@ -133,20 +135,20 @@ def dashboardView(request):
       #qresult['status'] = status[index]
       qresultList.append(qresult)
 
-    args= {'qresultList': qresultList, 'ajaxForm': ajaxForm}
+    args= {'qresultList': qresultList, 'ajaxForm': ajaxForm, 'conForm': conc}
     return render(request, 'accounts/dashboard.html', args)
 
 
 def CheckConn(request):
     if request.method == 'POST':
-        if 'conn_check' in request.POST:
-            ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
-            ping = Server_ping()
-            status = ping.server_status(ipquery)
-            return JsonResponse(status)
-        else:
-          print('fæææn')
-          return HttpResponse("Form is not valid")
+        ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
+        ping = Server_ping()
+        status = ping.server_status(ipquery)
+        print('Inside')
+        return JsonResponse(status, safe=False)
+    else:
+        print('fæææn')
+        return HttpResponse("Ain't working")
 
 
 def testAjax(request):

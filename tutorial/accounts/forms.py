@@ -86,6 +86,7 @@ class ajaxForm(forms.ModelForm):
 
 class ConnCheck(forms.Form):
     hidden = forms.CharField(widget=forms.HiddenInput(), required=False)
+    low = forms.CharField(required=False)
 
 
 

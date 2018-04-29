@@ -22,7 +22,17 @@ $(document).ready(function(){
         console.log(data);
         console.log(textStatus);
         console.log(jqXHR);
-        document.getElementById('smutt').innerHTML = data.toString();
+        for (var i = 0; i < data.length; i++){
+            document.getElementById('serverstatus' +(i+1)).innerHTML = data[i];
+            if (data[i].valueOf() == "Running"){
+                document.getElementById('serverstatus' +(i+1)).style.color = "green";
+            }
+            else{
+               document.getElementById('serverstatus' +(i+1)).style.color = "red";
+            }
+        }
+
+
         document.getElementById("serverstatus").style.color = "red";
     }
 
@@ -59,9 +69,9 @@ $(document).ready(function(){
                   <th scope="col">IP</th>
                   <th scope="col">Status</th>
                   <th scope="col">
-                      <form method="POSS" class="checkConn">
+                      <form method="POST" class="checkConn">
                            {% csrf_token %}
-                          <button type="submit" name="conn_check" class="btn btn-light">Test Ajax</button>
+                          <button type="submit" value="submit" name="submit" class="btn btn-light">Check</button>
                       </form>
                   </th>
                 </tr>
@@ -73,7 +83,8 @@ $(document).ready(function(){
                   <th scope="row">{{ forloop.counter }}</th>
                   <td>{{ qresult.servername }}</td>
                   <td>{{ qresult.ip }}</td>
-                  <td id="serverstatus">N/A</td>
+                  <td id="serverstatus{{ forloop.counter }}">N/A</td>
+                  <td id="checking{{ forloop.counter }}"></td>
                 </tr>
                {% endfor %}
               </tbody>
