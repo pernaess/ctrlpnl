@@ -8,10 +8,7 @@ from .forms import (
      EditProfileForm,
      CreateRemoteDatabase,
      ConnectToServer,
-     ajaxForm,
-     ConnCheck
 )
-import json
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .ansibleScripts.run_playbooks import run_playbook
@@ -126,7 +123,6 @@ def dashboardView(request):
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
     #ping = Server_ping()
     #status = ping.server_status(ipquery)
-    conc = ConnCheck(request.POST, prefix='connCheck')
     qresultList = []
     for index, item in enumerate(squery):
       qresult = {}
@@ -135,7 +131,7 @@ def dashboardView(request):
       #qresult['status'] = status[index]
       qresultList.append(qresult)
 
-    args= {'qresultList': qresultList, 'ajaxForm': ajaxForm, 'conForm': conc}
+    args= {'qresultList': qresultList}
     return render(request, 'accounts/dashboard.html', args)
 
 
@@ -151,19 +147,3 @@ def CheckConn(request):
         return HttpResponse("Ain't working")
 
 
-def testAjax(request):
-    if request.method == 'POST':
-        formAjax = ajaxForm(request.POST, prefix='ajaxTest')
-        print formAjax.errors
-        if formAjax.is_valid():
-            label = 'Dette blir sendt fra server! AJAAAAAAAAAX!!!!'
-            print(label)
-            print('to')
-            data = {
-                'change': label
-            }
-            print(data)
-            return JsonResponse(data)
-        else:
-          print('fæææn')
-          return HttpResponse("Form is not valid")

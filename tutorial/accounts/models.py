@@ -68,9 +68,6 @@ class ServerConnection(models.Model):
         return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)
 
 
-class AjaxTest(models.Model):
-    name = models.CharField(max_length=100, default="",)
-
 
 
 

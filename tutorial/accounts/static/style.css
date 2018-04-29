@@ -223,13 +223,13 @@ h2 {
 /* Css for services tabs */
 .nav-filter{
     background-color: lightgrey;
-    border-bottom: 1px solid black;
     text-decoration: none;
     color: black;
 }
 
 .nav-pills>li>a{
     color: #000;
+    border: 1px solid black;
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus{

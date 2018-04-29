@@ -1,13 +1,14 @@
 import os
 import platform
 
+
 class Server_ping(object):
 
     def __init__(self, *args, **kwargs):
-        var = 1
+        self.list = []
 
     def server_status(self, ip_list):
-
+        self.list = ip_list
         status_list = []
         for item in ip_list:
             if platform.system() == "Windows":
@@ -23,4 +24,7 @@ class Server_ping(object):
                 print item, 'is down!'
 
         return status_list
+
+
+
 

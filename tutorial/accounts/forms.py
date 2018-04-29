@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DatabaseConnection, ServerConnection, AjaxTest
+from .models import DatabaseConnection, ServerConnection
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -72,24 +72,5 @@ class ConnectToServer(forms.ModelForm):
             'server_ip',
             'sudo_user',
         )
-
-
-class ajaxForm(forms.ModelForm):
-    name = forms.CharField(required=False)
-
-    class Meta:
-        model = AjaxTest
-        fields = (
-          'name',
-        )
-
-
-class ConnCheck(forms.Form):
-    hidden = forms.CharField(widget=forms.HiddenInput(), required=False)
-    low = forms.CharField(required=False)
-
-
-
-
 
 #        exclude =

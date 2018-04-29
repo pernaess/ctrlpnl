@@ -1,49 +1,6 @@
 {% extends 'base.html' %}
 {% load bootstrap_tags %}
 
-{% block javascript %}
-  <script>
-$(document).ready(function(){
-    var $myForm = $('.checkConn');
-    $myForm.submit(function(event){
-        event.preventDefault();
-        var $formData = $(this).serialize();
-        var $thisURL = 'CheckConn/';
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
-    });
-
-    function handleFormSuccess(data, textStatus, jqXHR){
-        console.log(data);
-        console.log(textStatus);
-        console.log(jqXHR);
-        for (var i = 0; i < data.length; i++){
-            document.getElementById('serverstatus' +(i+1)).innerHTML = data[i];
-            if (data[i].valueOf() == "Running"){
-                document.getElementById('serverstatus' +(i+1)).style.color = "green";
-            }
-            else{
-               document.getElementById('serverstatus' +(i+1)).style.color = "red";
-            }
-        }
-
-
-        document.getElementById("serverstatus").style.color = "red";
-    }
-
-    function handleFormError(jqXHR, textStatus, errorThrown){
-        console.log(jqXHR);
-        console.log(textStatus);
-        console.log(errorThrown);
-    }
-})
-  </script>
-{% endblock %}
 
 {% block head %}
 <title>Dashboard</title>
@@ -54,7 +11,7 @@ $(document).ready(function(){
     <div class="jumbotron" id="dashboardTitle">
     <legend>Dashboard</legend>
     </div>
-<div>
+</div>
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-4 col-xs-7">
@@ -71,7 +28,9 @@ $(document).ready(function(){
                   <th scope="col">
                       <form method="POST" class="checkConn">
                            {% csrf_token %}
-                          <button type="submit" value="submit" name="submit" class="btn btn-light">Check</button>
+                          <button type="submit" id="submit" value="submit" name="submit" class="btn btn-light">
+                              <span id="cProgress" class="glyphicon glyphicon-refresh"></span>
+                          </button>
                       </form>
                   </th>
                 </tr>
@@ -83,7 +42,7 @@ $(document).ready(function(){
                   <th scope="row">{{ forloop.counter }}</th>
                   <td>{{ qresult.servername }}</td>
                   <td>{{ qresult.ip }}</td>
-                  <td id="serverstatus{{ forloop.counter }}">N/A</td>
+                  <td id="serverstatus{{ forloop.counter }}">---</td>
                   <td id="checking{{ forloop.counter }}"></td>
                 </tr>
                {% endfor %}
@@ -92,13 +51,17 @@ $(document).ready(function(){
             </table>
         </div>
       </div>
-        <div class="col-md-3 col-xs-7">
-            <form class="ajax-test" method="POST">
-                {% csrf_token %}
-                {{ ajaxForm|as_bootstrap }}
-                 <button type="submit" name="create_db" class="btn btn-primary">Test Ajax</button>
-            </form>
-            <div id="smutt">Bobobobob</div>
+        <div class="col-md-4 col-xs-7">
+            <div class="panel panel-modest" id="conPanel">
+                <legend>Nginx webserver hosting</legend>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-xs-7">
+            <div class="panel panel-modest" id="conPanel">
+                <legend>Database servers</legend>
+            </div>
         </div>
     </div>
 </div>
@@ -106,14 +69,3 @@ $(document).ready(function(){
 
 {% endblock %}
 
-<script type="text/javascript">
-          var status=document.getElementById("serverstatus").innerText;
-  var running = "Running";
-
-  if (status === running){
-    document.getElementById("serverstatus").style.color = "green";
-  }
-  else{
-    document.getElementById("serverstatus").style.color = "red";
-  }
-</script>
