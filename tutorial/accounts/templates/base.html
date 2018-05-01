@@ -25,6 +25,7 @@
         </div>
         {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
+                <li id="navbar_info"></li>
                 <li class="proIc"><a href="{% url 'accounts:view_profile' %}"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
             </ul>
         {% endif %}

@@ -58,7 +58,7 @@ body {
   font: 42px fontawesome;
 }
 
-
+/* CSS for top navbar */
 .proIc a.icon-profile:before{
   content: '\f007';
 }
@@ -68,8 +68,13 @@ body {
   background: #2a2a2a;
 }
 
+#navbar_info {
+    color: #eeeeee;
+    margin-top: 1.6em;
+    margin-right: 10em;
+}
 
-
+/* CSS for side navbar */
 .nav1 li a {
   position: relative;
   display: block;

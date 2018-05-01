@@ -75,30 +75,7 @@ def change_password(request):
 # Handles forms in services.html based on form submitted
 def ServicesView(request):
     if request.method == 'POST':
-        if 'create_db' in request.POST:
-            createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
-            print createdbform.errors
-            if createdbform.is_valid():
-                user = request.user
-                server = createdbform.cleaned_data['server_name']
-                s_p = createdbform.cleaned_data['sudo_password']
-                db_user = createdbform.cleaned_data['username']
-                db_pass = createdbform.cleaned_data['password']
-                db_name = createdbform.cleaned_data['database_name']
-                p_o = run_playbook()
-                p_o.run_pb(user, s_p, server, db_user, db_pass, db_name)
-                createdbform = CreateRemoteDatabase(prefix='createDB')
-                createserverform = ConnectToServer(prefix='createServer')
-                context = {
-                    'form1': createdbform,
-                    'form2': createserverform,
-                    'p_output': p_o.pb_output(),
-                    't_output': p_o.r_time()
-                }
-                return render(request, 'accounts/services.html', context)
-
-
-        elif 'create_server' in request.POST:
+        if 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
                 instance = createserverform.save(commit=False)
@@ -112,6 +89,34 @@ def ServicesView(request):
             args = {'form1': createdbform, 'form2': createserverform}
 
             return render(request, 'accounts/services.html', args)
+
+
+def createDBView(request):
+    if request.method == 'POST':
+        print 'første'
+        # if 'create_db' in request.POST:
+        print 'andre'
+        createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
+        print createdbform.errors
+        if createdbform.is_valid():
+            print 'tredje'
+            user = request.user
+            server = request.POST['createDB-server_name']
+            print server
+            s_p = createdbform.cleaned_data['sudo_password']
+            db_user = createdbform.cleaned_data['username']
+            db_pass = createdbform.cleaned_data['password']
+            db_name = createdbform.cleaned_data['database_name']
+            p_o = run_playbook()
+            p_o.run_pb(user, s_p, server, db_user, db_pass, db_name)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print('fæææn')
+            return HttpResponse("Ain't working")
 
 
 def aboutView(request):

@@ -82,4 +82,8 @@ urlpatterns = [
     url(r'^dashboard/CheckConn/$',
         views.CheckConn,
         name='CheckConn'),
+
+    url(r'^services/createDB/$',
+        views.createDBView,
+        name='createDBView')
 ]
