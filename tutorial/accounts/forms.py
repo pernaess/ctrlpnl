@@ -35,7 +35,7 @@ class CreateRemoteDatabase(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     sudo_password = forms.CharField(widget=forms.PasswordInput)
     squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
-    squery.choices = [('', 'All')] + [(id, id) for id in squery]
+    squery.choices = [('all', 'Choose all')] + [(id, id) for id in squery]
     server_name = forms.MultipleChoiceField(squery.choices, widget=forms.CheckboxSelectMultiple)
 
     class Meta:

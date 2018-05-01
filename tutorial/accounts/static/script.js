@@ -128,3 +128,17 @@ function serviceOutput(s_time, output, button){
         document.getElementById('navbar_info').innerHTML = 'Service done <span class="glyphicon glyphicon-ok"></span>';
 }
 
+$(document).ready(function(){
+    var $select = $('#id_createDB-server_name_1');
+    $select.on('change', function() {
+    var checkboxes = document.getElementsByName('createDB-server_name');
+        for (var checkbox in checkboxes) {
+            if(document.getElementById('id_createDB-server_name_1').checked) {
+                checkboxes[checkbox].checked = true;
+            }
+            else{
+                checkboxes[checkbox].checked = false;
+            }
+        }
+    })
+});

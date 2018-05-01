@@ -93,16 +93,13 @@ def ServicesView(request):
 
 def createDBView(request):
     if request.method == 'POST':
-        print 'første'
-        # if 'create_db' in request.POST:
-        print 'andre'
         createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
         print createdbform.errors
         if createdbform.is_valid():
-            print 'tredje'
             user = request.user
-            server = request.POST['createDB-server_name']
-            print server
+            server = request.POST.getlist('createDB-server_name')
+            if server[0] == 'all':
+                server.pop(0)
             s_p = createdbform.cleaned_data['sudo_password']
             db_user = createdbform.cleaned_data['username']
             db_pass = createdbform.cleaned_data['password']

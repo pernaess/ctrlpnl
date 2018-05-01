@@ -3,8 +3,9 @@
   connection: local
   tasks:
     - add_host:
-        hostname : "{{ user }}"
+        hostname : "{{ item }}"
         groups: webserver
+      loop: "{{ user }}"
 
 - hosts: webserver
   become: yes
