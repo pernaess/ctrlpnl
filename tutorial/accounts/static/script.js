@@ -64,6 +64,7 @@ $(document).ready(function(){
     var $myForm = $('.createDB');
     $myForm.submit(function(event){
         event.preventDefault();
+        $("#outputTable tr").remove();
         var submit = document.getElementById('create_db');
         submit.disabled = true;
         submit.innerText = 'Installing...';
