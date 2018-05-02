@@ -96,6 +96,12 @@ def createDBView(request):
         createdbform = CreateRemoteDatabase(request.POST, prefix='createDB')
         print createdbform.errors
         if createdbform.is_valid():
+            playbook_path = ""
+            database = createdbform.cleaned_data['database']
+            if database == 'MySql':
+                playbook_path = 'accounts/ansibleScripts/mysql.yml'
+            elif database == 'PostgreSql':
+                playbook_path = 'accounts/ansibleScripts/postgreSql.yml'
             user = request.user
             server = request.POST.getlist('createDB-server_name')
             if server[0] == 'all':
@@ -105,7 +111,7 @@ def createDBView(request):
             db_pass = createdbform.cleaned_data['password']
             db_name = createdbform.cleaned_data['database_name']
             p_o = run_playbook()
-            p_o.run_pb(user, s_p, server, db_user, db_pass, db_name)
+            p_o.run_pb(user, s_p, server, db_user, db_pass, db_name, playbook_path)
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()

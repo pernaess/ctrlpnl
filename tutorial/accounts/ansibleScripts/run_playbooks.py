@@ -9,9 +9,10 @@ from datetime import datetime
 from ansible.plugins.callback import CallbackBase
 from ..models import ServerConnection
 
+"""Custom ansbile run callback, overrides custom Ansible callback plugin
 
-# Custom made callback class for gathering information on
-# Ansible plays. Overrides the default Ansible callback plugin
+:param CallbackBase: Class providing Ansible callback methods
+"""
 class ResultsCollector(CallbackBase):
     def __init__(self, *args, **kwargs):
         super(ResultsCollector, self).__init__(*args, **kwargs)
@@ -51,16 +52,24 @@ class ResultsCollector(CallbackBase):
         self.run_time = self._days_hours_minutes_seconds(runtime)
 
 
-# Runs ansible playbooks
+""" Runs Ansible Playbooks """
 class run_playbook(object):
 
     def __init__(self, *args, **kwargs):
         self.results_raw = {}
         self.runtime = ""
 
-      # Runs a playbook with provided variables
-      # and filters gathered play information for a smoother display.
-    def run_pb(self, user, s_p, server, db_user, db_pass, db_name):
+    """ Runs a playbook with provided variables, filters output for smoother display
+      
+    :param user - Current logged in user
+    :param s_p - Sudo password
+    :param server - A list of server names
+    :param db_user - Username for database
+    :param db_pass - Password for database
+    :param db_name - Name for database
+    :param path - Playbook file path
+    """
+    def run_pb(self, user, s_p, server, db_user, db_pass, db_name, path):
         address = []
 
         for servers in server:
@@ -91,7 +100,7 @@ class run_playbook(object):
             loader=loader,
             inventory=inventory
         )
-        playbook_path = 'accounts/ansibleScripts/mysql.yml'
+        playbook_path = path
 
         if not os.path.exists(playbook_path):
             print '[INFO] The playbook does not exist'
@@ -180,12 +189,11 @@ class run_playbook(object):
             if host != 'add_host':
                 self.results_raw[host] = ('{}'.format(format_string))
 
-
-    # Returns the class dictionary 'results_raw'.
+    """ Returns the class dict 'resuls_raw """
     def pb_output(self):
         return self.results_raw
 
-    #Returns the overall process time of an ansible playbook
+    """ Returns the overall process time of an ansible playbook """
     def r_time(self):
         seconds = self.runtime[3]
         minutes = self.runtime[2]

@@ -23,7 +23,7 @@
             <li><a data-toggle="tab" href="#nginx">Install NginX</a></li>
             <li><a data-toggle="tab" href="#database">Install DB</a></li>
         </ul>
-     </div>
+     </div><!-- End of panel  -->
  <div class="tab-content clearfix">
     <div id="server" class="tab-pane active"">
       <h3>Connect to server</h3>
@@ -34,7 +34,7 @@
         <button type="submit" name="create_server" class="btn btn-primary">Connect</button>
       </div>
     </form>
-    </div>
+    </div><!-- End of server connection tab  -->
     <div id="nginx" class="tab-pane">
       <h3>Install NGinX</h3>
       <form method="post" action="">
@@ -43,7 +43,7 @@
         <button type="submit" name="install_nginx" class="btn btn-primary">Install</button>
       </div>
     </form>
-    </div>
+    </div><!-- End of Nginx install tab  -->
     <div id="database" class="tab-pane">
     <div class="row">
      <div class="col-md-5">
@@ -79,52 +79,35 @@
                      <li>Remove any anonymous users that may be present.</li>
                  </ul>
              </div>
-     </div>
-    </div>
-</div>
- </div>
-</div>
-</div>
-
-<div class="col-md-3 col-xs-7">
-    <div class="panel panel-modest" id="serviceFeedback">
-        <div class="panel-heading"><legend>Service feedback</legend></div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <p id="service_time">{{ t_output }}</p>
-                <table class="table" >
-                 <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Process</th>
-                      <th scope="col">Status</th>
-                    </tr>
-                 </thead>
-                  <tbody id="outputTable">
-                  </tbody>
-                 </table>
-            </div>
         </div>
-    </div>
-</div>
+       </div>
+     </div><!-- End of database install tab -->
+    </div><!-- End of tab content  -->
+  </div><!-- End of panel  -->
+</div><!-- End of col  -->
 
-</div>
-</div>
-<script type="text/javascript">
-          var status=document.getElementById("statusAnsible").innerText;
-  var running = "Running";
-
-  if (status === 'Success'){
-    document.getElementById("statusAnsible").style.color = "green";
-  }
-  else if(status === 'Changed'){
-      document.getElementById("statusAnsible").style.color = "orange";
-          }
-  else{
-    document.getElementById("statusAnsible").style.color = "red";
-  }
-</script>
-
-
+        <div class="col-md-3 col-xs-7">
+            <div class="panel panel-modest" id="serviceFeedback">
+                <div class="panel-heading"><legend>Service feedback</legend></div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <p id="service_time">{{ t_output }}</p>
+                        <table class="table" >
+                         <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Process</th>
+                              <th scope="col">Status</th>
+                            </tr>
+                         </thead>
+                          <tbody id="outputTable">
+                          </tbody>
+                         </table>
+                    </div>
+                </div>
+            </div><!-- End of panel  -->
+        </div><!-- End of col  -->
+    </div> <!-- End of row  -->
+</div>  <!-- End of container  -->
 
 {% endblock %}
