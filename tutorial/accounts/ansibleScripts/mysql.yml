@@ -23,14 +23,12 @@
       debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{ db_pass | quote}}' vtype='password'
       become: true
 
-    - name: Install mysql-server
-      apt: pkg=mysql-server state=present
-
-    - name: Install mysql-client
-      apt: pkg=mysql-client state=present
-
-    - name: Install python-mysqldb
-      apt: pkg=python-mysqldb state=present
+    - name: Install database server
+      apt: name={{item}}
+      with_items:
+        - mysql-server
+        - mysql-client
+        - python-mysqldb
 
     - name: Start mysql
       action: service name=mysql state=started

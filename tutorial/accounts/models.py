@@ -43,7 +43,24 @@ def create_profile(sender, **kwargs):
 post_save.connect(create_profile, sender=User)
 
 
+class ServerConnection(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    server_nickname = models.CharField(max_length=20, unique=True, default='', help_text='Make a name for your server')
+    server_ip = models.CharField(max_length=20, default='', help_text='IP: x.x.x.x')
+    sudo_user = models.CharField(max_length=100, default='',
+                                 help_text='Username of you servers user with root priviliges')
+
+    def save(self, *args, **kwargs):
+        super(ServerConnection, self).save(*args, **kwargs)
+
+    def __str__(self):
+        # return self.user.username
+        # return self.user.username, self.server_ip
+        return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)
+
+
 class DatabaseConnection(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     server_name = models.CharField(max_length=50, help_text='Choose server')
     database = models.CharField(max_length=10, choices=DATABASE_CHOICES, default='MySql', help_text='Choose database')
     database_name = models.CharField(max_length=20, help_text="Enter the name you want for you database")
@@ -51,20 +68,14 @@ class DatabaseConnection(models.Model):
     password = models.CharField(max_length=30, help_text="Enter a password for the database user")
     sudo_password = models.CharField(max_length=30, help_text="Enter a password for the database user")
 
-
-class ServerConnection(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    server_nickname = models.CharField(max_length=20, unique=True, default='', help_text='Make a name for your server')
-    server_ip = models.CharField(max_length=20, default='', help_text='IP: x.x.x.x')
-    sudo_user = models.CharField(max_length=100, default='', help_text='Username of you servers user with root priviliges')
-
     def save(self, *args, **kwargs):
-      super(ServerConnection, self).save(*args, **kwargs)
+        super(DatabaseConnection, self).save(*args, **kwargs)
 
     def __str__(self):
-      #return self.user.username
-        #return self.user.username, self.server_ip
-        return '{} {} {} {}'.format(self.server_ip, self.sudo_user, self.server_nickname, self.user)
+        return '{} {} {}'.format(self.server_name, self.database, self.user)
+
+
+
 
 
 

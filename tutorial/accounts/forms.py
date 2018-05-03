@@ -1,6 +1,7 @@
 from django import forms
 
 from .models import DatabaseConnection, ServerConnection
+from .customScripts import ServerQuery
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -31,12 +32,23 @@ class RegistrationForm(UserCreationForm):
         return user
 
 
+class ConnectToServer(forms.ModelForm):
+    sudo_password = forms.CharField(widget=forms.PasswordInput)
+
+    class Meta:
+        model = ServerConnection
+        fields = (
+            'server_nickname',
+            'server_ip',
+            'sudo_user',
+        )
+
+
 class CreateRemoteDatabase(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     sudo_password = forms.CharField(widget=forms.PasswordInput)
-    squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
-    squery.choices = [('all', 'Choose all')] + [(id, id) for id in squery]
-    server_name = forms.MultipleChoiceField(squery.choices, widget=forms.CheckboxSelectMultiple)
+    sq = ServerQuery
+    server_name = forms.MultipleChoiceField(sq.get_server_choices, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = DatabaseConnection
@@ -62,15 +74,5 @@ class EditProfileForm(UserChangeForm):
         )
 
 
-class ConnectToServer(forms.ModelForm):
-    sudo_password = forms.CharField(widget=forms.PasswordInput)
-
-    class Meta:
-        model = ServerConnection
-        fields = (
-            'server_nickname',
-            'server_ip',
-            'sudo_user',
-        )
 
 #        exclude =

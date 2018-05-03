@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from .customScripts import Server_ping
+from .customScripts import Server_ping, SuccessfullInstall
 from .models import ServerConnection
 from django.shortcuts import render, redirect
 from .forms import (
@@ -112,6 +112,20 @@ def createDBView(request):
             db_name = createdbform.cleaned_data['database_name']
             p_o = run_playbook()
             p_o.run_pb(user, s_p, server, db_user, db_pass, db_name, playbook_path)
+            c_i = SuccessfullInstall()
+            check = c_i.check_install(p_o.pb_output())
+            if check:
+                createdbform.cleaned_data['username'] = 'Not stored'
+                createdbform.cleaned_data['password'] = 'Not stored'
+                createdbform.cleaned_data['database_name'] = 'Not stored'
+                createdbform.cleaned_data['sudo_password'] = 'Not stored'
+                instance = createdbform.save(commit=False)
+                for items in server:
+                    instance.user = request.user
+                    instance.server_name = items
+                    instance.save()
+            else:
+                print 'Createdbform not saved'
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()

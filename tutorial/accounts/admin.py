@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import UserProfile, ServerConnection
+from .models import UserProfile, ServerConnection, DatabaseConnection
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -25,11 +25,19 @@ class UserServerConnection(admin.ModelAdmin):
         return obj.description
 
 
+class UserDatabaseConnection(admin.ModelAdmin):
+    list_display = ('user', 'server_name', 'database')
+
+    def server_connection(self, obj):
+        return obj.description
+
+
 # Shorten names example:
 # user_info.short_description = 'Info'
 
 # Register your models here.
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(ServerConnection, UserServerConnection)
+admin.site.register(DatabaseConnection, UserDatabaseConnection)
 
 
