@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'tutorial.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'testfeilen',
+        'NAME': 'ctrlpnl',
         'USER': 'ctrlpnl',
         'PASSWORD': 'ctrlpnl',
         'HOST': 'localhost',

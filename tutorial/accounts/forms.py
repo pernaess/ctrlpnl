@@ -47,7 +47,7 @@ class ConnectToServer(forms.ModelForm):
 class CreateRemoteDatabase(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     sudo_password = forms.CharField(widget=forms.PasswordInput)
-    sq = ServerQuery
+    sq = ServerQuery()
     server_name = forms.MultipleChoiceField(sq.get_server_choices, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
