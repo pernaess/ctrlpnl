@@ -1,5 +1,6 @@
 import os
-
+from ..customScripts import ElapsedTimeThread
+import time
 from collections import namedtuple
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
@@ -169,7 +170,14 @@ class run_playbook(object):
         )
         callback = ResultsCollector()
         pbex._tqm._stdout_callback = callback
+        start=time.time()
+        thread = ElapsedTimeThread()
+        thread.start()
         pbex.run()
+        thread.stop()
+        thread.join()
+        print ''
+        print("Finished in {:.3f} seconds".format(time.time() - start))
 
         for result in callback.host_name:
             print result + ' testing output of server hst in callback'
