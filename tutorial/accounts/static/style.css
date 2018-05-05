@@ -1,272 +1,272 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600");
-@import url("https://fonts.googleapis.com/css?family=Lekton:400,700");
-@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
-*, *:before, *:after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/*@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600");*/
+/*@import url("https://fonts.googleapis.com/css?family=Lekton:400,700");*/
+/*@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");*/
+/**, *:before, *:after {*/
+  /*margin: 0;*/
+  /*padding: 0;*/
+  /*box-sizing: border-box;*/
+/*}*/
 
-html, body {
-  height: 100vh;
-  width: auto;
-    padding: 0;
-    margin: 0;
-}
-
-
-
-body {
-  font: 600 12px/1 'lekton', sans-serif;
-  color: #333;
-  background: #333;
-  overflow-x: hidden;
-}
+/*html, body {*/
+  /*height: 100vh;*/
+  /*width: auto;*/
+    /*padding: 0;*/
+    /*margin: 0;*/
+/*}*/
 
 
-.wrapper {
-  display: flex;
-  min-height: 100%;
-}
 
-.sidebar {
-    margin-top: 60px;
-  width: 220px;
-  position: fixed;
-}
-
-.content {
-  flex: 1;
-  padding: 30px;
-    margin-top: 40px;
-  background: #eee;
-  box-shadow: 0 0 5px black;
-  transform: translate3d(0, 0, 0);
-  transition: transform .3s;
-}
-
-.content.isOpen {
-  transform: translate3d(220px, 0, 0);
-}
-
-.button {
-  cursor: pointer;
-}
-
-.button:before {
-  content: '\f121';
-  font: 42px fontawesome;
-}
-
-/* CSS for top navbar */
-.proIc a.icon-profile:before{
-  content: '\f007';
-}
-
-.proIc a.active {
-  box-shadow: inset 5px 0 0 #222, inset 6px 0 0 #222;
-  background: #2a2a2a;
-}
-
-#navbar_info {
-    color: #eeeeee;
-    margin-top: 1.6em;
-    margin-right: 10em;
-}
-
-/* CSS for side navbar */
-.nav1 li a {
-  position: relative;
-  display: block;
-  padding: 20px 0 20px 50px;
-  font-size: 12px;
-  color: #eee;
-  border-bottom: 1px solid #222;
-}
-
-.nav1 li a:before {
-  font: 14px fontawesome;
-  position: absolute;
-  top: 19px;
-  left: 20px;
-}
-
-.nav1 li a.icon-dash:before{
-  content: '\f121';
-}
-
-.nav1 li a.icon-services:before{
-  content: '\f233';
-}
-
-.nav1 li a.icon-stats:before{
-  content: '\f201';
-}
-
-.nav1 li a.icon-msg:before{
-  content: '\f086';
-}
+/*body {*/
+  /*font: 600 12px/1 'lekton', sans-serif;*/
+  /*color: #333;*/
+  /*background: #333;*/
+  /*overflow-x: hidden;*/
+/*}*/
 
 
-.nav1 li a.icon-logout:before{
-  content: '\f0d9';
-}
+/*.wrapper {*/
+  /*display: flex;*/
+  /*min-height: 100%;*/
+/*}*/
+
+/*.sidebar {*/
+    /*margin-top: 60px;*/
+  /*width: 220px;*/
+  /*position: fixed;*/
+/*}*/
+
+/*.content {*/
+  /*flex: 1;*/
+  /*padding: 30px;*/
+    /*margin-top: 40px;*/
+  /*background: #eee;*/
+  /*box-shadow: 0 0 5px black;*/
+  /*transform: translate3d(0, 0, 0);*/
+  /*transition: transform .3s;*/
+/*}*/
+
+/*.content.isOpen {*/
+  /*transform: translate3d(220px, 0, 0);*/
+/*}*/
+
+/*.button {*/
+  /*cursor: pointer;*/
+/*}*/
+
+/*.button:before {*/
+  /*content: '\f121';*/
+  /*font: 42px fontawesome;*/
+/*}*/
+
+/*!* CSS for top navbar *!*/
+/*.proIc a.icon-profile:before{*/
+  /*content: '\f007';*/
+/*}*/
+
+/*.proIc a.active {*/
+  /*box-shadow: inset 5px 0 0 #222, inset 6px 0 0 #222;*/
+  /*background: #2a2a2a;*/
+/*}*/
+
+/*#navbar_info {*/
+    /*color: #eeeeee;*/
+    /*margin-top: 1.6em;*/
+    /*margin-right: 10em;*/
+/*}*/
+
+/*!* CSS for side navbar *!*/
+/*.nav1 li a {*/
+  /*position: relative;*/
+  /*display: block;*/
+  /*padding: 20px 0 20px 50px;*/
+  /*font-size: 12px;*/
+  /*color: #eee;*/
+  /*border-bottom: 1px solid #222;*/
+/*}*/
+
+/*.nav1 li a:before {*/
+  /*font: 14px fontawesome;*/
+  /*position: absolute;*/
+  /*top: 19px;*/
+  /*left: 20px;*/
+/*}*/
+
+/*.nav1 li a.icon-dash:before{*/
+  /*content: '\f121';*/
+/*}*/
+
+/*.nav1 li a.icon-services:before{*/
+  /*content: '\f233';*/
+/*}*/
+
+/*.nav1 li a.icon-stats:before{*/
+  /*content: '\f201';*/
+/*}*/
+
+/*.nav1 li a.icon-msg:before{*/
+  /*content: '\f086';*/
+/*}*/
 
 
-.nav1 li a.icon-register:before{
-  content: '\f234';
-}
-
-.nav1 li a.icon-reset:before{
-  content: '\f084';
-}
-
-.nav1 li a.icon-login:before{
-  content: '\f0da';
-}
-
-.nav1 li a.icon-info:before{
-  content: '\f129';
-}
-
-.nav1 li a:hover {
-  background: #444;
-}
-
-.nav1 li a.active {
-  box-shadow: inset 5px 0 0 #5b5, inset 6px 0 0 #222;
-  background: #444;
-}
-
-/* Demo Description */
-h1 {
-  margin: 25px 0 15px;
-  font-size: 28px;
-  font-weight: 400;
-}
-
-h2 {
-  font-size: 18px;
-  font-weight: 400;
-  color: #999;
-}
+/*.nav1 li a.icon-logout:before{*/
+  /*content: '\f0d9';*/
+/*}*/
 
 
-/* CSS for website html panels */
+/*.nav1 li a.icon-register:before{*/
+  /*content: '\f234';*/
+/*}*/
 
-.panel-default {
-    background: #444;
-    color: #ccc;
-    border-radius: 25px;
-}
+/*.nav1 li a.icon-reset:before{*/
+  /*content: '\f084';*/
+/*}*/
 
+/*.nav1 li a.icon-login:before{*/
+  /*content: '\f0da';*/
+/*}*/
 
-.larg {
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 0 30px;
-}
-.larg div {
-    background-color: #ccc;
-    border: 1px;
-    padding: 5px 20px;
-    margin: 5px 0;
-}
+/*.nav1 li a.icon-info:before{*/
+  /*content: '\f129';*/
+/*}*/
 
+/*.nav1 li a:hover {*/
+  /*background: #444;*/
+/*}*/
 
-.larg div h3:hover{
-    cursor: pointer;
-}
+/*.nav1 li a.active {*/
+  /*box-shadow: inset 5px 0 0 #5b5, inset 6px 0 0 #222;*/
+  /*background: #444;*/
+/*}*/
 
-.larg div h3 span {
-    /*font-family: 'entypo';*/
-    font-size: 19px;
-    position: absolute;
-    right: 0;
-    transition: all .6s;
-}
+/*!* Demo Description *!*/
+/*h1 {*/
+  /*margin: 25px 0 15px;*/
+  /*font-size: 28px;*/
+  /*font-weight: 400;*/
+/*}*/
 
-
-.larg div h3 span .close {
-        -webkit-transform:rotate(180deg);
-        transition:all .5s;
-      }
-
-.larg div form {
-      display:none;
-
-}
+/*h2 {*/
+  /*font-size: 18px;*/
+  /*font-weight: 400;*/
+  /*color: #999;*/
+/*}*/
 
 
-#license_card {
-     background: #444;
-}
+/*!* CSS for website html panels *!*/
 
-#about_container{
-    margin-left: -3em;
-}
-
-
-/* CSS for services.html */
-#serviceTitle{
-    margin-top: -115px;
-}
-
-#serviceFeedback{
-
-    background-color: #eee;
-    border-color: #333333;
-}
-#serviceOutputTable tr{
-    border-bottom: 1px solid black;
-}
-
-#serviceOutputTable td{
-    padding-right: 5px;
-}
-
-/* Css for services tabs */
-.nav-filter{
-    background-color: lightgrey;
-    text-decoration: none;
-    color: black;
-}
-
-.nav-pills>li>a{
-    color: #000;
-    border: 1px solid black;
-}
-
-.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus{
-background-color:darkgray;
-color:black;
-}
+/*.panel-default {*/
+    /*background: #444;*/
+    /*color: #ccc;*/
+    /*border-radius: 25px;*/
+/*}*/
 
 
-/* CSS for dashboard.html */
-#dashboardTitle{
-    margin-top: -75px;
-}
+/*.larg {*/
+    /*max-width: 700px;*/
+    /*margin: 30px auto;*/
+    /*padding: 0 30px;*/
+/*}*/
+/*.larg div {*/
+    /*background-color: #ccc;*/
+    /*border: 1px;*/
+    /*padding: 5px 20px;*/
+    /*margin: 5px 0;*/
+/*}*/
 
-#conPanel{
-    background-color: lightgrey;
-    padding: 1em;
-    border: 1px solid black;
-}
 
-/* CSS footer */
+/*.larg div h3:hover{*/
+    /*cursor: pointer;*/
+/*}*/
 
-.footer {
-   position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   height: 4em;
-   background-color: #222222;
-   color: white;
-   text-align: center;
-}
+/*.larg div h3 span {*/
+    /*!*font-family: 'entypo';*!*/
+    /*font-size: 19px;*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*transition: all .6s;*/
+/*}*/
 
-.footer p{
-    margin-top: 1em;
-}
+
+/*.larg div h3 span .close {*/
+        /*-webkit-transform:rotate(180deg);*/
+        /*transition:all .5s;*/
+      /*}*/
+
+/*.larg div form {*/
+      /*display:none;*/
+
+/*}*/
+
+
+/*#license_card {*/
+     /*background: #444;*/
+/*}*/
+
+/*#about_container{*/
+    /*margin-left: -3em;*/
+/*}*/
+
+
+/*!* CSS for services.html *!*/
+/*#serviceTitle{*/
+    /*margin-top: -115px;*/
+/*}*/
+
+/*#serviceFeedback{*/
+
+    /*background-color: #eee;*/
+    /*border-color: #333333;*/
+/*}*/
+/*#serviceOutputTable tr{*/
+    /*border-bottom: 1px solid black;*/
+/*}*/
+
+/*#serviceOutputTable td{*/
+    /*padding-right: 5px;*/
+/*}*/
+
+/*!* Css for services tabs *!*/
+/*.nav-filter{*/
+    /*background-color: lightgrey;*/
+    /*text-decoration: none;*/
+    /*color: black;*/
+/*}*/
+
+/*.nav-pills>li>a{*/
+    /*color: #000;*/
+    /*border: 1px solid black;*/
+/*}*/
+
+/*.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus{*/
+/*background-color:darkgray;*/
+/*color:black;*/
+/*}*/
+
+
+/*!* CSS for dashboard.html *!*/
+/*#dashboardTitle{*/
+    /*margin-top: -75px;*/
+/*}*/
+
+/*#conPanel{*/
+    /*background-color: lightgrey;*/
+    /*padding: 1em;*/
+    /*border: 1px solid black;*/
+/*}*/
+
+/*!* CSS footer *!*/
+
+/*.footer {*/
+   /*position: fixed;*/
+   /*left: 0;*/
+   /*bottom: 0;*/
+   /*width: 100%;*/
+   /*height: 4em;*/
+   /*background-color: #222222;*/
+   /*color: white;*/
+   /*text-align: center;*/
+/*}*/
+
+/*.footer p{*/
+    /*margin-top: 1em;*/
+/*}*/
