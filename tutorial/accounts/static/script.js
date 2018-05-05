@@ -12,7 +12,7 @@ $(document).ready(function(){
     $myForm.submit(function(event){
         event.preventDefault();
         document.getElementById('submit').disabled = true;
-        // document.getElementById('navbar_info').innerHTML = 'Checking connection...';
+        document.getElementById('connectionProcess').innerHTML = 'Checking connection...';
         var $formData = $(this).serialize();
         var $thisURL = 'CheckConn/';
         submitIcon();
@@ -55,12 +55,12 @@ $(document).ready(function(){
     function submitIcon(){
       var submit = document.getElementById('submit');
       if(submit.disabled === true) {
-        document.getElementById('cProgress').classList.add('glyphicon-time');
-        document.getElementById('cProgress').classList.remove('glyphicon-refresh');
+        document.getElementById('cProgress').classList.add('fa-sync');
+        document.getElementById('cProgress').classList.remove('fa-angle-right');
       }
       else{
-        document.getElementById('cProgress').classList.add('glyphicon-refresh');
-        document.getElementById('cProgress').classList.remove('glyphicon-time');
+        document.getElementById('cProgress').classList.add('fa-angle-right');
+        document.getElementById('cProgress').classList.remove('fa-sync');
       }
     }
 

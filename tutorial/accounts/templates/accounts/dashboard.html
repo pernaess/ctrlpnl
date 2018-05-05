@@ -15,6 +15,7 @@
       <div class="col-md-4 col-xs-7">
         <div class="card" id="conPanel">
             <legend>Server connections</legend>
+            <div id="connectionProcess"></div>
         <div class="card-body">
         <div class="table-responsive">
             <table class="table table-striped">
@@ -29,7 +30,7 @@
                       <form method="POST" class="checkConn">
                            {% csrf_token %}
                           <button type="submit" id="submit" value="submit" name="submit" class="btn btn-light">
-                              <span id="cProgress" class="glyphicon glyphicon-refresh"></span>
+                              <span id="cProgress" class="fas fa-angle-right"></span>
                           </button>
                       </form>
                   </th>
