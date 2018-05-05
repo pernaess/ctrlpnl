@@ -8,16 +8,17 @@
 
 {% block body %}
 <div class="content">
-    <div class="jumbotron" id="dashboardTitle">
     <legend>Dashboard</legend>
-    </div>
-</div>
+
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-4 col-xs-7">
-        <div class="panel panel-modest" id="conPanel">
+        <div class="card" id="conPanel">
             <legend>Server connections</legend>
-            <table class="table">
+            <div id="connectionProcess"></div>
+        <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
 
               <thead>
                 <tr>
@@ -29,7 +30,7 @@
                       <form method="POST" class="checkConn">
                            {% csrf_token %}
                           <button type="submit" id="submit" value="submit" name="submit" class="btn btn-light">
-                              <span id="cProgress" class="glyphicon glyphicon-refresh"></span>
+                              <span id="cProgress" class="fas fa-angle-right"></span>
                           </button>
                       </form>
                   </th>
@@ -50,20 +51,23 @@
 
             </table>
         </div>
+        </div>
+        </div>
       </div>
         <div class="col-md-4 col-xs-7">
-            <div class="panel panel-modest" id="conPanel">
+            <div class="card" id="conPanel">
                 <legend>Nginx webserver hosting</legend>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-4 col-xs-7">
-            <div class="panel panel-modest" id="conPanel">
+            <div class="card" id="conPanel">
                 <legend>Database servers</legend>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 

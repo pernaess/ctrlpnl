@@ -7,25 +7,24 @@
 
 <!-- Tab links for services -->
 <div class="container-fluid">
-    <div class="jumbotron" id="serviceTitle">
+
         <legend>Services</legend>
-    </div>
-</div>
-    <div class="container-fluid">
+
+
 <div class="row">
 
-<div class="col-md-6 col-xs-7">
+<div class="col-md-7 col-xs-7">
 
-    <div class="panel panel-modest" id="conPanel">
-     <div class="panel panel-modest" id="serviceTab">
-        <ul class="nav nav-pills nav-justified nav-filter">
-            <li class="active"><a data-toggle="tab" href="#server">Connect to server</a></li>
-            <li><a data-toggle="tab" href="#nginx">Install NginX</a></li>
-            <li><a data-toggle="tab" href="#database">Install DB</a></li>
+    <div class="card" id="conPanel">
+     <div id="serviceTab">
+        <ul class="nav nav-pills mb-3 nav-filter nav-justified">
+            <li class="nav-item"><a class='nav-link active' data-toggle="pill" href="#server">Connect to server</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#nginx">Install NginX</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#database">Install DB</a></li>
         </ul>
      </div><!-- End of panel  -->
  <div class="tab-content clearfix">
-    <div id="server" class="tab-pane active"">
+    <div id="server" class="tab-pane active">
       <h3>Connect to server</h3>
       <form method="post" action="">
         {% csrf_token %}
@@ -58,7 +57,7 @@
       </div>
         <div class="col-md-6">
              <div class="panel panel-modest" style="background-color: lightgray;">
-             </br> </br> </br> </br>
+             </br>
                 <legend>Services</legend>
                  <p>This service installs a chosen database-server on one of your connected servers.</p>
                  <p>Instructions:</p>
@@ -87,12 +86,12 @@
 </div><!-- End of col  -->
 
         <div class="col-md-3 col-xs-7">
-            <div class="panel panel-modest" id="serviceFeedback">
-                <div class="panel-heading"><legend>Service feedback</legend></div>
-                <div class="panel-body">
+            <div class="card" id="serviceFeedback">
+                <div class="card-heading"><legend>Service feedback</legend></div>
+                <div class="card-body">
                     <div class="table-responsive">
                         <p id="service_time">{{ t_output }}</p>
-                        <table class="table" >
+                        <table class="table table-striped" >
                          <thead>
                             <tr>
                               <th scope="col">#</th>
