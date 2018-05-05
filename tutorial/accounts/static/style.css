@@ -154,11 +154,11 @@
 
 /*!* CSS for website html panels *!*/
 
-/*.panel-default {*/
-    /*background: #444;*/
-    /*color: #ccc;*/
-    /*border-radius: 25px;*/
-/*}*/
+.panel-default {
+    background: #444;
+    color: #ccc;
+    border-radius: 25px;
+}
 
 
 /*.larg {*/
@@ -268,5 +268,43 @@
 /*}*/
 
 /*.footer p{*/
-    /*margin-top: 1em;*/
+    /*!*margin-top: 1em;*!*/
 /*}*/
+#conPanel{
+    background-color: lightgrey;
+    padding: 1em;
+    border: 1px solid black;
+    font-size: small;
+}
+/*!* Css for services tabs *!*/
+.nav-filter{
+    background-color: lightgrey;
+    text-decoration: none;
+    color: black;
+}
+
+.nav-pills>li>a{
+    color: #000;
+    background-color: lightgrey;
+    border: 1px solid black;
+}
+
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus{
+background-color:darkgray;
+color:black;
+}
+
+
+#serviceFeedback{
+    background-color: #eee;
+    border-color: #333333;
+    padding: 5px;
+}
+#serviceOutputTable>tr{
+    border-bottom: 1px solid black;
+}
+
+#serviceOutputTable td{
+    padding-right: 5px;
+}

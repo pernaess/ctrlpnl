@@ -12,7 +12,7 @@ $(document).ready(function(){
     $myForm.submit(function(event){
         event.preventDefault();
         document.getElementById('submit').disabled = true;
-        document.getElementById('navbar_info').innerHTML = 'Checking connection...';
+        // document.getElementById('navbar_info').innerHTML = 'Checking connection...';
         var $formData = $(this).serialize();
         var $thisURL = 'CheckConn/';
         submitIcon();
@@ -39,7 +39,7 @@ $(document).ready(function(){
             }
         }
         document.getElementById('submit').disabled = false;
-        document.getElementById('navbar_info').innerHTML = 'Checking done <span class="glyphicon glyphicon-ok"></span>';
+        // document.getElementById('navbar_info').innerHTML = 'Checking done <span class="glyphicon glyphicon-ok"></span>';
         submitIcon();
     }
 
@@ -78,7 +78,7 @@ $(document).ready(function(){
         submit.disabled = true;
         submit.innerText = 'Installing...';
         document.getElementById('service_time').innerHTML = 'Installing database...';
-        document.getElementById('navbar_info').innerHTML = 'Service running...';
+        // document.getElementById('navbar_info').innerHTML = 'Service running...';
         var $formData = $(this).serialize();
         var $thisURL = 'createDB/';
         $.ajax({
@@ -141,7 +141,7 @@ function serviceOutput(s_time, output, button){
         var submit = document.getElementById(button);
         submit.disabled = false;
         submit.innerText = 'Install';
-        document.getElementById('navbar_info').innerHTML = 'Service done <span class="glyphicon glyphicon-ok"></span>';
+        // document.getElementById('navbar_info').innerHTML = 'Service done <span class="glyphicon glyphicon-ok"></span>';
 }
 
 /**
