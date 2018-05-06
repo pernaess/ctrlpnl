@@ -122,7 +122,6 @@ def createDBView(request):
                 check = c_i.check_install(p_o.pb_output(), items)
                 if check:
                     exists = DatabaseConnection.objects.filter(server_name=items, database_name=db_name).exists()
-                    print "Jammen her må du se da din løøøøøøøøk   {}".format(exists)
                     if not exists:
                         instance.user = request.user
                         instance.server_name = items
