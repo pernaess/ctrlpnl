@@ -27,19 +27,19 @@ class ResultsCollector(CallbackBase):
 
     def v2_runner_on_unreachable(self, result):
         self.host_name[result._host.get_name()] = result
-        self.host_unreachable[result.task_name, result._host.get_name()] = result
+        self.host_unreachable[result.task_name] = result
 
     def v2_runner_on_ok(self, result, *args, **kwargs):
         self.host_name[result._host.get_name()] = result
-        self.host_ok[result.task_name, result._host.get_name()] = result
+        self.host_ok[result.task_name] = result
 
     def v2_runner_on_failed(self, result, *args, **kwargs):
         self.host_name[result._host.get_name()] = result
-        self.host_failed[result.task_name, result._host.get_name()] = result
+        self.host_failed[result.task_name] = result
 
     def v2_runner_on_skipped(self, result, *args, **kwargs):
         self.host_name[result._host.get_name()] = result
-        self.host_skipped[result.task_name, result._host.get_name()] = result
+        self.host_skipped[result.task_name] = result
 
     def _days_hours_minutes_seconds(self, runtime):
         ''' internal helper method for this callback '''
@@ -180,7 +180,7 @@ class run_playbook(object):
         print("Finished in {:.3f} seconds".format(time.time() - start))
 
         for result in callback.host_name:
-            print result + ' testing output of server host in callback'
+            print result + ' testing output of server hst in callback'
         # Pulling results from their respective dictionaries.
         self.result_puller(callback.host_ok.items(), 'Success')
         self.result_puller(callback.host_failed.items(), 'Failed')
@@ -193,7 +193,7 @@ class run_playbook(object):
 
     def result_puller(self, item_dict, format_string):
         for host, result in item_dict:
-            host = "{}".format(host)
+            host = '{}'.format(host)
             if host != 'add_host':
                 self.results_raw[host] = ('{}'.format(format_string))
 

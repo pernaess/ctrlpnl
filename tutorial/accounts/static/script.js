@@ -125,7 +125,7 @@ function serviceOutput(s_time, output, button){
             var newCell2 = newRow.insertCell(1);
             var newCell3 = newRow.insertCell(2);
             var cell1 = document.createTextNode((i+1).toString());
-            var cell2 = document.createTextNode(o_keys[1]);
+            var cell2 = document.createTextNode(o_keys[i]);
             var cell3 = document.createTextNode(value);
             if(value === 'Success'){
                 newCell3.style.color = 'green';
