@@ -124,18 +124,24 @@ function serviceOutput(s_time, output, button){
             var newCell1 = newRow.insertCell(0);
             var newCell2 = newRow.insertCell(1);
             var newCell3 = newRow.insertCell(2);
+            var newCell4 = newRow.insertCell(3);
             var cell1 = document.createTextNode((i+1).toString());
-            var cell2 = document.createTextNode(o_keys[i]);
-            var cell3 = document.createTextNode(value);
+            var split = o_keys[i].split(",");
+            var server = split[1];
+            var task = split[0];
+            var cell2 = document.createTextNode(server);
+            var cell3 = document.createTextNode(task);
+            var cell4 = document.createTextNode(value);
             if(value === 'Success'){
-                newCell3.style.color = 'green';
+                newCell4.style.color = 'green';
             }
             else{
-                newCell3.style.color = 'red';
+                newCell4.style.color = 'red';
             }
             newCell1.appendChild(cell1);
             newCell2.appendChild(cell2);
             newCell3.appendChild(cell3);
+            newCell4.appendChild(cell4);
         }
         document.getElementById('service_time').innerHTML = s_time;
         var submit = document.getElementById(button);
