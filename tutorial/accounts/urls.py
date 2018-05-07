@@ -88,6 +88,10 @@ urlpatterns = [
         name='createDBView'),
 
     url(r'^dashboard/startDb/$',
-        views.modify_db_service,
-        name='modify_db_service')
+        views.start_mysql_db,
+        name='start_mysql_db'),
+
+    url(r'^dashboard/stopDb/$',
+        views.stop_mysql_db,
+        name='stop_mysql_db')
 ]

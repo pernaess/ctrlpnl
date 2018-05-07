@@ -96,7 +96,7 @@ $(document).ready(function(){
         console.log(jqXHR);
         var s_time = data['t_output'];
         var output = data['p_output'];
-        var button = 'create_db';
+        var button = document.getElementById('create_db');
         serviceOutput(s_time, output, button);
     }
 
@@ -110,14 +110,25 @@ $(document).ready(function(){
 $(document).ready(function(){
     var $myForm = $('.installedDbForm');
     $myForm.submit(function(event){
+        var $thisURL = '';
+        var submit = document.activeElement.id;
+        console.log(submit);
+        if (submit === "start_server") {
+          $thisURL = 'startDb/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+         else if (submit === "stop_server") {
+          $thisURL = 'stopDb/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        console.log($thisURL);
         event.preventDefault();
         $("#outputTable tr").remove();
-        var submit = document.getElementById('start_server');
-        submit.disabled = true;
-        submit.innerText = 'Start...';
-        document.getElementById('service_time').innerHTML = 'Starting DB server...';
+        document.getElementsByClassName("button").disabled = true;
+        document.getElementById('service_time').innerHTML = 'Running process...';
         var $formData = $(this).serialize();
-        var $thisURL = 'startDb/';
         $.ajax({
             method: "POST",
             url: $thisURL,
@@ -133,7 +144,8 @@ $(document).ready(function(){
         console.log(jqXHR);
         var s_time = data['t_output'];
         var output = data['p_output'];
-        var button = 'create_db';
+        var button = document.getElementsByClassName("button");
+        document.activeElement.disabled = false;
         serviceOutput(s_time, output, button);
     }
 
@@ -181,7 +193,7 @@ function serviceOutput(s_time, output, button){
             newCell4.appendChild(cell4);
         }
         document.getElementById('service_time').innerHTML = s_time;
-        var submit = document.getElementById(button);
+        var submit = button;
         submit.disabled = false;
         submit.innerText = 'Install';
         // document.getElementById('navbar_info').innerHTML = 'Service done <span class="glyphicon glyphicon-ok"></span>';

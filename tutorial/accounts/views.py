@@ -171,11 +171,30 @@ def CheckConn(request):
         return HttpResponse("Ain't working")
 
 
-def modify_db_service(request):
+def start_mysql_db(request):
     if request.method == 'POST':
-        playbook_path = ""
-        print request.POST
         playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/startMysql.yml"
+        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_db-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def stop_mysql_db(request):
+    if request.method == 'POST':
+        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/stopMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
         print form.errors
         if form.is_valid():

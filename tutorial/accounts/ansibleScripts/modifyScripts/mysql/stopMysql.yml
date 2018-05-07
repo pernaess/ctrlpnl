@@ -12,5 +12,8 @@
   become_method: sudo
   gather_facts: False
   tasks:
+   - name: Connecting to server
+     action: ping
+
    - name: Stop MySql-server
-      action: service name=mysql state=stopped
+     action: service name=mysql state=stopped
