@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DatabaseConnection, ServerConnection
+from .models import DatabaseConnection, ServerConnection, InstalledDb
 from .customScripts import ServerQuery
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -73,6 +73,17 @@ class EditProfileForm(UserChangeForm):
             'password'
         )
 
+
+class InstalledDatabaseForm(forms.ModelForm):
+    ds = ServerQuery()
+    db = ds.get_installed_db_servers()
+    servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = InstalledDb
+        fields = (
+            'servers',
+        )
 
 
 #        exclude =

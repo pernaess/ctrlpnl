@@ -85,5 +85,9 @@ urlpatterns = [
 
     url(r'^services/createDB/$',
         views.createDBView,
-        name='createDBView')
+        name='createDBView'),
+
+    url(r'^dashboard/startDb/$',
+        views.modify_db_service,
+        name='modify_db_service')
 ]

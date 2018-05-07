@@ -107,6 +107,43 @@ $(document).ready(function(){
     }
 });
 
+$(document).ready(function(){
+    var $myForm = $('.installedDbForm');
+    $myForm.submit(function(event){
+        event.preventDefault();
+        $("#outputTable tr").remove();
+        var submit = document.getElementById('start_server');
+        submit.disabled = true;
+        submit.innerText = 'Start...';
+        document.getElementById('service_time').innerHTML = 'Starting DB server...';
+        var $formData = $(this).serialize();
+        var $thisURL = 'startDb/';
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError
+        })
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        var s_time = data['t_output'];
+        var output = data['p_output'];
+        var button = 'create_db';
+        serviceOutput(s_time, output, button);
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+});
+
 /**
  * @desc This function applies output of CTRLPNL services
  * @param s_time - Time used on executing service

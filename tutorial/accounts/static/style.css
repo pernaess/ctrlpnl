@@ -308,3 +308,6 @@ color:black;
 #serviceOutputTable td{
     padding-right: 5px;
 }
+#installedDbForm>.checkbox {
+    color: red;
+}

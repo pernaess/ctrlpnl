@@ -53,6 +53,12 @@ class ServerQuery:
         squery.choices = [('all', 'Choose all')] + [(id, id) for id in squery]
         return squery.choices
 
+    def get_installed_db_servers(self):
+        squery = DatabaseConnection.objects.order_by(
+            'server_name').values_list('server_name', flat=True).distinct().filter(database='MySql')
+        squery.choices = [(id, id) for id in squery]
+        return squery.choices
+
 
 class ElapsedTimeThread(threading.Thread):
     """"Stoppable thread that prints the time elapsed"""

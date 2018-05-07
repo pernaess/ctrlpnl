@@ -8,6 +8,7 @@ from .forms import (
      EditProfileForm,
      CreateRemoteDatabase,
      ConnectToServer,
+     InstalledDatabaseForm
 )
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -135,8 +136,7 @@ def createDBView(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print('fæææn')
-            return HttpResponse("Ain't working")
+            return HttpResponse("Error: Something went wrong")
 
 
 def aboutView(request):
@@ -146,17 +146,15 @@ def aboutView(request):
 def dashboardView(request):
     squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
-    #ping = Server_ping()
-    #status = ping.server_status(ipquery)
     qresultList = []
     for index, item in enumerate(squery):
       qresult = {}
       qresult['servername'] = item
       qresult['ip'] = ipquery[index]
-      #qresult['status'] = status[index]
       qresultList.append(qresult)
 
-    args= {'qresultList': qresultList}
+    installed_db_form = InstalledDatabaseForm(prefix='installed_db')
+    args= {'qresultList': qresultList, 'form1': installed_db_form}
     return render(request, 'accounts/dashboard.html', args)
 
 
@@ -172,3 +170,24 @@ def CheckConn(request):
         return HttpResponse("Ain't working")
 
 
+def modify_db_service(request):
+    if request.method == 'POST':
+        playbook_path = ""
+        print request.POST
+        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/startMysql.yml"
+        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_db-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
