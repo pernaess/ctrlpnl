@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - add_host:
+        hostname : "{{ item }}"
+        groups: webserver
+      loop: "{{ user }}"
+
+- hosts: webserver
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+
+    - name: Insert Index Page
+      template:
+        src: files/index.html
+        dest: /var/www/html/index.html
+
+    - name: Start NGiNX
+      service:
+        name: nginx
+        state: started
