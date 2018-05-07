@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - add_host:
+        hostname : "{{ item }}"
+        groups: webserver
+      loop: "{{ user }}"
+
+- hosts: webserver
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  tasks:
+  - name: Adding public key
+    copy:
+      src: /home/kristian/.ssh/id_rsa.pub
+      dest: /home/kristian/.ssh/id_rsa.pub
+      owner: kristian
+      group: kristian
+      mode: 0600
