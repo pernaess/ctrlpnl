@@ -1,7 +1,7 @@
 import os
 import platform
 import threading, time
-from .models import DatabaseConnection, ServerConnection
+from .models import DatabaseConnection, ServerConnection, NginxInstallation
 
 
 class Server_ping(object):
@@ -33,8 +33,24 @@ class SuccessfullInstall:
     def __init__(self, *args, **kwargs):
         self.list = []
 
-    def check_install(self, output, server):
+    def check_install_db(self, output, server):
         check = 'Install database server,{}'.format(server)
+        if check in output:
+            if output[check] == 'Success':
+                return True
+            else:
+                return False
+
+    def check_install_nginx(self, output, server):
+        check = 'Install nginx,{}'.format(server)
+        if check in output:
+            if output[check] == 'Success':
+                return True
+            else:
+                return False
+
+    def check_install_php(self, output, server):
+        check = 'install php packages,{}'.format(server)
         if check in output:
             if output[check] == 'Success':
                 return True
@@ -56,6 +72,12 @@ class ServerQuery:
     def get_installed_db_servers(self):
         squery = DatabaseConnection.objects.order_by(
             'server_name').values_list('server_name', flat=True).distinct().filter(database='MySql')
+        squery.choices = [(id, id) for id in squery]
+        return squery.choices
+
+    def get_installed_nginx(self):
+        squery = NginxInstallation.objects.order_by(
+            'servers').values_list('servers', flat=True).distinct()
         squery.choices = [(id, id) for id in squery]
         return squery.choices
 

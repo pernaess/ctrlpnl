@@ -56,7 +56,17 @@
       </div>
         <div class="col-md-4 col-xs-7">
             <div class="card" id="conPanel">
-                <legend>Nginx webserver hosting</legend>
+                <legend>Nginx installations</legend>
+                             <form method="post" action="" class="installedDbForm">
+                                {% csrf_token %}
+                                {{ form2|as_bootstrap }}
+                                <button type="submit" id='start_nginx' name="start_nginx" class="btn btn-primary btn-sm">
+                                    Start
+                                </button>
+                                <button type="submit" id='stop_nginx' name="stop_nginx"  class="btn btn-sm">
+                                    Stop
+                                </button>
+                            </form>
             </div>
         </div>
     </div>

@@ -93,5 +93,13 @@ urlpatterns = [
 
     url(r'^dashboard/stopDb/$',
         views.stop_mysql_db,
-        name='stop_mysql_db')
+        name='stop_mysql_db'),
+
+    url(r'^services/installNginx/$',
+        views.install_nginx,
+        name='install_nginx'),
+
+    url(r'^services/installPHP/$',
+        views.install_php,
+        name='install_php'),
 ]

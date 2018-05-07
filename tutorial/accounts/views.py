@@ -1,14 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from .customScripts import Server_ping, SuccessfullInstall
-from .models import ServerConnection, DatabaseConnection
+from .models import ServerConnection, DatabaseConnection, NginxInstallation, PhpInstallation
 from django.shortcuts import render, redirect
 from .forms import (
      RegistrationForm,
      EditProfileForm,
      CreateRemoteDatabase,
      ConnectToServer,
-     InstalledDatabaseForm
+     InstalledDatabaseForm,
+     InstallNginx,
+     InstallPhp,
+     InstalledNginxForm
 )
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -86,9 +89,15 @@ def ServicesView(request):
 
                 return redirect('accounts:ServicesView')
     else:
+            nginxform = InstallNginx(prefix='nginx')
+            phpform = InstallPhp(prefix='php')
             createdbform = CreateRemoteDatabase(prefix='createDB')
             createserverform = ConnectToServer(prefix='createServer')
-            args = {'form1': createdbform, 'form2': createserverform}
+            args = {
+                'form1': createdbform,
+                'form2': createserverform,
+                'form3': nginxform,
+                'form4': phpform}
 
             return render(request, 'accounts/services.html', args)
 
@@ -121,7 +130,7 @@ def createDBView(request):
             createdbform.cleaned_data['sudo_password'] = 'Not stored'
             instance = createdbform.save(commit=False)
             for items in server:
-                check = c_i.check_install(p_o.pb_output(), items)
+                check = c_i.check_install_db(p_o.pb_output(), items)
                 if check:
                     exists = DatabaseConnection.objects.filter(server_name=items, database_name=db_name).exists()
                     if not exists:
@@ -155,7 +164,8 @@ def dashboardView(request):
       qresultList.append(qresult)
 
     installed_db_form = InstalledDatabaseForm(prefix='installed_db')
-    args= {'qresultList': qresultList, 'form1': installed_db_form}
+    installed_nginx_form = InstalledNginxForm(prefix='installed_nginx')
+    args= {'qresultList': qresultList, 'form1': installed_db_form, 'form2': installed_nginx_form}
     return render(request, 'accounts/dashboard.html', args)
 
 
@@ -203,6 +213,79 @@ def stop_mysql_db(request):
             empty = ""
             p_o = run_playbook()
             p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def install_nginx(request):
+    if request.method == 'POST':
+        playbook_path = "accounts/ansibleScripts/nginx.yml"
+        form = InstallNginx(data=request.POST, prefix="installedNginx")
+        print "første"
+        print form.errors
+        if form.is_valid():
+            print "andre"
+            server = request.POST.getlist('nginx-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            for items in server:
+                c_i = SuccessfullInstall()
+                check = c_i.check_install_nginx(p_o.pb_output(), items)
+                instance = form.save(commit=False)
+                if check:
+                    exists = NginxInstallation.objects.filter(servers=items).exists()
+                    if not exists:
+                        instance.user = request.user
+                        instance.servers = items
+                        instance.save()
+                        print "Form saved"
+                    else:
+                        print 'Createdbform not saved'
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def install_php(request):
+    print "her"
+    if request.method == 'POST':
+        playbook_path = "accounts/ansibleScripts/php.yml"
+        form = InstallPhp(data=request.POST, prefix="installedPhp")
+        print "første"
+        print form.errors
+        if form.is_valid():
+            print "andre"
+            server = request.POST.getlist('php-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            for items in server:
+                c_i = SuccessfullInstall()
+                check = c_i.check_install_php(p_o.pb_output(), items)
+                instance = form.save(commit=False)
+                if check:
+                    exists = PhpInstallation.objects.filter(servers=items).exists()
+                    if not exists:
+                        instance.user = request.user
+                        instance.servers = items
+                        instance.save()
+                        print "Form saved"
+                    else:
+                        print 'Createdbform not saved'
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()

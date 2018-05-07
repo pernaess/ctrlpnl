@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DatabaseConnection, ServerConnection, InstalledDb
+from .models import DatabaseConnection, ServerConnection, InstalledDb, NginxInstallation, PhpInstallation, InstalledNginx
 from .customScripts import ServerQuery
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -62,6 +62,30 @@ class CreateRemoteDatabase(forms.ModelForm):
             )
 
 
+class InstallNginx(forms.ModelForm):
+    sq = ServerQuery()
+    sn = sq.get_server_choices
+    servers = forms.MultipleChoiceField(sn, required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = NginxInstallation
+        fields = (
+            'servers',
+        )
+
+
+class InstallPhp(forms.ModelForm):
+    sq = ServerQuery()
+    sn = sq.get_server_choices
+    servers = forms.MultipleChoiceField(sn, required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = PhpInstallation
+        fields = (
+            'servers',
+        )
+
+
 class EditProfileForm(UserChangeForm):
 
     class Meta:
@@ -81,6 +105,18 @@ class InstalledDatabaseForm(forms.ModelForm):
 
     class Meta:
         model = InstalledDb
+        fields = (
+            'servers',
+        )
+
+
+class InstalledNginxForm(forms.ModelForm):
+    ds = ServerQuery()
+    db = ds.get_installed_nginx()
+    servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple, initial=db[0])
+
+    class Meta:
+        model = InstalledNginx
         fields = (
             'servers',
         )

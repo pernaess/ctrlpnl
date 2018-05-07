@@ -21,6 +21,7 @@
             <li class="nav-item"><a class='nav-link active' data-toggle="pill" href="#server">Connect to server</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#nginx">Install NginX</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#database">Install DB</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#php">Install PHP</a></li>
         </ul>
      </div><!-- End of panel  -->
  <div class="tab-content clearfix">
@@ -35,11 +36,12 @@
     </form>
     </div><!-- End of server connection tab  -->
     <div id="nginx" class="tab-pane">
-      <h3>Install NGinX</h3>
-      <form method="post" action="">
+      <h3>Install Nginx</h3>
+      <form method="post" action="" class="installNginx">
         {% csrf_token %}
+          {{ form3|as_bootstrap }}
       <div class="form-group">
-        <button type="submit" name="install_nginx" class="btn btn-primary">Install</button>
+        <button type="submit" id="install_nginx" name="install_nginx" class="btn btn-primary">Install</button>
       </div>
     </form>
     </div><!-- End of Nginx install tab  -->
@@ -81,6 +83,16 @@
         </div>
        </div>
      </div><!-- End of database install tab -->
+     <div id="php" class="tab-pane">
+        <h3>Install PHP</h3>
+        <form method="post" action="" class="installPHP">
+            {% csrf_token %}
+            {{ form4|as_bootstrap }}
+          <div class="form-group">
+            <button type="submit" id="install_php" name="install_php" class="btn btn-primary">Install</button>
+          </div>
+        </form>
+     </div><!-- End of PHP install tab  -->
     </div><!-- End of tab content  -->
   </div><!-- End of panel  -->
 </div><!-- End of col  -->

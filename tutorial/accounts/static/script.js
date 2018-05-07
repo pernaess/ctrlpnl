@@ -107,6 +107,90 @@ $(document).ready(function(){
     }
 });
 
+
+/**
+ * @desc Ajax - Install Nginx service
+ */
+$(document).ready(function(){
+    var $myForm = $('.installNginx');
+    $myForm.submit(function(event){
+        event.preventDefault();
+        $("#outputTable tr").remove();
+        var submit = document.getElementById('install_nginx');
+        submit.disabled = true;
+        submit.innerText = 'Installing...';
+        document.getElementById('service_time').innerHTML = 'Installing Nginx...';
+        var $formData = $(this).serialize();
+        var $thisURL = 'installNginx/';
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError
+        })
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        var s_time = data['t_output'];
+        var output = data['p_output'];
+        var button = document.getElementById('install_nginx');
+        serviceOutput(s_time, output, button);
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+});
+
+/**
+ * @desc Ajax - Install PHP service
+ */
+$(document).ready(function(){
+    var $myForm = $('.installPHP');
+    $myForm.submit(function(event){
+        event.preventDefault();
+        $("#outputTable tr").remove();
+        var submit = document.getElementById('install_php');
+        submit.disabled = true;
+        submit.innerText = 'Installing...';
+        document.getElementById('service_time').innerHTML = 'Installing PHP...';
+        var $formData = $(this).serialize();
+        var $thisURL = 'installPHP/';
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError
+        })
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        var s_time = data['t_output'];
+        var output = data['p_output'];
+        var button = document.getElementById('install_php');
+        serviceOutput(s_time, output, button);
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+});
+
+/**
+ * @desc Ajax - Start/Stop/Uninstall MYSQL database server
+ */
 $(document).ready(function(){
     var $myForm = $('.installedDbForm');
     $myForm.submit(function(event){
@@ -200,7 +284,7 @@ function serviceOutput(s_time, output, button){
 }
 
 /**
- * @desc This function selects/deselects all checkboxes when selecting server
+ * @desc This function selects/deselects all checkboxes in install database when selecting server
  */
 $(document).ready(function(){
     var $select = $('#id_createDB-server_name_1');
@@ -208,6 +292,24 @@ $(document).ready(function(){
     var checkboxes = document.getElementsByName('createDB-server_name');
         for (var checkbox in checkboxes) {
             if(document.getElementById('id_createDB-server_name_1').checked) {
+                checkboxes[checkbox].checked = true;
+            }
+            else{
+                checkboxes[checkbox].checked = false;
+            }
+        }
+    })
+});
+
+/**
+ * @desc This function selects/deselects all checkboxes in install Nginx when selecting server
+ */
+$(document).ready(function(){
+    var $select = $('#id_nginx-servers_1');
+    $select.on('change', function() {
+    var checkboxes = document.getElementsByName('nginx-servers');
+        for (var checkbox in checkboxes) {
+            if(document.getElementById('id_nginx-servers_1').checked) {
                 checkboxes[checkbox].checked = true;
             }
             else{

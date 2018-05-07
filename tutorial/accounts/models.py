@@ -79,6 +79,32 @@ class InstalledDb(models.Model):
     servers = models.CharField(max_length=50, help_text='Choose server')
 
 
+class InstalledNginx(models.Model):
+    servers = models.CharField(max_length=50, help_text='Choose server')
+
+
+class NginxInstallation(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    servers = models.CharField(max_length=50, help_text='Choose server')
+
+    def save(self, *args, **kwargs):
+        super(NginxInstallation, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{} {}'.format(self.servers, self.user)
+
+
+class PhpInstallation(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    servers = models.CharField(max_length=50, help_text='Choose server')
+
+    def save(self, *args, **kwargs):
+        super(PhpInstallation, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '{} {}'.format(self.servers, self.user)
+
+
 
 
 
