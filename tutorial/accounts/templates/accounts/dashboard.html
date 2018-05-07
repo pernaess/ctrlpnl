@@ -68,21 +68,12 @@
                     <div class="col-md-7 col-xs-7">
                         <div class="card" id="conPanel">
                             <legend>MySql</legend>
-                            <form method="POST" action="" class="installedDbForm">
-                                 {% csrf_token %}
+                            <form method="post" action="" class="installedDbForm">
+                                {% csrf_token %}
                                 {{ form1|as_bootstrap }}
-                                <button type="submit" id="start_server" name='start' value="start"
-                                        class="btn btn-primary btn-sm">
-                                    Start
-                                </button>
-                               <button type="submit" id="stop_server" name="stop_server"
-                                        class="btn btn-sm">
-                                    Stop
-                                </button>
-                                <button type="submit" id="uninstall" name="uninstall"
-                                        class="btn btn-danger btn-sm">
-                                    Uninstall
-                                </button>
+                            <div class="form-group">
+                                <button type="submit" id="start_server" name="start_server" class="btn btn-primary">Start</button>
+                            </div>
                             </form>
                         </div>
                     </div>

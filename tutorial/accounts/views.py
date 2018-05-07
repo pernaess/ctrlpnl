@@ -76,6 +76,7 @@ def change_password(request):
 # Handles forms in services.html based on form submitted
 def ServicesView(request):
     if request.method == 'POST':
+        print request.POST
         if 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
