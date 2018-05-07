@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from .customScripts import Server_ping, SuccessfullInstall
-from .models import ServerConnection
+from .models import ServerConnection, DatabaseConnection
 from django.shortcuts import render, redirect
 from .forms import (
      RegistrationForm,
      EditProfileForm,
      CreateRemoteDatabase,
      ConnectToServer,
+     InstalledDatabaseForm
 )
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -113,27 +114,29 @@ def createDBView(request):
             p_o = run_playbook()
             p_o.run_pb(user, s_p, server, db_user, db_pass, db_name, playbook_path)
             c_i = SuccessfullInstall()
-            check = c_i.check_install(p_o.pb_output())
-            if check:
-                createdbform.cleaned_data['username'] = 'Not stored'
-                createdbform.cleaned_data['password'] = 'Not stored'
-                createdbform.cleaned_data['database_name'] = 'Not stored'
-                createdbform.cleaned_data['sudo_password'] = 'Not stored'
-                instance = createdbform.save(commit=False)
-                for items in server:
-                    instance.user = request.user
-                    instance.server_name = items
-                    instance.save()
-            else:
-                print 'Createdbform not saved'
+            createdbform.cleaned_data['username'] = 'Not stored'
+            createdbform.cleaned_data['password'] = 'Not stored'
+            createdbform.cleaned_data['database_name'] = 'Not stored'
+            createdbform.cleaned_data['sudo_password'] = 'Not stored'
+            instance = createdbform.save(commit=False)
+            for items in server:
+                check = c_i.check_install(p_o.pb_output(), items)
+                if check:
+                    exists = DatabaseConnection.objects.filter(server_name=items, database_name=db_name).exists()
+                    if not exists:
+                        instance.user = request.user
+                        instance.server_name = items
+                        instance.save()
+                        print "Form saved"
+                    else:
+                        print 'Createdbform not saved'
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
             }
             return JsonResponse(context, safe=False)
         else:
-            print('fæææn')
-            return HttpResponse("Ain't working")
+            return HttpResponse("Error: Something went wrong")
 
 
 def aboutView(request):
@@ -143,17 +146,15 @@ def aboutView(request):
 def dashboardView(request):
     squery = ServerConnection.objects.order_by('server_nickname').values_list('server_nickname', flat=True).distinct()
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
-    #ping = Server_ping()
-    #status = ping.server_status(ipquery)
     qresultList = []
     for index, item in enumerate(squery):
       qresult = {}
       qresult['servername'] = item
       qresult['ip'] = ipquery[index]
-      #qresult['status'] = status[index]
       qresultList.append(qresult)
 
-    args= {'qresultList': qresultList}
+    installed_db_form = InstalledDatabaseForm(prefix='installed_db')
+    args= {'qresultList': qresultList, 'form1': installed_db_form}
     return render(request, 'accounts/dashboard.html', args)
 
 
@@ -169,3 +170,24 @@ def CheckConn(request):
         return HttpResponse("Ain't working")
 
 
+def modify_db_service(request):
+    if request.method == 'POST':
+        playbook_path = ""
+        print request.POST
+        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/startMysql.yml"
+        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_db-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")

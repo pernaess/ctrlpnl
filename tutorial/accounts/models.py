@@ -75,7 +75,8 @@ class DatabaseConnection(models.Model):
         return '{} {} {}'.format(self.server_name, self.database, self.user)
 
 
-
+class InstalledDb(models.Model):
+    servers = models.CharField(max_length=50, help_text='Choose server')
 
 
 

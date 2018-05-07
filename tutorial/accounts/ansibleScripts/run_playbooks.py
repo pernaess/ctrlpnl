@@ -1,6 +1,6 @@
 import os
 from ..customScripts import ElapsedTimeThread
-import time
+import time, collections
 from collections import namedtuple
 from ansible.parsing.dataloader import DataLoader
 from ansible.vars.manager import VariableManager
@@ -27,19 +27,19 @@ class ResultsCollector(CallbackBase):
 
     def v2_runner_on_unreachable(self, result):
         self.host_name[result._host.get_name()] = result
-        self.host_unreachable[result.task_name] = result
+        self.host_unreachable["{},{}".format(result.task_name, self.server_name(result))] = result
 
     def v2_runner_on_ok(self, result, *args, **kwargs):
         self.host_name[result._host.get_name()] = result
-        self.host_ok[result.task_name] = result
+        self.host_ok["{},{}".format(result.task_name, self.server_name(result))] = result
 
     def v2_runner_on_failed(self, result, *args, **kwargs):
         self.host_name[result._host.get_name()] = result
-        self.host_failed[result.task_name] = result
+        self.host_failed["{},{}".format(result.task_name, self.server_name(result))] = result
 
     def v2_runner_on_skipped(self, result, *args, **kwargs):
         self.host_name[result._host.get_name()] = result
-        self.host_skipped[result.task_name] = result
+        self.host_skipped["{},{}".format(result.task_name, self.server_name(result))] = result
 
     def _days_hours_minutes_seconds(self, runtime):
         ''' internal helper method for this callback '''
@@ -51,6 +51,16 @@ class ResultsCollector(CallbackBase):
         end_time = datetime.now()
         runtime = end_time - self.start_time
         self.run_time = self._days_hours_minutes_seconds(runtime)
+
+    def server_name(self, result):
+        address = result._host.get_name().split("@")
+        address = address[1]
+        nickname = ServerConnection.objects.values_list(
+            'server_nickname', flat=True).distinct().filter(
+            server_ip=address,
+        )
+        name = "{}".format(nickname).split("'")
+        return name[1]
 
 
 """ Runs Ansible Playbooks """
@@ -182,9 +192,9 @@ class run_playbook(object):
         for result in callback.host_name:
             print result + ' testing output of server hst in callback'
         # Pulling results from their respective dictionaries.
+        self.result_puller(callback.host_unreachable.items(), 'Unreachable')
         self.result_puller(callback.host_ok.items(), 'Success')
         self.result_puller(callback.host_failed.items(), 'Failed')
-        self.result_puller(callback.host_unreachable.items(), 'Unreachable')
         self.result_puller(callback.host_skipped.items(), 'Skipped')
 
         print self.results_raw
@@ -194,12 +204,13 @@ class run_playbook(object):
     def result_puller(self, item_dict, format_string):
         for host, result in item_dict:
             host = '{}'.format(host)
-            if host != 'add_host':
+            if 'add_host' not in host:
                 self.results_raw[host] = ('{}'.format(format_string))
 
     """ Returns the class dict 'resuls_raw """
     def pb_output(self):
-        return self.results_raw
+        output = collections.OrderedDict(sorted(self.results_raw.items(), key=lambda x:x[1]))
+        return output
 
     """ Returns the overall process time of an ansible playbook """
     def r_time(self):

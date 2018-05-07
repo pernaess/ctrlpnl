@@ -33,9 +33,10 @@ class SuccessfullInstall:
     def __init__(self, *args, **kwargs):
         self.list = []
 
-    def check_install(self, output):
-        if 'Install database server' in output:
-            if output['Install database server'] == 'Success':
+    def check_install(self, output, server):
+        check = 'Install database server,{}'.format(server)
+        if check in output:
+            if output[check] == 'Success':
                 return True
             else:
                 return False
@@ -50,6 +51,12 @@ class ServerQuery:
         squery = ServerConnection.objects.order_by(
             'server_nickname').values_list('server_nickname', flat=True).distinct()
         squery.choices = [('all', 'Choose all')] + [(id, id) for id in squery]
+        return squery.choices
+
+    def get_installed_db_servers(self):
+        squery = DatabaseConnection.objects.order_by(
+            'server_name').values_list('server_name', flat=True).distinct().filter(database='MySql')
+        squery.choices = [(id, id) for id in squery]
         return squery.choices
 
 
