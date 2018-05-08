@@ -232,6 +232,8 @@ def install_nginx(request):
         if form.is_valid():
             print "andre"
             server = request.POST.getlist('nginx-servers')
+            if server[0] == 'all':
+                server.pop(0)
             user = request.user
             empty = ""
             p_o = run_playbook()
@@ -269,6 +271,8 @@ def install_php(request):
         if form.is_valid():
             print "andre"
             server = request.POST.getlist('php-servers')
+            if server[0] == 'all':
+                server.pop(0)
             user = request.user
             empty = ""
             p_o = run_playbook()
