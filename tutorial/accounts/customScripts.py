@@ -65,16 +65,22 @@ class ServerQuery:
         self.list = []
 
     def get_server_choices(self):
-        squery = ServerConnection.objects.order_by(
-            'server_nickname').values_list('server_nickname', flat=True).distinct()
-        squery.choices = [('all', 'Choose all')] + [(id, id) for id in squery]
-        return squery.choices
+        try:
+            squery = ServerConnection.objects.order_by(
+                'server_nickname').values_list('server_nickname', flat=True).distinct()
+            squery.choices = [('all', 'Choose all')] + [(id, id) for id in squery]
+            return squery.choices
+        except:
+            print "Exception: get_server_choices is bypassed"
 
     def get_installed_db_servers(self):
-        squery = DatabaseConnection.objects.order_by(
-            'server_name').values_list('server_name', flat=True).distinct().filter(database='MySql')
-        squery.choices = [(id, id) for id in squery]
-        return squery.choices
+        try:
+            squery = DatabaseConnection.objects.order_by(
+                'server_name').values_list('server_name', flat=True).distinct().filter(database='MySql')
+            squery.choices = [(id, id) for id in squery]
+            return squery.choices
+        except:
+            print "Exception: get_installed_db_servers is bypassed"
 
     def get_installed_nginx(self):
         try:
