@@ -99,9 +99,12 @@ class EditProfileForm(UserChangeForm):
 
 
 class InstalledDatabaseForm(forms.ModelForm):
-    ds = ServerQuery()
-    db = ds.get_installed_db_servers()
-    servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+    try:
+        ds = ServerQuery()
+        db = ds.get_installed_db_servers()
+        servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+    except:
+        servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = InstalledDb
