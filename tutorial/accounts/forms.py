@@ -101,7 +101,7 @@ class EditProfileForm(UserChangeForm):
 class InstalledDatabaseForm(forms.ModelForm):
     ds = ServerQuery()
     db = ds.get_installed_db_servers()
-    servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple, initial=db[0])
+    servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = InstalledDb
@@ -111,9 +111,12 @@ class InstalledDatabaseForm(forms.ModelForm):
 
 
 class InstalledNginxForm(forms.ModelForm):
-    ds = ServerQuery()
-    db = ds.get_installed_nginx()
-    servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple, initial=db[0])
+    try:
+        ds = ServerQuery()
+        db = ds.get_installed_nginx()
+        servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+    except:
+        servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = InstalledNginx

@@ -1,5 +1,6 @@
 import os
 import platform
+import django.db.utils
 import threading, time
 from .models import DatabaseConnection, ServerConnection, NginxInstallation
 
@@ -76,10 +77,13 @@ class ServerQuery:
         return squery.choices
 
     def get_installed_nginx(self):
-        squery = NginxInstallation.objects.order_by(
-            'servers').values_list('servers', flat=True).distinct()
-        squery.choices = [(id, id) for id in squery]
-        return squery.choices
+        try:
+            squery = NginxInstallation.objects.order_by(
+                'servers').values_list('servers', flat=True).distinct()
+            squery.choices = [(id, id) for id in squery]
+            return squery.choices
+        except:
+            print "Exception: get_installed_nginx is bypassed"
 
 
 class ElapsedTimeThread(threading.Thread):
