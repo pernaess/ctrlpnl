@@ -73,20 +73,36 @@
     <div class="row">
         <div class="col-md-4 col-xs-7">
             <div class="card" id="conPanel">
-                <legend>Database servers</legend>
+                <legend>Database server installations</legend>
                 <div class="row">
                     <div class="col-md-7 col-xs-7">
                         <div class="card" id="conPanel">
                             <legend>MySql</legend>
                              <form method="post" action="" class="installedDbForm">
+                                 <div class="row">
+                                 <div class="col dash">
                                 {% csrf_token %}
                                 {{ form1|as_bootstrap }}
-                                <button type="submit" id='start_server' name="start_server" class="btn btn-primary btn-sm">
+                                </div>
+                                     <div class="col">
+                                <button type="submit" id='start_server' name="start_server" class="btn btn-primary btn-sm dashbutton">
                                     Start
                                 </button>
-                                <button type="submit" id='stop_server' name="create_server"  class="btn btn-sm">
+                                <button type="submit" id='stop_server' name="create_server"  class="btn btn-sm dashbutton">
                                     Stop
                                 </button>
+                                <button type="submit" id='stop_server' name="create_server"  class="btn btn-sm dashbutton">
+                                    Restart
+                                </button>
+
+                                <button type="submit" id='stop_server' name="create_server"  class="btn btn-sm dashbutton">
+                                    Reload
+                                </button>
+                                <button type="submit" id='stop_server' name="create_server"  class="btn btn-sm danger dashbutton">
+                                    Uninstall
+                                </button>
+                                     </div>
+                                     </div>
                             </form>
                         </div>
                     </div>

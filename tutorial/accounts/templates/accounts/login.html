@@ -3,9 +3,9 @@
 
 {% block body %}
     <hr>
-    <div class="col-xs-3">
-        <div class="panel panel-default">
-            <div class="panel-body">
+    <div class="col-xs-3 col-md-5">
+        <div class="card" id="conPanel">
+            <div class="card-body">
                 <form method="POST">
                 {% csrf_token %}
                 <h1><strong>Welcome</strong></h1>
@@ -16,6 +16,7 @@
 	             {{ form|as_bootstrap }}
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
                     </form>
                 </div>
             </div>

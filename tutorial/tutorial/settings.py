@@ -44,6 +44,7 @@ EMAIL_PORT = 1025
 INSTALLED_APPS = [
     'accounts',
     'ctrlpnl',
+    'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -92,8 +93,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'ctrlpnl',
-        'USER': 'Weeto',
-        'PASSWORD': '885oiekk',
+        'USER': 'ctrlpnl',
+        'PASSWORD': 'ctrlpnl',
         'HOST': 'localhost',
         'PORT': '',
     }

@@ -3,9 +3,10 @@
 
 {% block body %}
     <hr>
-    <div class="col-xs-3">
-        <div class="panel panel-default">
-            <div class="panel-body">
+<div class="row dash">
+    <div class="col-xs-3 col-md-5">
+        <div class="card" id="conPanel">
+            <div class="card-body">
                 <form role="form" method="post">
                        {% csrf_token %}
                     <h1>Register</h1>
@@ -17,4 +18,5 @@
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
