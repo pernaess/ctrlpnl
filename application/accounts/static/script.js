@@ -189,7 +189,7 @@ $(document).ready(function(){
 });
 
 /**
- * @desc Ajax - Start/Stop/Uninstall MYSQL database server
+ * @desc Ajax - Start/Stop/Restart/Reload/Uninstall MYSQL database server
  */
 $(document).ready(function(){
     var $myForm = $('.installedDbForm');
