@@ -202,8 +202,23 @@ $(document).ready(function(){
           console.log($thisURL);
           document.activeElement.disabled = true;
         }
-         else if (submit === "stop_server") {
+        else if (submit === "stop_server") {
           $thisURL = 'stopDb/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "restart_server") {
+          $thisURL = 'restartMysql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "reload_server") {
+          $thisURL = 'reloadMysql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "uninstall_server") {
+          $thisURL = 'uninstallMysql/';
           console.log($thisURL);
           document.activeElement.disabled = true;
         }

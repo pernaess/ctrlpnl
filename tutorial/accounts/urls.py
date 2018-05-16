@@ -102,4 +102,17 @@ urlpatterns = [
     url(r'^services/installPHP/$',
         views.install_php,
         name='install_php'),
+
+    url(r'^dashboard/restartMysql/$',
+        views.restart_mysql_db,
+        name='restart_mysql_db'),
+
+
+    url(r'^dashboard/reloadMysql/$',
+        views.reload_mysql_db,
+        name='reload_mysql_db'),
+
+    url(r'^dashboard/uninstallMysql/$',
+        views.uninstall_mysql_db,
+        name='uninstall_mysql_db'),
 ]

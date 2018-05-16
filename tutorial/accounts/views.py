@@ -223,6 +223,69 @@ def stop_mysql_db(request):
             return HttpResponse("Error: Something went wrong")
 
 
+def restart_mysql_db(request):
+    if request.method == 'POST':
+        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/restartMysql.yml"
+        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_db-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def reload_mysql_db(request):
+    if request.method == 'POST':
+        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/reloadMysql"
+        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_db-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def uninstall_mysql_db(request):
+    if request.method == 'POST':
+        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/uninstallMysql"
+        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_db-servers')
+            user = request.user
+            empty = ""
+            p_o = run_playbook()
+            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
 def install_nginx(request):
     if request.method == 'POST':
         playbook_path = "accounts/ansibleScripts/nginx.yml"

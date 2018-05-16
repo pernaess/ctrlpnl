@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - add_host:
+        hostname : "{{ item }}"
+        groups: webserver
+      loop: "{{ user }}"
+
+- hosts: webserver
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  tasks:
+    - name: Uninstall mysql-server
+      service: name={{item}}
+               enabled=yes
+               state=absent
+      with_items:
+        - mysql-server
+        - mysql-client
+        - python-mysqldb
