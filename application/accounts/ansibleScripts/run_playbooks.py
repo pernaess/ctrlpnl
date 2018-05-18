@@ -219,6 +219,111 @@ class run_playbook(object):
         process = "Process took {}m : {}s".format(minutes, seconds)
         return process
 
+    """ Runs playbook on initial server connection """
+    def run_pb_initial_connection(self, sudo_user, ip, s_p, path):
+
+        print '{0}@{1}'.format(sudo_user, ip)
+        address = ('{0}@{1}'.format(sudo_user, ip))
+
+        print address
+        loader = DataLoader()
+        inventory = InventoryManager(
+            loader=loader,
+            sources='accounts/ansibleScripts/hosts.ini'
+        )
+        variable_manager = VariableManager(
+            loader=loader,
+            inventory=inventory
+        )
+        playbook_path = path
+
+        if not os.path.exists(playbook_path):
+            print '[INFO] The playbook does not exist'
+
+        Options = namedtuple(
+         'Options', [
+             'listtags',
+             'listtasks',
+             'listhosts',
+             'syntax',
+             'connection',
+             'module_path',
+             'forks',
+             'remote_user',
+             'private_key_file',
+             'ssh_common_args',
+             'ssh_extra_args',
+             'sftp_extra_args',
+             'scp_extra_args',
+             'become',
+             'become_method',
+             'become_user',
+             'verbosity',
+             'check',
+             'diff',
+             'host_key_checking'
+            ]
+        )
+        options = Options(
+            listtags=False,
+            listtasks=False,
+            listhosts=False,
+            syntax=False,
+            connection='ssh',
+            module_path=None,
+            forks=100,
+            remote_user=None,
+            private_key_file='/home/per/.ssh/id_rsa',
+            ssh_common_args=None,
+            ssh_extra_args=None,
+            sftp_extra_args=None,
+            scp_extra_args=None,
+            become=False,
+            become_method=None,
+            become_user='root',
+            verbosity=None,
+            check=False,
+            diff=False,
+            host_key_checking=False
+        )
+
+        variable_manager.extra_vars = {
+            'user': address,
+            'ansible_become_pass': s_p,
+            'ansible_sudo_pass': s_p,
+            'sudo_user': sudo_user
+        } # This can accomodate various other command line arguments.`
+
+        passwords = {}
+
+        pbex = PlaybookExecutor(
+            playbooks=[playbook_path],
+            inventory=inventory,
+            variable_manager=variable_manager,
+            loader=loader, options=options,
+            passwords=passwords
+        )
+        # callback = ResultsCollector()
+        # pbex._tqm._stdout_callback = callback
+        print sudo_user
+        pbex.run()
+        # thread.stop()
+        # thread.join()
+        # print ''
+        # print("Finished in {:.3f} seconds".format(time.time() - start))
+
+        # for result in callback.host_name:
+        #     print result + ' testing output of server hst in callback'
+        # # Pulling results from their respective dictionaries.
+        # self.result_puller(callback.host_unreachable.items(), 'Unreachable')
+        # self.result_puller(callback.host_ok.items(), 'Success')
+        # self.result_puller(callback.host_failed.items(), 'Failed')
+        # self.result_puller(callback.host_skipped.items(), 'Skipped')
+        #
+        # print self.results_raw
+        # self.runtime = callback.run_time
+        # print self.runtime
+
 
 
 

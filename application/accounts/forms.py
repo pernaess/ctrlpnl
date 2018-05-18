@@ -41,6 +41,7 @@ class ConnectToServer(forms.ModelForm):
             'server_nickname',
             'server_ip',
             'sudo_user',
+            'sudo_password'
         )
 
 

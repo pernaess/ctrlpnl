@@ -1,11 +1,11 @@
 ---
 - hosts: localhost
   connection: local
+  gather_facts: False
   tasks:
     - add_host:
-        hostname : "{{ item }}"
+        hostname : "{{ user }}"
         groups: webserver
-      loop: "{{ user }}"
 
 - hosts: webserver
   become: yes
@@ -14,8 +14,8 @@
   tasks:
   - name: Adding public key
     copy:
-      src: /home/kristian/.ssh/id_rsa.pub
-      dest: /home/kristian/.ssh/id_rsa.pub
-      owner: kristian
-      group: kristian
+      src: /home/per/.ssh/id_rsa.pub
+      dest: /home/{{ sudo_user }}/.ssh/id_rsa.pub
+      owner: "{{ sudo_user }}"
+      group: "{{ sudo_user }}"
       mode: 0600
