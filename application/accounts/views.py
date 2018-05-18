@@ -83,9 +83,15 @@ def ServicesView(request):
         if 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
+                sudo_user = createserverform.cleaned_data['sudo_user']
+                ip = createserverform.cleaned_data['server_ip']
+                s_p = createserverform.cleaned_data['sudo_password']
+                path = "accounts/ansibleScripts/add-ssh-key.yml"
+                pb = run_playbook()
+                pb.run_pb_initial_connection(sudo_user, ip, s_p, path)
                 instance = createserverform.save(commit=False)
                 instance.user = request.user
-                instance.save()
+                # instance.save()
 
                 return redirect('accounts:ServicesView')
     else:
