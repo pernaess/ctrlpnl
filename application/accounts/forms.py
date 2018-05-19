@@ -67,6 +67,7 @@ class InstallNginx(forms.ModelForm):
     sq = ServerQuery()
     sn = sq.get_server_choices
     servers = forms.MultipleChoiceField(sn, required=False, widget=forms.CheckboxSelectMultiple)
+    sudo_password = forms.CharField(widget=forms.PasswordInput, required=False, help_text="Provide sudo passord")
 
     class Meta:
         model = NginxInstallation
@@ -79,6 +80,7 @@ class InstallPhp(forms.ModelForm):
     sq = ServerQuery()
     sn = sq.get_server_choices
     servers = forms.MultipleChoiceField(sn, required=False, widget=forms.CheckboxSelectMultiple)
+    sudo_password = forms.CharField(widget=forms.PasswordInput, required=False, help_text="Provide sudo passord")
 
     class Meta:
         model = PhpInstallation
@@ -104,7 +106,7 @@ class InstalledDatabaseForm(forms.ModelForm):
         ds = ServerQuery()
         db = ds.get_installed_db_servers()
         servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
-        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False)
+        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False, help_text="Provide sudo passord")
 
     except:
         servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)

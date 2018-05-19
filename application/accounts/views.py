@@ -140,6 +140,7 @@ def createDBView(request):
                 if check:
                     exists = DatabaseConnection.objects.filter(server_name=items, database_name=db_name).exists()
                     if not exists:
+                        instance.pk = None
                         instance.user = request.user
                         instance.server_name = items
                         instance.save()
@@ -164,10 +165,10 @@ def dashboardView(request):
     ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
     qresultList = []
     for index, item in enumerate(squery):
-      qresult = {}
-      qresult['servername'] = item
-      qresult['ip'] = ipquery[index]
-      qresultList.append(qresult)
+        qresult = {}
+        qresult['servername'] = item
+        qresult['ip'] = ipquery[index]
+        qresultList.append(qresult)
 
     installed_db_form = InstalledDatabaseForm(prefix='installed_db')
     installed_nginx_form = InstalledNginxForm(prefix='installed_nginx')
@@ -295,7 +296,7 @@ def uninstall_mysql_db(request):
 
 def install_nginx(request):
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/nginx.yml"
+        path = "accounts/ansibleScripts/nginx.yml"
         form = InstallNginx(data=request.POST, prefix="installedNginx")
         print "første"
         print form.errors
@@ -305,9 +306,9 @@ def install_nginx(request):
             if server[0] == 'all':
                 server.pop(0)
             user = request.user
-            empty = ""
+            s_p = request.POST.getlist('nginx-sudo_password')[0]
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             for items in server:
                 c_i = SuccessfullInstall()
                 check = c_i.check_install_nginx(p_o.pb_output(), items)
@@ -315,6 +316,7 @@ def install_nginx(request):
                 if check:
                     exists = NginxInstallation.objects.filter(servers=items).exists()
                     if not exists:
+                        instance.pk = None
                         instance.user = request.user
                         instance.servers = items
                         instance.save()
@@ -334,7 +336,7 @@ def install_nginx(request):
 def install_php(request):
     print "her"
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/php.yml"
+        path = "accounts/ansibleScripts/php.yml"
         form = InstallPhp(data=request.POST, prefix="installedPhp")
         print "første"
         print form.errors
@@ -344,9 +346,9 @@ def install_php(request):
             if server[0] == 'all':
                 server.pop(0)
             user = request.user
-            empty = ""
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            s_p = request.POST.getlist('php-sudo_password')[0]
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             for items in server:
                 c_i = SuccessfullInstall()
                 check = c_i.check_install_php(p_o.pb_output(), items)
@@ -354,6 +356,7 @@ def install_php(request):
                 if check:
                     exists = PhpInstallation.objects.filter(servers=items).exists()
                     if not exists:
+                        instance.pk = None
                         instance.user = request.user
                         instance.servers = items
                         instance.save()
