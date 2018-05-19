@@ -212,41 +212,42 @@ $(document).ready(function(){
     var $myForm = $('.installedDbForm');
     $myForm.submit(function(event){
         var $thisURL = '';
-        var submit = document.activeElement.id;
-        console.log(submit);
-        if (submit === "start_server") {
-          $thisURL = 'startDb/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
+
+        switch (document.activeElement.id){
+            case "start_server":
+                $thisURL = 'startDb/';
+                break;
+            case "stop_server":
+                $thisURL = 'stopDb/';
+                break;
+            case "restart_server":
+                $thisURL = 'restartDb/';
+                break;
+            case "reload_server":
+                $thisURL = 'reloadDb/';
+                break;
+            case "uninstall_server":
+                $thisURL = "uninstallMysql/";
+                break;
+            default:
+                console.log("Could not apply");
         }
-        else if (submit === "stop_server") {
-          $thisURL = 'stopDb/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "restart_server") {
-          $thisURL = 'restartMysql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "uninstall_server") {
-          $thisURL = 'uninstallMysql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        console.log($thisURL);
         event.preventDefault();
-        $("#outputTable tr").remove();
-        document.getElementsByClassName("button").disabled = true;
-        document.getElementById('service_time').innerHTML = 'Running process...';
-        var $formData = $(this).serialize();
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+
+        if(validateElement('div_id_installed_db-sudo_password', true)) {
+            document.activeElement.disabled = true;
+            $("#outputTable tr").remove();
+            document.getElementsByClassName("button").disabled = true;
+            document.getElementById('service_time').innerHTML = 'Running process...';
+            var $formData = $(this).serialize();
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
@@ -274,26 +275,25 @@ $(document).ready(function(){
     var $myForm = $('.installedPhpForm');
     $myForm.submit(function(event){
         var $thisURL = '';
-        var submit = document.activeElement.id;
-        console.log(submit);
-        if (submit === "uninstall_php") {
+        if (document.activeElement.id === "uninstall_php")
           $thisURL = 'uninstallPhp/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        console.log($thisURL);
+
         event.preventDefault();
-        $("#outputTable tr").remove();
-        document.getElementsByClassName("button").disabled = true;
-        document.getElementById('service_time').innerHTML = 'Running process...';
-        var $formData = $(this).serialize();
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+
+        if(validateElement('div_id_installed_php-sudo_password'), true) {
+            document.activeElement.disabled = true;
+            $("#outputTable tr").remove();
+            document.getElementsByClassName("button").disabled = true;
+            document.getElementById('service_time').innerHTML = 'Running process...';
+            var $formData = $(this).serialize();
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
@@ -321,46 +321,42 @@ $(document).ready(function(){
     var $myForm = $('.installedNginxForm');
     $myForm.submit(function(event){
         var $thisURL = '';
-        var submit = document.activeElement.id;
-        console.log(submit);
-        if (submit === "start_nginx") {
-          $thisURL = 'startNginx/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
+
+        switch (document.activeElement.id){
+            case "start_nginx":
+                $thisURL = 'startNginx/';
+                break;
+            case "stop_nginx":
+                $thisURL = 'stopNginx/';
+                break;
+            case "restart_nginx":
+                $thisURL = 'restartNginx/';
+                break;
+            case "reload_nginx":
+                $thisURL = 'reloadNginx/';
+                break;
+            case "uninstall_nginx":
+                $thisURL = "uninstallNginx/";
+                break;
+            default:
+                console.log("Could not apply");
         }
-        else if (submit === "stop_nginx") {
-          $thisURL = 'stopNginx/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "restart_nginx") {
-          $thisURL = 'restartNginx/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "reload_nginx") {
-          $thisURL = 'reloadNginx/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "uninstall_nginx") {
-          $thisURL = 'uninstallNginx/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        console.log($thisURL);
         event.preventDefault();
-        $("#outputTable tr").remove();
-        document.getElementsByClassName("button").disabled = true;
-        document.getElementById('service_time').innerHTML = 'Running process...';
-        var $formData = $(this).serialize();
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+
+        if(validateElement('div_id_installed_nginx-sudo_password', true)) {
+            document.activeElement.disabled = true;
+            $("#outputTable tr").remove();
+            document.getElementsByClassName("button").disabled = true;
+            document.getElementById('service_time').innerHTML = 'Running process...';
+            var $formData = $(this).serialize();
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
@@ -388,46 +384,40 @@ $(document).ready(function(){
     var $myForm = $('.installedPostgresForm');
     $myForm.submit(function(event){
         var $thisURL = '';
-        var submit = document.activeElement.id;
-        console.log(submit);
-        if (submit === "start_server1") {
-          $thisURL = 'startPostgreSql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
+        switch (document.activeElement.id){
+            case "start_server1":
+                $thisURL = 'startPostgreSql/';
+                break;
+            case "stop_server1":
+                $thisURL = 'stopPostgreSql/';
+                break;
+            case "restart_server1":
+                $thisURL = 'restartPostgreSql/';
+                break;
+            case "reload_server1":
+                $thisURL = 'reloadPostgreSql/';
+                break;
+            case "uninstall_server1":
+                $thisURL = "uninstallPostgreSql/";
+                break;
+            default:
+                console.log("Could not apply");
         }
-        else if (submit === "stop_server1") {
-          $thisURL = 'stopPostgreSql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "restart_server1") {
-          $thisURL = 'restartPostgreSql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "reload_server1") {
-          $thisURL = 'reloadPostgreSql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        else if (submit === "uninstall_server1") {
-          $thisURL = 'uninstallPostgreSql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
-        console.log($thisURL);
         event.preventDefault();
-        $("#outputTable tr").remove();
-        document.getElementsByClassName("button").disabled = true;
-        document.getElementById('service_time').innerHTML = 'Running process...';
-        var $formData = $(this).serialize();
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+        if(validateElement('div_id_installed_postgres-sudo_password', true)) {
+            document.activeElement.disabled = true;
+            $("#outputTable tr").remove();
+            document.getElementsByClassName("button").disabled = true;
+            document.getElementById('service_time').innerHTML = 'Running process...';
+            var $formData = $(this).serialize();
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
