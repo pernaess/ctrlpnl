@@ -13,6 +13,7 @@ from .forms import (
      InstallPhp,
      InstalledNginxForm
 )
+import time
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .ansibleScripts.run_playbooks import run_playbook
@@ -142,7 +143,10 @@ def createDBView(request):
                     if not exists:
                         instance.user = request.user
                         instance.server_name = items
+                        print items
+                        print instance
                         instance.save()
+                        time.sleep(2)
                         print "Form saved"
                     else:
                         print 'Createdbform not saved'
