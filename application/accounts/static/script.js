@@ -127,7 +127,7 @@ $(document).ready(function(){
     var $myForm = $('.installNginx');
     $myForm.submit(function(event){
         event.preventDefault();
-        if(validateCheckboxes('div_id_nginx-servers')){
+        if(validateCheckboxes('div_id_nginx-servers') && validateElement('div_id_nginx-sudo_password', true)){
             $("#outputTable tr").remove();
             var submit = document.getElementById('install_nginx');
             submit.disabled = true;
