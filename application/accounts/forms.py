@@ -126,6 +126,3 @@ class InstalledNginxForm(forms.ModelForm):
         fields = (
             'servers',
         )
-
-
-#        exclude =
