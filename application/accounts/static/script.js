@@ -71,24 +71,36 @@ $(document).ready(function(){
  */
 $(document).ready(function(){
     var $myForm = $('.createDB');
-    $myForm.submit(function(event){
+    $myForm.submit(function(event) {
         event.preventDefault();
-        $("#outputTable tr").remove();
-        var submit = document.getElementById('create_db');
-        submit.disabled = true;
-        submit.innerText = 'Installing...';
-        document.getElementById('service_time').innerHTML = 'Installing database...';
-        // document.getElementById('navbar_info').innerHTML = 'Service running...';
-        var $formData = $(this).serialize();
-        var $thisURL = 'createDB/';
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+        if (validateCreateDB()) {
+            $("#outputTable tr").remove();
+            var submit = document.getElementById('create_db');
+            submit.disabled = true;
+            submit.innerText = 'Installing...';
+            document.getElementById('service_time').innerHTML = 'Installing database...';
+            var $formData = $(this).serialize();
+            var $thisURL = 'createDB/';
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
     });
+
+    function validateCreateDB(){
+        if(validateCheckboxes('div_id_createDB-server_name') &
+            validateElement('div_id_createDB-database_name', false) &
+            validateElement('div_id_createDB-username', false) &
+            validateElement('div_id_createDB-password', true) &
+            validateElement('div_id_createDB-sudo_password', true))
+            return true;
+        // Send a return message saying a server must be chosen to the chosen div.
+        return false;
+    }
 
     function handleFormSuccess(data, textStatus, jqXHR){
         console.log(data);
@@ -115,20 +127,23 @@ $(document).ready(function(){
     var $myForm = $('.installNginx');
     $myForm.submit(function(event){
         event.preventDefault();
-        $("#outputTable tr").remove();
-        var submit = document.getElementById('install_nginx');
-        submit.disabled = true;
-        submit.innerText = 'Installing...';
-        document.getElementById('service_time').innerHTML = 'Installing Nginx...';
-        var $formData = $(this).serialize();
-        var $thisURL = 'installNginx/';
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+        if(validateCheckboxes('div_id_nginx-servers')){
+            $("#outputTable tr").remove();
+            var submit = document.getElementById('install_nginx');
+            submit.disabled = true;
+            submit.innerText = 'Installing...';
+            document.getElementById('service_time').innerHTML = 'Installing Nginx...';
+            var $formData = $(this).serialize();
+            var $thisURL = 'installNginx/';
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
+
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
@@ -155,20 +170,22 @@ $(document).ready(function(){
     var $myForm = $('.installPHP');
     $myForm.submit(function(event){
         event.preventDefault();
-        $("#outputTable tr").remove();
-        var submit = document.getElementById('install_php');
-        submit.disabled = true;
-        submit.innerText = 'Installing...';
-        document.getElementById('service_time').innerHTML = 'Installing PHP...';
-        var $formData = $(this).serialize();
-        var $thisURL = 'installPHP/';
-        $.ajax({
-            method: "POST",
-            url: $thisURL,
-            data: $formData,
-            success: handleFormSuccess,
-            error: handleFormError
-        })
+        if (validateCheckboxes('div_id_php-servers')) {
+            $("#outputTable tr").remove();
+            var submit = document.getElementById('install_php');
+            submit.disabled = true;
+            submit.innerText = 'Installing...';
+            document.getElementById('service_time').innerHTML = 'Installing PHP...';
+            var $formData = $(this).serialize();
+            var $thisURL = 'installPHP/';
+            $.ajax({
+                method: "POST",
+                url: $thisURL,
+                data: $formData,
+                success: handleFormSuccess,
+                error: handleFormError
+            })
+        }
     });
 
     function handleFormSuccess(data, textStatus, jqXHR){
@@ -333,3 +350,63 @@ $(document).ready(function(){
         }
     })
 });
+
+// Validation methods:
+function validateConnectServer() {
+    if (validateElement("div_id_createServer-server_nickname", false) &
+        validateElement("div_id_createServer-server_ip", false) &
+        validateElement("div_id_createServer-sudo_user", false) &
+        validateElement("div_id_createServer-sudo_password", true))
+        return true;
+    return false;
+}
+
+function validateElement(path, isPasswordValidation){
+    var validationElement = document.getElementById(path).children[1].children[0];
+    var val = validationElement.value;
+    if (isPasswordValidation){
+        var bool = passwordLengthRequirement(val);
+        validationElement.style.backgroundColor = bool ? "lightgreen" : "red";
+        return bool;
+    }
+    var bool = allowedTextFieldValidation(val);
+    validationElement.style.backgroundColor = bool ? "lightgreen" : "red";
+    return bool;
+}
+
+function allowedTextFieldValidation(text){
+    if (text == '')
+        return false;
+    else if (text.match(/[^\w\.\-]/))
+        return false;
+    return true;
+}
+
+function passwordLengthRequirement(text){
+    if (text.length < 6)
+        return false;
+    if (text.length > 20)
+        return false;
+    return allowedTextFieldValidation(text);
+}
+
+function checkServerIsChosen(path){
+    var validationElement = document.getElementById(path);
+    var serverNameList = validationElement.getElementsByTagName('INPUT');
+
+    for(var x = 0; x < serverNameList.length; x++)
+        if(serverNameList[x].type.toUpperCase()=='CHECKBOX')
+            if(serverNameList[x].checked){
+                validationElement.style.backgroundColor = "lightgreen";
+                return true;
+            }
+    validationElement.style.backgroundColor = "red";
+    return false;
+}
+
+function validateCheckboxes(path){
+    if(checkServerIsChosen(path))
+        return true;
+    // Send a return message saying a server must be chosen to the chosen div.
+    return false;
+}

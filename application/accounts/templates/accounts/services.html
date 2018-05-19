@@ -27,13 +27,13 @@
  <div class="tab-content clearfix">
     <div id="server" class="tab-pane active">
       <h3>Connect to server</h3>
-      <form method="post" action="">
+      <form method="post" action="" class="connectServer" onsubmit="return validateConnectServer()">
         {% csrf_token %}
         {{ form2|as_bootstrap }}
-      <div class="form-group">
-        <button type="submit" name="create_server" class="btn btn-primary">Connect</button>
-      </div>
-    </form>
+        <div class="form-group">
+          <button type="submit" name="create_server" id="create_server" class="btn btn-primary">Connect</button>
+        </div>
+      </form>
     </div><!-- End of server connection tab  -->
     <div id="nginx" class="tab-pane">
       <h3>Install Nginx</h3>

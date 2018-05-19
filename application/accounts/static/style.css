@@ -66,3 +66,8 @@ color:black;
 .help-block {
     color: #868e96;
 }
+
+.nav-pills .nav-link.active, .show > .nav-pills .nav-link {
+	color: #000;
+	background-color: lightgrey !important;
+}
