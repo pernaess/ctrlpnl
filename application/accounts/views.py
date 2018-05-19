@@ -83,6 +83,12 @@ def ServicesView(request):
         if 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
+                # sudo_user = createserverform.cleaned_data['sudo_user']
+                # ip = createserverform.cleaned_data['server_ip']
+                # s_p = createserverform.cleaned_data['sudo_password']
+                # path = "accounts/ansibleScripts/add-ssh-key.yml"
+                # pb = run_playbook()
+                # pb.run_pb_initial_connection(sudo_user, ip, s_p, path)
                 instance = createserverform.save(commit=False)
                 instance.user = request.user
                 instance.save()
@@ -183,15 +189,16 @@ def CheckConn(request):
 
 def start_mysql_db(request):
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/startMysql.yml"
+        path = "accounts/ansibleScripts/modifyScripts/mysql/startMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
+        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
+            s_p = request.POST.getlist('installed_db-sudo_password')[0]
             user = request.user
-            empty = ""
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
@@ -204,15 +211,15 @@ def start_mysql_db(request):
 
 def stop_mysql_db(request):
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/stopMysql.yml"
+        path = "accounts/ansibleScripts/modifyScripts/mysql/stopMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
+            s_p = request.POST.getlist('installed_db-sudo_password')[0]
             user = request.user
-            empty = ""
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
@@ -225,15 +232,15 @@ def stop_mysql_db(request):
 
 def restart_mysql_db(request):
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/restartMysql.yml"
+        path = "accounts/ansibleScripts/modifyScripts/mysql/restartMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
+            s_p = request.POST.getlist('installed_db-sudo_password')[0]
             user = request.user
-            empty = ""
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
@@ -246,15 +253,15 @@ def restart_mysql_db(request):
 
 def reload_mysql_db(request):
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/reloadMysql"
+        path = "accounts/ansibleScripts/modifyScripts/mysql/reloadMysql"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
             user = request.user
-            empty = ""
+            s_p = request.POST.getlist('installed_db-sudo_password')[0]
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
@@ -267,15 +274,15 @@ def reload_mysql_db(request):
 
 def uninstall_mysql_db(request):
     if request.method == 'POST':
-        playbook_path = "accounts/ansibleScripts/modifyScripts/mysql/uninstallMysql"
+        path = "accounts/ansibleScripts/modifyScripts/mysql/uninstallMysql"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
+            s_p = request.POST.getlist('installed_db-sudo_password')[0]
             user = request.user
-            empty = ""
             p_o = run_playbook()
-            p_o.run_pb(user, empty, server, empty, empty, empty, playbook_path)
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()

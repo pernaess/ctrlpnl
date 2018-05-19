@@ -41,6 +41,7 @@ class ConnectToServer(forms.ModelForm):
             'server_nickname',
             'server_ip',
             'sudo_user',
+            'sudo_password'
         )
 
 
@@ -103,6 +104,8 @@ class InstalledDatabaseForm(forms.ModelForm):
         ds = ServerQuery()
         db = ds.get_installed_db_servers()
         servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False)
+
     except:
         servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
 
