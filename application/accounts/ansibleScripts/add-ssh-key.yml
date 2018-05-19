@@ -14,7 +14,7 @@
   tasks:
   - name: Adding public key
     copy:
-      src: /home/per/.ssh/id_rsa.pub
+      src: /Users/Weeto/.ssh/id_rsa.pub
       dest: /home/{{ sudo_user }}/.ssh/id_rsa.pub
       owner: "{{ sudo_user }}"
       group: "{{ sudo_user }}"
