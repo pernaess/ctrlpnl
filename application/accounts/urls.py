@@ -130,4 +130,24 @@ urlpatterns = [
     url(r'^dashboard/uninstallPostgreSql/$',
         views.uninstall_postgres_db,
         name='uninstall_postgres_db'),
+
+    url(r'^dashboard/startNginx/$',
+        views.start_nginx,
+        name='start_nginx'),
+
+    url(r'^dashboard/stopNginx/$',
+        views.stop_nginx,
+        name='stop_nginx'),
+
+    url(r'^dashboard/restartNginx/$',
+        views.restart_nginx,
+        name='restart_nginx'),
+
+    url(r'^dashboard/reloadNginx/$',
+        views.reload_nginx,
+        name='reload_nginx'),
+
+    url(r'^dashboard/uninstallNginx/$',
+        views.uninstall_nginx,
+        name='uninstall_nginx'),
 ]

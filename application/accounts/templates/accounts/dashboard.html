@@ -57,7 +57,7 @@
         <div class="col-md-3 col-xs-7 dash">
             <div class="card" id="conPanel">
                 <legend>Nginx installations</legend>
-                             <form method="post" action="" class="installedDbForm">
+                             <form method="post" action="" class="installedNginxForm">
                                 {% csrf_token %}
                                 {{ form2|as_bootstrap }}
                                 <button type="submit" id='start_nginx' name="start_nginx" class="btn btn-primary btn-sm">
@@ -65,6 +65,15 @@
                                 </button>
                                 <button type="submit" id='stop_nginx' name="stop_nginx"  class="btn btn-sm">
                                     Stop
+                                </button>
+                                 <button type="submit" id='restart_nginx' name="restart_nginx"  class="btn btn-sm">
+                                    Restart
+                                </button>
+                                 <button type="submit" id='reload_nginx' name="reload_nginx"  class="btn btn-sm">
+                                    Reload
+                                </button>
+                                 <button type="submit" id='uninstall_nginx' name="uninstall_nginx"  class="btn btn-sm danger">
+                                    Uninstall
                                 </button>
                             </form>
             </div>

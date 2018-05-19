@@ -500,3 +500,126 @@ def uninstall_postgres_db(request):
         else:
             print "failed"
             return HttpResponse("Error: Something went wrong")
+
+
+def start_nginx(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/nginx/startNginx"
+        form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_nginx-servers')
+            s_p = request.POST.getlist('installed_nginx-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+              'p_output': p_o.pb_output(),
+              't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def stop_nginx(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/nginx/stopNginx"
+        form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_nginx-servers')
+            s_p = request.POST.getlist('installed_nginx-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def restart_nginx(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/nginx/restartNginx"
+        form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_nginx-servers')
+            s_p = request.POST.getlist('installed_nginx-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def reload_nginx(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/nginx/reloadNginx"
+        form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_nginx-servers')
+            s_p = request.POST.getlist('installed_nginx-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def uninstall_nginx(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/nginx/uninstallNginx"
+        form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_nginx-servers')
+            s_p = request.POST.getlist('installed_nginx-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            for items in server:
+                c_i = SuccessfullInstall()
+                check = c_i.check_install_nginx(p_o.pb_output(), items)
+                if check:
+                    query = NginxInstallation.objects.filter(servers=items)
+                    exists = query.exists()
+                    print exists
+                    if exists:
+                        query.delete()
+                        del query
+                        print "Deleted"
+                    else:
+                        print 'Not deleted'
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")

@@ -140,6 +140,7 @@ class InstalledNginxForm(forms.ModelForm):
         ds = ServerQuery()
         db = ds.get_installed_nginx()
         servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False)
     except:
         servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
 

@@ -51,8 +51,12 @@ class SuccessfullInstall:
         if check in output:
             if output[check] == 'Success':
                 return True
-            else:
-                return False
+        checks = 'Uninstall Nginx-server,{}'.format(server)
+        if checks in output:
+            if output[checks] == 'Success':
+                return True
+        else:
+            return False
 
     def check_install_php(self, output, server):
         check = 'install php packages,{}'.format(server)

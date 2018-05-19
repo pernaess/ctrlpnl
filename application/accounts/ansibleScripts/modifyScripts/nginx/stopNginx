@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - add_host:
+        hostname : "{{ item }}"
+        groups: webserver
+      loop: "{{ user }}"
+
+- hosts: webserver
+  become: yes
+  become_method: sudo
+  gather_facts: False
+  tasks:
+    - name: Connecting to server
+      action: ping
+
+    - name: Stop Nginx-server
+      action: service name=nginx state=stopped
