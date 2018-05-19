@@ -209,7 +209,7 @@ class run_playbook(object):
 
     """ Returns the class dict 'resuls_raw """
     def pb_output(self):
-        output = collections.OrderedDict(sorted(self.results_raw.items(), key=lambda x:x[1]))
+        output = collections.OrderedDict(sorted(self.results_raw.items(), key=lambda x: x[0].split(",")[1]))
         return output
 
     """ Returns the overall process time of an ansible playbook """
