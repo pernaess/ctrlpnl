@@ -13,9 +13,8 @@
   become_method: sudo
   gather_facts: False
   tasks:
-    - name: Uninstall Database-server
-      apt: name={{item}} state=absent
-      with_items:
-        - mysql-server
-        - mysql-client
-        - python-mysqldb
+    - name: Connecting to server
+      action: ping
+
+    - name: Reload PostgreSql-server
+      action: service name=postgresql state=reloaded

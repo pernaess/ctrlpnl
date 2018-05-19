@@ -36,11 +36,15 @@ class SuccessfullInstall:
 
     def check_install_db(self, output, server):
         check = 'Install database server,{}'.format(server)
+        check_two = 'Uninstall Database-server,{}'.format(server)
         if check in output:
             if output[check] == 'Success':
                 return True
-            else:
-                return False
+        elif check_two in output:
+            if output[check_two] == 'Success':
+                return True
+        else:
+            return False
 
     def check_install_nginx(self, output, server):
         check = 'Install nginx,{}'.format(server)
@@ -81,6 +85,15 @@ class ServerQuery:
             return squery.choices
         except:
             print "Exception: get_installed_db_servers is bypassed"
+
+    def get_installed_postgres_servers(self):
+        try:
+            squery = DatabaseConnection.objects.order_by(
+                'server_name').values_list('server_name', flat=True).distinct().filter(database='PostgreSql')
+            squery.choices = [(id, id) for id in squery]
+            return squery.choices
+        except:
+            print "Exception: get_installed_postgres_servers is bypassed"
 
     def get_installed_nginx(self):
         try:

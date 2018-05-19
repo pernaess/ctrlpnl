@@ -11,9 +11,11 @@ from .forms import (
      InstalledDatabaseForm,
      InstallNginx,
      InstallPhp,
-     InstalledNginxForm
+     InstalledNginxForm,
+     InstalledPostgresForm
 )
 import time
+from django.db import models
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .ansibleScripts.run_playbooks import run_playbook
@@ -136,10 +138,12 @@ def createDBView(request):
             createdbform.cleaned_data['database_name'] = 'Not stored'
             createdbform.cleaned_data['sudo_password'] = 'Not stored'
             instance = createdbform.save(commit=False)
+            print database
             for items in server:
                 check = c_i.check_install_db(p_o.pb_output(), items)
                 if check:
-                    exists = DatabaseConnection.objects.filter(server_name=items, database_name=db_name).exists()
+                    query = DatabaseConnection.objects.filter(server_name=items, database=database)
+                    exists = query.exists()
                     if not exists:
                         instance.pk = None
                         instance.user = request.user
@@ -147,6 +151,7 @@ def createDBView(request):
                         print items
                         print instance
                         instance.save()
+                        query.update()
                         time.sleep(2)
                         print "Form saved"
                     else:
@@ -176,7 +181,12 @@ def dashboardView(request):
 
     installed_db_form = InstalledDatabaseForm(prefix='installed_db')
     installed_nginx_form = InstalledNginxForm(prefix='installed_nginx')
-    args= {'qresultList': qresultList, 'form1': installed_db_form, 'form2': installed_nginx_form}
+    installed_postgres_form= InstalledPostgresForm(prefix="installed_postgres")
+    args= {
+      'qresultList': qresultList,
+      'form1': installed_db_form,
+      'form2': installed_nginx_form,
+      'form3': installed_postgres_form}
     return render(request, 'accounts/dashboard.html', args)
 
 
@@ -256,27 +266,6 @@ def restart_mysql_db(request):
             return HttpResponse("Error: Something went wrong")
 
 
-def reload_mysql_db(request):
-    if request.method == 'POST':
-        path = "accounts/ansibleScripts/modifyScripts/mysql/reloadMysql"
-        form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
-        print form.errors
-        if form.is_valid():
-            server = request.POST.getlist('installed_db-servers')
-            user = request.user
-            s_p = request.POST.getlist('installed_db-sudo_password')[0]
-            p_o = run_playbook()
-            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
-            context = {
-                'p_output': p_o.pb_output(),
-                't_output': p_o.r_time()
-            }
-            return JsonResponse(context, safe=False)
-        else:
-            print "failed"
-            return HttpResponse("Error: Something went wrong")
-
-
 def uninstall_mysql_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/mysql/uninstallMysql"
@@ -288,6 +277,19 @@ def uninstall_mysql_db(request):
             user = request.user
             p_o = run_playbook()
             p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            for items in server:
+                c_i = SuccessfullInstall()
+                check = c_i.check_install_db(p_o.pb_output(), items)
+                if check:
+                    query = DatabaseConnection.objects.filter(server_name=items, database="MySql")
+                    exists = query.exists()
+                    print exists
+                    if exists:
+                        query.delete()
+                        del query
+                        print "Deleted"
+                    else:
+                        print 'Not deleted'
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
@@ -370,6 +372,129 @@ def install_php(request):
             context = {
                 'p_output': p_o.pb_output(),
                 't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def start_postgres_db(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/postgresql/startPostgres"
+        form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_postgres-servers')
+            s_p = request.POST.getlist('installed_postgres-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def stop_postgres_db(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/postgresql/stopPostgres"
+        form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_postgres-servers')
+            s_p = request.POST.getlist('installed_postgres-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+              'p_output': p_o.pb_output(),
+              't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def restart_postgres_db(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/postgresql/restartPostgres"
+        form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_postgres-servers')
+            s_p = request.POST.getlist('installed_postgres-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+              'p_output': p_o.pb_output(),
+              't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def reload_postgres_db(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/postgresql/reloadPostgres"
+        form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_postgres-servers')
+            s_p = request.POST.getlist('installed_postgres-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            context = {
+              'p_output': p_o.pb_output(),
+              't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def uninstall_postgres_db(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/postgresql/uninstallPostgres"
+        form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_postgres-servers')
+            s_p = request.POST.getlist('installed_postgres-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            for items in server:
+                c_i = SuccessfullInstall()
+                check = c_i.check_install_db(p_o.pb_output(), items)
+                if check:
+                    query = DatabaseConnection.objects.filter(server_name=items, database="PostgreSql")
+                    exists = query.exists()
+                    print exists
+                    if exists:
+                        query.delete()
+                        del query
+                        print "Deleted"
+                    else:
+                        print 'Not deleted'
+            context = {
+              'p_output': p_o.pb_output(),
+              't_output': p_o.r_time()
             }
             return JsonResponse(context, safe=False)
         else:

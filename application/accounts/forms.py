@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DatabaseConnection, ServerConnection, InstalledDb, NginxInstallation, PhpInstallation, InstalledNginx
+from .models import DatabaseConnection, ServerConnection, InstalledDb, NginxInstallation, PhpInstallation, InstalledNginx, InstalledPostgres
 from .customScripts import ServerQuery
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -106,13 +106,30 @@ class InstalledDatabaseForm(forms.ModelForm):
         ds = ServerQuery()
         db = ds.get_installed_db_servers()
         servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
-        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False, help_text="Provide sudo passord")
+        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False)
 
     except:
         servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = InstalledDb
+        fields = (
+            'servers',
+        )
+
+
+class InstalledPostgresForm(forms.ModelForm):
+    try:
+        ds = ServerQuery()
+        db = ds.get_installed_postgres_servers()
+        servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False)
+
+    except:
+        servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = InstalledPostgres
         fields = (
             'servers',
         )

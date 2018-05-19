@@ -54,7 +54,7 @@
         </div>
         </div>
       </div>
-        <div class="col-md-3 col-xs-7">
+        <div class="col-md-3 col-xs-7 dash">
             <div class="card" id="conPanel">
                 <legend>Nginx installations</legend>
                              <form method="post" action="" class="installedDbForm">
@@ -93,11 +93,11 @@
         </div><!-- End of col  -->
     </div>
     <div class="row">
-        <div class="col-md-4 col-xs-7">
+        <div class="col-md-6 col-xs-7">
             <div class="card" id="conPanel">
                 <legend>Database server installations</legend>
                 <div class="row">
-                    <div class="col-md-7 col-xs-7">
+                    <div class="col-md-6 col-xs-7">
                         <div class="card" id="conPanel">
                             <legend>MySql</legend>
                              <form method="post" action="" class="installedDbForm">
@@ -116,11 +116,38 @@
                                 <button type="submit" id='restart_server' name="create_server"  class="btn btn-sm dashbutton">
                                     Restart
                                 </button>
+                                <button type="submit" id='uninstall_server' name="create_server"  class="btn btn-sm danger dashbutton">
+                                    Uninstall
+                                </button>
+                                     </div>
+                                     </div>
+                            </form>
+                        </div>
+                    </div>
+                      <div class="col-md-6 col-xs-7">
+                        <div class="card" id="conPanel">
+                            <legend>PostgreSql</legend>
+                             <form method="post" action="" class="installedPostgresForm">
+                                 <div class="row">
+                                 <div class="col dash">
+                                {% csrf_token %}
+                                {{ form3|as_bootstrap }}
+                                </div>
+                                     <div class="col">
+                                <button type="submit" id='start_server1' name="start_server" class="btn btn-primary btn-sm dashbutton">
+                                    Start
+                                </button>
+                                <button type="submit" id='stop_server1' name="create_server"  class="btn btn-sm dashbutton">
+                                    Stop
+                                </button>
+                                <button type="submit" id='restart_server1' name="create_server"  class="btn btn-sm dashbutton">
+                                    Restart
+                                </button>
 
-                                <button type="submit" id='reload_server' name="create_server"  class="btn btn-sm dashbutton">
+                                <button type="submit" id='reload_server1' name="create_server"  class="btn btn-sm dashbutton">
                                     Reload
                                 </button>
-                                <button type="submit" id='uninstall_server' name="create_server"  class="btn btn-sm danger dashbutton">
+                                <button type="submit" id='uninstall_server1' name="create_server"  class="btn btn-sm danger dashbutton">
                                     Uninstall
                                 </button>
                                      </div>

@@ -229,11 +229,6 @@ $(document).ready(function(){
           console.log($thisURL);
           document.activeElement.disabled = true;
         }
-        else if (submit === "reload_server") {
-          $thisURL = 'reloadMysql/';
-          console.log($thisURL);
-          document.activeElement.disabled = true;
-        }
         else if (submit === "uninstall_server") {
           $thisURL = 'uninstallMysql/';
           console.log($thisURL);
@@ -271,6 +266,74 @@ $(document).ready(function(){
         console.log(errorThrown);
     }
 });
+
+/**
+ * @desc Ajax - Start/Stop/Restart/Reload/Uninstall PostgreSql database server
+ */
+$(document).ready(function(){
+    var $myForm = $('.installedPostgresForm');
+    $myForm.submit(function(event){
+        var $thisURL = '';
+        var submit = document.activeElement.id;
+        console.log(submit);
+        if (submit === "start_server1") {
+          $thisURL = 'startPostgreSql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "stop_server1") {
+          $thisURL = 'stopPostgreSql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "restart_server1") {
+          $thisURL = 'restartPostgreSql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "reload_server1") {
+          $thisURL = 'reloadPostgreSql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        else if (submit === "uninstall_server1") {
+          $thisURL = 'uninstallPostgreSql/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        console.log($thisURL);
+        event.preventDefault();
+        $("#outputTable tr").remove();
+        document.getElementsByClassName("button").disabled = true;
+        document.getElementById('service_time').innerHTML = 'Running process...';
+        var $formData = $(this).serialize();
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError
+        })
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        var s_time = data['t_output'];
+        var output = data['p_output'];
+        var button = document.getElementsByClassName("button");
+        document.activeElement.disabled = false;
+        serviceOutput(s_time, output, button);
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+});
+
 
 /**
  * @desc This function applies output of CTRLPNL services

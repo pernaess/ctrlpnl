@@ -107,12 +107,27 @@ urlpatterns = [
         views.restart_mysql_db,
         name='restart_mysql_db'),
 
-
-    url(r'^dashboard/reloadMysql/$',
-        views.reload_mysql_db,
-        name='reload_mysql_db'),
-
     url(r'^dashboard/uninstallMysql/$',
         views.uninstall_mysql_db,
         name='uninstall_mysql_db'),
+
+    url(r'^dashboard/startPostgreSql/$',
+        views.start_postgres_db,
+        name='start_postgres_db'),
+
+    url(r'^dashboard/stopPostgreSql/$',
+        views.stop_postgres_db,
+        name='stop_postgres_db'),
+
+    url(r'^dashboard/restartPostgreSql/$',
+        views.restart_postgres_db,
+        name='restart_postgres_db'),
+
+    url(r'^dashboard/reloadPostgreSql/$',
+        views.reload_postgres_db,
+        name='reload_postgres_db'),
+
+    url(r'^dashboard/uninstallPostgreSql/$',
+        views.uninstall_postgres_db,
+        name='uninstall_postgres_db'),
 ]
