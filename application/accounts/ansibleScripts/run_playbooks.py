@@ -80,7 +80,7 @@ class run_playbook(object):
     :param db_name - Name for database
     :param path - Playbook file path
     """
-    def run_pb(self, user, s_p, server, db_user, db_pass, db_name, path):
+    def run_pb(self, user='', s_p='', server='', db_user='', db_pass='', db_name='', path=''):
         address = []
 
         for servers in server:

@@ -8,7 +8,7 @@
         groups: webserver
 
 - hosts: webserver
-  become: yes
+  become: true
   become_method: sudo
   gather_facts: False
   tasks:
@@ -19,3 +19,6 @@
       owner: "{{ sudo_user }}"
       group: "{{ sudo_user }}"
       mode: 0600
+
+
+
