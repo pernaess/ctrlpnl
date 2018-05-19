@@ -12,7 +12,8 @@ from .forms import (
      InstallNginx,
      InstallPhp,
      InstalledNginxForm,
-     InstalledPostgresForm
+     InstalledPostgresForm,
+     InstalledPhpForm
 )
 import time
 from django.db import models
@@ -182,11 +183,14 @@ def dashboardView(request):
     installed_db_form = InstalledDatabaseForm(prefix='installed_db')
     installed_nginx_form = InstalledNginxForm(prefix='installed_nginx')
     installed_postgres_form= InstalledPostgresForm(prefix="installed_postgres")
+    installed_php_form = InstalledPhpForm(prefix="installed_php")
     args= {
       'qresultList': qresultList,
       'form1': installed_db_form,
       'form2': installed_nginx_form,
-      'form3': installed_postgres_form}
+      'form3': installed_postgres_form,
+      'form4': installed_php_form
+    }
     return render(request, 'accounts/dashboard.html', args)
 
 
@@ -358,9 +362,11 @@ def install_php(request):
             for items in server:
                 c_i = SuccessfullInstall()
                 check = c_i.check_install_php(p_o.pb_output(), items)
+                print check
                 instance = form.save(commit=False)
                 if check:
                     exists = PhpInstallation.objects.filter(servers=items).exists()
+                    print exists
                     if not exists:
                         instance.pk = None
                         instance.user = request.user
@@ -607,6 +613,41 @@ def uninstall_nginx(request):
                 check = c_i.check_install_nginx(p_o.pb_output(), items)
                 if check:
                     query = NginxInstallation.objects.filter(servers=items)
+                    exists = query.exists()
+                    print exists
+                    if exists:
+                        query.delete()
+                        del query
+                        print "Deleted"
+                    else:
+                        print 'Not deleted'
+            context = {
+                'p_output': p_o.pb_output(),
+                't_output': p_o.r_time()
+            }
+            return JsonResponse(context, safe=False)
+        else:
+            print "failed"
+            return HttpResponse("Error: Something went wrong")
+
+
+def uninstall_php(request):
+    if request.method == 'POST':
+        path = "accounts/ansibleScripts/modifyScripts/php/uninstallPhp"
+        form = InstalledNginxForm(data=request.POST, prefix="installedPhp")
+        print request.POST
+        print form.errors
+        if form.is_valid():
+            server = request.POST.getlist('installed_php-servers')
+            s_p = request.POST.getlist('installed_php-sudo_password')[0]
+            user = request.user
+            p_o = run_playbook()
+            p_o.run_pb(user=user, s_p=s_p, server=server, path=path)
+            for items in server:
+                c_i = SuccessfullInstall()
+                check = c_i.check_install_php(p_o.pb_output(), items)
+                if check:
+                    query = PhpInstallation.objects.filter(servers=items)
                     exists = query.exists()
                     print exists
                     if exists:

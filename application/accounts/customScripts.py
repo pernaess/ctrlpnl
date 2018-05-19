@@ -2,7 +2,7 @@ import os
 import platform
 import django.db.utils
 import threading, time
-from .models import DatabaseConnection, ServerConnection, NginxInstallation
+from .models import DatabaseConnection, ServerConnection, NginxInstallation, PhpInstallation
 
 
 class Server_ping(object):
@@ -63,8 +63,12 @@ class SuccessfullInstall:
         if check in output:
             if output[check] == 'Success':
                 return True
-            else:
-                return False
+        checks = 'Uninstall Php-packages,{}'.format(server)
+        if checks in output:
+            if output[checks] == 'Success':
+                return True
+        else:
+            return False
 
 
 class ServerQuery:
@@ -107,6 +111,15 @@ class ServerQuery:
             return squery.choices
         except:
             print "Exception: get_installed_nginx is bypassed"
+
+    def get_installed_php(self):
+        try:
+            squery = PhpInstallation.objects.order_by(
+                'servers').values_list('servers', flat=True).distinct()
+            squery.choices = [(id, id) for id in squery]
+            return squery.choices
+        except:
+            print "Exception: get_installed_php is bypassed"
 
 
 class ElapsedTimeThread(threading.Thread):

@@ -55,6 +55,7 @@
         </div>
       </div>
         <div class="col-md-3 col-xs-7 dash">
+            <div class="card NginxAndPhpCard">
             <div class="card" id="conPanel">
                 <legend>Nginx installations</legend>
                              <form method="post" action="" class="installedNginxForm">
@@ -77,6 +78,17 @@
                                 </button>
                             </form>
             </div>
+                <div class="card" id="conPanel">
+                    <legend>PHP package installations</legend>
+                     <form method="post" action="" class="installedPhpForm">
+                        {% csrf_token %}
+                        {{ form4|as_bootstrap }}
+                         <button type="submit" id='uninstall_php' name="uninstall_php"  class="btn btn-sm danger">
+                            Uninstall
+                        </button>
+                    </form>
+                </div>
+        </div>
         </div>
      <div class="col-md-5 col-xs-7">
             <div class="card" id="serviceFeedback">

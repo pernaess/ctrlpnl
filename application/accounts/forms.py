@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DatabaseConnection, ServerConnection, InstalledDb, NginxInstallation, PhpInstallation, InstalledNginx, InstalledPostgres
+from .models import DatabaseConnection, ServerConnection, InstalledDb, NginxInstallation, PhpInstallation, InstalledNginx, InstalledPostgres, InstalledPhp
 from .customScripts import ServerQuery
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
@@ -146,6 +146,22 @@ class InstalledNginxForm(forms.ModelForm):
 
     class Meta:
         model = InstalledNginx
+        fields = (
+            'servers',
+        )
+
+
+class InstalledPhpForm(forms.ModelForm):
+    try:
+        ds = ServerQuery()
+        db = ds.get_installed_php()
+        servers = forms.MultipleChoiceField(db, required=False, widget=forms.CheckboxSelectMultiple)
+        sudo_password = forms.CharField(widget=forms.PasswordInput, required=False)
+    except:
+        servers = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
+
+    class Meta:
+        model = InstalledPhp
         fields = (
             'servers',
         )

@@ -88,6 +88,10 @@ class InstalledNginx(models.Model):
     servers = models.CharField(max_length=50, help_text='Choose server')
 
 
+class InstalledPhp(models.Model):
+    servers = models.CharField(max_length=50, help_text='Choose server')
+
+
 class NginxInstallation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     servers = models.CharField(max_length=50, help_text='Choose server')

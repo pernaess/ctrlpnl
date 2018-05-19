@@ -71,3 +71,8 @@ color:black;
 	color: #000;
 	background-color: lightgrey !important;
 }
+
+.NginxAndPhpCard{
+    background-color: #f7f7f8;
+    border: none;
+}

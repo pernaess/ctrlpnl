@@ -268,6 +268,53 @@ $(document).ready(function(){
 });
 
 /**
+ * @desc Ajax - Uninstall PHP packages
+ */
+$(document).ready(function(){
+    var $myForm = $('.installedPhpForm');
+    $myForm.submit(function(event){
+        var $thisURL = '';
+        var submit = document.activeElement.id;
+        console.log(submit);
+        if (submit === "uninstall_php") {
+          $thisURL = 'uninstallPhp/';
+          console.log($thisURL);
+          document.activeElement.disabled = true;
+        }
+        console.log($thisURL);
+        event.preventDefault();
+        $("#outputTable tr").remove();
+        document.getElementsByClassName("button").disabled = true;
+        document.getElementById('service_time').innerHTML = 'Running process...';
+        var $formData = $(this).serialize();
+        $.ajax({
+            method: "POST",
+            url: $thisURL,
+            data: $formData,
+            success: handleFormSuccess,
+            error: handleFormError
+        })
+    });
+
+    function handleFormSuccess(data, textStatus, jqXHR){
+        console.log(data);
+        console.log(textStatus);
+        console.log(jqXHR);
+        var s_time = data['t_output'];
+        var output = data['p_output'];
+        var button = document.getElementsByClassName("button");
+        document.activeElement.disabled = false;
+        serviceOutput(s_time, output, button);
+    }
+
+    function handleFormError(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
+    }
+});
+
+/**
  * @desc Ajax - Start/Stop/Restart/Reload/Uninstall NGINX server
  */
 $(document).ready(function(){

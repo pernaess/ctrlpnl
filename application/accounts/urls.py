@@ -150,4 +150,8 @@ urlpatterns = [
     url(r'^dashboard/uninstallNginx/$',
         views.uninstall_nginx,
         name='uninstall_nginx'),
+
+    url(r'^dashboard/uninstallPhp/$',
+        views.uninstall_php,
+        name='uninstall_php'),
 ]
