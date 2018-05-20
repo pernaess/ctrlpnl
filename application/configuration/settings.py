@@ -25,6 +25,16 @@ SECRET_KEY = 'f@_&=hydpb0!&@x*uee*uxz82hz#yq!r9vx_gab^71f2t7h4u$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+X_FRAME_OPTIONS = 'DENY'
+
+SECURE_BROWSER_XSS_FILTER = True
+
 ALLOWED_HOSTS = [
     '188.166.21.24',
     '0.0.0.0',
