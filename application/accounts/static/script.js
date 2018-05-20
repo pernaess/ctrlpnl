@@ -520,9 +520,31 @@ $(document).ready(function(){
     })
 });
 
-
-
 // Validation methods:
+function validateLogin(){
+    if (validateElement("div_id_username", "text") &
+        validateElement("div_id_password", "pw"))
+        return true;
+    return false;
+}
+
+function validateRegister(){
+    if (validateElement("div_id_username", "text") &
+        validateElement("div_id_first_name", "text") &
+        validateElement("div_id_last_name", "text") &
+        validateElement("div_id_email", "email") &
+        validateElement("div_id_password1", "pw") &
+        validateElement("div_id_password2", "pw"))
+        return true;
+    return false;
+}
+
+function validateResetPassword(){
+    if (validateElement("div_id_createServer-server_nickname", "email"))
+        return true;
+    return false;
+}
+
 function validateConnectServer() {
     if (validateElement("div_id_createServer-server_nickname", "text") &
         validateElement("div_id_createServer-server_ip", "ip") &
@@ -544,12 +566,33 @@ function validateElement(path, validationType){
         case ("ip"):
             bool = validateIp(val);
             break;
+        case("email"):
+            bool = validateEmail(val);
+            break;
         default:
             bool = allowedTextFieldValidation(val);
             break;
     }
     validationElement.style.backgroundColor = bool ? "lightgreen" : "red";
     return bool;
+}
+
+function validateEmail(email){
+    try{
+        var atSplit = email.split('@');
+        if (atSplit.length != 2)
+            return false;
+        if (!allowedTextFieldValidation(atSplit[0] || !allowedTextFieldValidation(atSplit[1])))
+            return false;
+        var dotSplit = atSplit[1].split('.');
+        if(dotSplit.length != 2)
+            return false;
+    }
+    catch(err){
+        alert(err.message);
+        return false;
+    }
+    return true;
 }
 
 function validateIp(ip) {

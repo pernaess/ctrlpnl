@@ -6,7 +6,7 @@
     <div class="col-xs-3 col-md-5">
         <div class="card" id="conPanel">
             <div class="card-body">
-                <form method="POST">
+                <form method="POST" onsubmit="validateLogin()">
                 {% csrf_token %}
                 <h1><strong>Welcome</strong></h1>
 	            <p>
