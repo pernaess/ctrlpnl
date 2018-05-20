@@ -78,15 +78,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <a href="{% url 'accounts:change_password' %}">
-                                        <button class="btn btn-info btn-fill pull-right">Change password</button>
-                                        </a>
 
-                                        <a href="{% url 'accounts:edit_profile' %}">
-                                        <button class="btn btn-info btn-fill pull-right">Update profile</button>
-                                        </a>
                                         <div class="clearfix"></div>
                                     </form>
+                                    <a href="{% url 'accounts:change_password' %}">
+                                            <button type="submit" class="btn btn-info btn-fill pull-right">Change password</button>
+                                    </a>
+                                    <a href="{% url 'accounts:edit_profile' %}">
+                                        <button type="submit" class="btn btn-info btn-fill pull-right">Update profile</button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -96,9 +96,11 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="author">
+                                        {% if user.userprofile.image %}
                                         <a href="#">
                                             <img class="avatar border-gray" src="{{ user.userprofile.image.url }}" alt="Profile image">
                                         </a>
+                                        {% endif %}
                                         <h5 class="title">{{ user.first_name }} {{ user.last_name }}</h5>
                                     </div>
                                 </div>
