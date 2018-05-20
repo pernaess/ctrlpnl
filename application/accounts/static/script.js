@@ -170,7 +170,7 @@ $(document).ready(function(){
     var $myForm = $('.installPHP');
     $myForm.submit(function(event){
         event.preventDefault();
-        if (validateCheckboxes('div_id_php-servers')) {
+        if (validateCheckboxes('div_id_php-servers') && validateElement('div_id_php-sudo_password', true)) {
             $("#outputTable tr").remove();
             var submit = document.getElementById('install_php');
             submit.disabled = true;
@@ -518,27 +518,62 @@ $(document).ready(function(){
     })
 });
 
+
+
 // Validation methods:
 function validateConnectServer() {
-    if (validateElement("div_id_createServer-server_nickname", false) &
-        validateElement("div_id_createServer-server_ip", false) &
-        validateElement("div_id_createServer-sudo_user", false) &
-        validateElement("div_id_createServer-sudo_password", true))
+    if (validateElement("div_id_createServer-server_nickname", "text") &
+        validateElement("div_id_createServer-server_ip", "ip") &
+        validateElement("div_id_createServer-sudo_user", "text") &
+        validateElement("div_id_createServer-sudo_password", "pw"))
         return true;
     return false;
 }
 
-function validateElement(path, isPasswordValidation){
+function validateElement(path, validationType){
     var validationElement = document.getElementById(path).children[1].children[0];
     var val = validationElement.value;
-    if (isPasswordValidation){
-        var bool = passwordLengthRequirement(val);
-        validationElement.style.backgroundColor = bool ? "lightgreen" : "red";
-        return bool;
+    var bool = false;
+
+    switch(validationType){
+        case ("pw"):
+            bool = passwordLengthRequirement(val);
+            break;
+        case ("ip"):
+            bool = validateIp(val);
+            break;
+        default:
+            bool = allowedTextFieldValidation(val);
+            break;
     }
-    var bool = allowedTextFieldValidation(val);
     validationElement.style.backgroundColor = bool ? "lightgreen" : "red";
     return bool;
+}
+
+function validateIp(ip) {
+    if (!allowedTextFieldValidation(ip))
+        return false;
+    try {
+        var ipList = ip.split('.');
+        if (ipList.length != 4)
+            return false;
+        for (var i = 0; i < ipList.length; i++) {
+            var curIp = parseInt(ipList[i]);
+            if (invalidIpNumber(curIp))
+                return false;
+        }
+    }
+    catch (err) {
+        console.log(err.message);
+        return false;
+    }
+    return true;
+}
+
+function invalidIpNumber(ipPiece){
+    if(ipPiece < 256 && ipPiece > 0)
+        return false;
+    return true;
 }
 
 function allowedTextFieldValidation(text){
