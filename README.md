@@ -1,4 +1,4 @@
-# CTRLPNL
+# * [CTRLPNL](https://ctrlpnl.no)
 
 Open source control panel built with Django and Ansible
 
@@ -38,6 +38,8 @@ TODO
 * **Kristian Hov Bjerke** - *Initial work* - [Weeto0](https://github.com/Weeto0)
 * **Vegard Pihl Bratteng** - *Initial work* - [sprtn](https://github.com/sprtn)
 * **Per Sigve Næss** - *Initial work* - [pernaess](https://github.com/pernaess)
+
+* [CTRLPNL](https://ctrlpnl.no) - See CTRLPNL webpage for more information.
 
 ## License
 
