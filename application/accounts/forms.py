@@ -117,6 +117,14 @@ class InstalledDatabaseForm(forms.ModelForm):
             'servers',
         )
 
+    def __init__(self, *args, **kwargs):
+        super(InstalledDatabaseForm, self).__init__(*args, **kwargs)
+        try:
+            ds = ServerQuery()
+            db = ds.get_installed_db_servers()
+            self.fields["servers"].choices = db
+        except: self.fields["servers"].choices = 'None'
+
 
 class InstalledPostgresForm(forms.ModelForm):
     try:
@@ -134,6 +142,14 @@ class InstalledPostgresForm(forms.ModelForm):
             'servers',
         )
 
+    def __init__(self, *args, **kwargs):
+        super(InstalledPostgresForm, self).__init__(*args, **kwargs)
+        try:
+            ds = ServerQuery()
+            db = ds.get_installed_postgres_servers()
+            self.fields["servers"].choices = db
+        except: self.fields["servers"].choices = 'None'
+
 
 class InstalledNginxForm(forms.ModelForm):
     try:
@@ -150,6 +166,14 @@ class InstalledNginxForm(forms.ModelForm):
             'servers',
         )
 
+    def __init__(self, *args, **kwargs):
+        super(InstalledNginxForm, self).__init__(*args, **kwargs)
+        try:
+            ds = ServerQuery()
+            db = ds.get_installed_nginx()
+            self.fields["servers"].choices = db
+        except: self.fields["servers"].choices = 'None'
+
 
 class InstalledPhpForm(forms.ModelForm):
     try:
@@ -165,3 +189,13 @@ class InstalledPhpForm(forms.ModelForm):
         fields = (
             'servers',
         )
+
+    def __init__(self, *args, **kwargs):
+        super(InstalledPhpForm, self).__init__(*args, **kwargs)
+        try:
+            ds = ServerQuery()
+            db = ds.get_installed_php()
+            self.fields["servers"].choices = db
+        except: self.fields["servers"].choices = 'None'
+
+        
