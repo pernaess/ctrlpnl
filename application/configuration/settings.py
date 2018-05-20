@@ -140,7 +140,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'configuration/media')
 
-LOGIN_REDIRECT_URL = '/accounts/'
+LOGIN_REDIRECT_URL = '/accounts/dashboard/'
 
 LOGIN_URL = '/accounts/login/'
 
