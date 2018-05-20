@@ -17,4 +17,8 @@
       action: ping
 
     - name: Uninstall Database-server
-      apt: name=postgresql state=absent
+      apt: name={{item}} state=absent purge=yes force=yes autoremove=yes
+      with_items:
+          - postgresql
+          - libpq-dev
+          - python-psycopg2

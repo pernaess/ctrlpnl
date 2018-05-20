@@ -14,7 +14,7 @@
   gather_facts: False
   tasks:
     - name: Uninstall Php-packages
-      apt: name={{item}} state=absent
+      apt: name={{item}} state=absent purge=yes force=yes autoremove=yes
       with_items:
         - php-common
         - php-curl
