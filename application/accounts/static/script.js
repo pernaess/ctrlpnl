@@ -250,15 +250,17 @@ $(document).ready(function(){
         }
     });
 
-    function handleFormSuccess(data, textStatus, jqXHR){
+    function handleFormSuccess(data, textStatus, jqXHR, url){
         console.log(data);
         console.log(textStatus);
         console.log(jqXHR);
+
         var s_time = data['t_output'];
         var output = data['p_output'];
         var button = document.getElementsByClassName("button");
         document.activeElement.disabled = false;
         serviceOutput(s_time, output, button);
+        url.reload();
     }
 
     function handleFormError(jqXHR, textStatus, errorThrown){

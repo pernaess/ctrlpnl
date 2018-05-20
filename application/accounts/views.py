@@ -296,7 +296,7 @@ def uninstall_mysql_db(request):
                         print 'Not deleted'
             context = {
                 'p_output': p_o.pb_output(),
-                't_output': p_o.r_time()
+                't_output': p_o.r_time(),
             }
             return JsonResponse(context, safe=False)
         else:
