@@ -1,4 +1,4 @@
-# * [CTRLPNL](https://ctrlpnl.no)
+# [CTRLPNL](https://ctrlpnl.no)
 
 Open source control panel built with Django and Ansible
 
