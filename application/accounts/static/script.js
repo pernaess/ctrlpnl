@@ -520,6 +520,24 @@ $(document).ready(function(){
     })
 });
 
+/**
+ * @desc This function selects/deselects all checkboxes in install PHP when selecting server
+ */
+$(document).ready(function(){
+    var $select = $('#id_php-servers_1');
+    $select.on('change', function() {
+    var checkboxes = document.getElementsByName('php-servers');
+        for (var checkbox in checkboxes) {
+            if(document.getElementById('id_php-servers_1').checked) {
+                checkboxes[checkbox].checked = true;
+            }
+            else{
+                checkboxes[checkbox].checked = false;
+            }
+        }
+    })
+});
+
 // Validation methods:
 function validateLogin(){
     if (validateElement("div_id_username", "text") &
