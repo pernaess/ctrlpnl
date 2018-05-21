@@ -6,6 +6,10 @@ from .models import DatabaseConnection, ServerConnection, NginxInstallation, Php
 
 
 class Server_ping(object):
+    """Pings a server
+
+    :param ip_list: A list of ip addresses
+    """
 
     def __init__(self, *args, **kwargs):
         self.list = []
@@ -30,6 +34,11 @@ class Server_ping(object):
 
 
 class SuccessfullInstall:
+    """ A class with methods that checks if services installed correctly
+
+    :param output: The status output of an Ansible play
+    :param Server: The server the output correlates to
+    """
 
     def __init__(self, *args, **kwargs):
         self.list = []
@@ -72,6 +81,12 @@ class SuccessfullInstall:
 
 
 class ServerQuery:
+    """ Queries the database for servers that has installed:
+
+            Databases
+            Nginx
+            Php
+    """
 
     def __init__(self, *args, **kwargs):
         self.list = []

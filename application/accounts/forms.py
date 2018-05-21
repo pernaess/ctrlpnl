@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import DatabaseConnection, ServerConnection, InstalledDb, NginxInstallation, PhpInstallation, InstalledNginx, InstalledPostgres, InstalledPhp
 from .customScripts import ServerQuery
 from django.contrib.auth.models import User

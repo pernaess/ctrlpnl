@@ -16,13 +16,11 @@ from .forms import (
      InstalledPhpForm
 )
 import time
-from django.db import models
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .ansibleScripts.run_playbooks import run_playbook
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-
 
 
 def home(request):
@@ -83,16 +81,9 @@ def change_password(request):
 # Handles forms in services.html based on form submitted
 def ServicesView(request):
     if request.method == 'POST':
-        print request.POST
         if 'create_server' in request.POST:
             createserverform = ConnectToServer(request.POST, prefix='createServer')
             if createserverform.is_valid():
-                # sudo_user = createserverform.cleaned_data['sudo_user']
-                # ip = createserverform.cleaned_data['server_ip']
-                # s_p = createserverform.cleaned_data['sudo_password']
-                # path = "accounts/ansibleScripts/add-ssh-key.yml"
-                # pb = run_playbook()
-                # pb.run_pb_initial_connection(sudo_user, ip, s_p, path)
                 instance = createserverform.save(commit=False)
                 instance.user = request.user
                 instance.save()
@@ -139,7 +130,6 @@ def createDBView(request):
             createdbform.cleaned_data['database_name'] = 'Not stored'
             createdbform.cleaned_data['sudo_password'] = 'Not stored'
             instance = createdbform.save(commit=False)
-            print database
             for items in server:
                 check = c_i.check_install_db(p_o.pb_output(), items)
                 if check:
@@ -149,8 +139,6 @@ def createDBView(request):
                         instance.pk = None
                         instance.user = request.user
                         instance.server_name = items
-                        print items
-                        print instance
                         instance.save()
                         query.update()
                         time.sleep(2)
@@ -199,10 +187,8 @@ def CheckConn(request):
         ipquery = ServerConnection.objects.order_by('server_nickname').values_list('server_ip', flat=True).distinct()
         ping = Server_ping()
         status = ping.server_status(ipquery)
-        print('Inside')
         return JsonResponse(status, safe=False)
     else:
-        print('fæææn')
         return HttpResponse("Ain't working")
 
 
@@ -210,8 +196,6 @@ def start_mysql_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/mysql/startMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
-        print request.POST
-        print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
             s_p = request.POST.getlist('installed_db-sudo_password')[0]
@@ -224,7 +208,6 @@ def start_mysql_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -232,7 +215,6 @@ def stop_mysql_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/mysql/stopMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
-        print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
             s_p = request.POST.getlist('installed_db-sudo_password')[0]
@@ -245,7 +227,6 @@ def stop_mysql_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -253,7 +234,6 @@ def restart_mysql_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/mysql/restartMysql.yml"
         form = InstalledDatabaseForm(data=request.POST, prefix="installedDb")
-        print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_db-servers')
             s_p = request.POST.getlist('installed_db-sudo_password')[0]
@@ -266,7 +246,6 @@ def restart_mysql_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -300,7 +279,6 @@ def uninstall_mysql_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -308,10 +286,8 @@ def install_nginx(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/nginx.yml"
         form = InstallNginx(data=request.POST, prefix="installedNginx")
-        print "første"
         print form.errors
         if form.is_valid():
-            print "andre"
             server = request.POST.getlist('nginx-servers')
             if server[0] == 'all':
                 server.pop(0)
@@ -339,19 +315,15 @@ def install_nginx(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
 def install_php(request):
-    print "her"
     if request.method == 'POST':
         path = "accounts/ansibleScripts/php.yml"
         form = InstallPhp(data=request.POST, prefix="installedPhp")
-        print "første"
         print form.errors
         if form.is_valid():
-            print "andre"
             server = request.POST.getlist('php-servers')
             if server[0] == 'all':
                 server.pop(0)
@@ -381,7 +353,6 @@ def install_php(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -389,7 +360,6 @@ def start_postgres_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/postgresql/startPostgres"
         form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_postgres-servers')
@@ -403,7 +373,6 @@ def start_postgres_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -411,7 +380,6 @@ def stop_postgres_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/postgresql/stopPostgres"
         form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_postgres-servers')
@@ -425,7 +393,6 @@ def stop_postgres_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -433,7 +400,6 @@ def restart_postgres_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/postgresql/restartPostgres"
         form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_postgres-servers')
@@ -447,7 +413,6 @@ def restart_postgres_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -455,7 +420,6 @@ def reload_postgres_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/postgresql/reloadPostgres"
         form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_postgres-servers')
@@ -469,7 +433,6 @@ def reload_postgres_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -477,7 +440,6 @@ def uninstall_postgres_db(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/postgresql/uninstallPostgres"
         form = InstalledPostgresForm(data=request.POST, prefix="installedPostgres")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_postgres-servers')
@@ -491,7 +453,6 @@ def uninstall_postgres_db(request):
                 if check:
                     query = DatabaseConnection.objects.filter(server_name=items, database="PostgreSql")
                     exists = query.exists()
-                    print exists
                     if exists:
                         query.delete()
                         del query
@@ -504,7 +465,6 @@ def uninstall_postgres_db(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -512,7 +472,6 @@ def start_nginx(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/nginx/startNginx"
         form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_nginx-servers')
@@ -526,7 +485,6 @@ def start_nginx(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -534,7 +492,6 @@ def stop_nginx(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/nginx/stopNginx"
         form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_nginx-servers')
@@ -548,7 +505,6 @@ def stop_nginx(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -556,7 +512,6 @@ def restart_nginx(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/nginx/restartNginx"
         form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_nginx-servers')
@@ -570,7 +525,6 @@ def restart_nginx(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -578,7 +532,6 @@ def reload_nginx(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/nginx/reloadNginx"
         form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_nginx-servers')
@@ -592,7 +545,6 @@ def reload_nginx(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -600,7 +552,6 @@ def uninstall_nginx(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/nginx/uninstallNginx"
         form = InstalledNginxForm(data=request.POST, prefix="installedNginx")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_nginx-servers')
@@ -627,7 +578,6 @@ def uninstall_nginx(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
 
 
@@ -635,7 +585,6 @@ def uninstall_php(request):
     if request.method == 'POST':
         path = "accounts/ansibleScripts/modifyScripts/php/uninstallPhp"
         form = InstalledNginxForm(data=request.POST, prefix="installedPhp")
-        print request.POST
         print form.errors
         if form.is_valid():
             server = request.POST.getlist('installed_php-servers')
@@ -662,5 +611,4 @@ def uninstall_php(request):
             }
             return JsonResponse(context, safe=False)
         else:
-            print "failed"
             return HttpResponse("Error: Something went wrong")
